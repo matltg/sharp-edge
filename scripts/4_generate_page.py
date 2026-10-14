@@ -47,6 +47,17 @@ def proba_color(proba) -> str:
     return "#f97316"
 
 
+STAR_COLORS = {5: "#22c55e", 4: "#84cc16", 3: "#eab308", 2: "#f97316", 1: "#ef4444"}
+
+
+def fmt_stars(stars, label) -> str:
+    if not stars:
+        return '<span class="bet-value">—</span>'
+    return (f'<span class="bet-stars" style="color:{STAR_COLORS[stars]}">'
+            f'{"★" * stars}{"☆" * (5 - stars)}</span>'
+            f'<span class="bet-n">{label}</span>')
+
+
 def fmt_value(v) -> str:
     if v is None:
         return "—"
@@ -83,8 +94,7 @@ def render_pick_card(pick: dict) -> str:
         <div><span class="bet-label">Cote</span><span class="bet-value">{pick['cote']}</span></div>
         <div><span class="bet-label">Probabilité</span>
              <span class="bet-value bet-proba" style="color:{proba_color(pick.get('proba'))}">{fmt_proba(pick.get('proba'))}</span></div>
-        <div><span class="bet-label">Historique</span><span class="bet-value">{fmt_history(pick.get('historique'))}</span></div>
-        <div><span class="bet-label">Valeur</span><span class="bet-value">{fmt_value(pick.get('valeur'))}</span></div>
+        <div><span class="bet-label">Note</span>{fmt_stars(pick.get('etoiles'), pick.get('note'))}</div>
       </div>
       <div class="bet-ref">Cote : {pick.get('cote_source') or pick.get('bookmaker_ref', '—')}{note}</div>"""
     else:
@@ -241,7 +251,8 @@ def generate_index(date_str: str, picks: dict):
     .pick-team{{font-weight:700;font-size:1rem}}
     .pick-vs{{color:var(--muted);font-size:.8rem}}
     .bet-name{{font-weight:700;font-size:.95rem;border-top:1px solid var(--border);padding-top:.6rem}}
-    .bet-grid{{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem}}
+    .bet-grid{{display:grid;grid-template-columns:.8fr 1fr 1.4fr;gap:.5rem}}
+    .bet-stars{{display:block;font-size:1.05rem;letter-spacing:.05em;line-height:1.4}}
     .bet-n{{display:block;font-size:.65rem;font-weight:400;color:var(--muted)}}
     .bet-label{{display:block;font-size:.68rem;color:var(--muted)}}
     .bet-value{{font-size:.9rem;font-weight:600}}

@@ -21,6 +21,9 @@ AFFICHAGE : tous les matchs du jour, sans filtre, triés par valeur.
     similaires (data/calibration.json).
   - Valeur : probabilité × cote − 1. Au-dessus de 0 %, la cote paie plus que
     le risque estimé par le marché ; en dessous, moins.
+  - Note (étoiles) : moyenne de la valeur marché et de la valeur historique
+    (taux historique × cote − 1), l'historique pesant d'autant plus que son
+    échantillon est grand. Seule la note est affichée.
 
 STRATÉGIE CRÉDITS (1 crédit = 1 marché renvoyé × 1 région) :
   - Liste des matchs du jour : endpoint /events, gratuit.
@@ -113,13 +116,47 @@ def load_buckets() -> list:
 BUCKETS = load_buckets()
 
 
-def history_for(odds: float) -> str:
+def history_stats(odds: float) -> tuple:
+    """(taux de réussite %, effectif) de la tranche de cote, ou (None, 0)."""
     for b in BUCKETS:
-        if b["min"] <= odds < b["max"]:
-            if b["n"] >= MIN_HISTORY_N:
-                return f"{b['win_rate']:.0f}% (n={b['n']})"
-            break
-    return "—"
+        if b["min"] <= odds < b["max"] and b["n"] and b["win_rate"] is not None:
+            return b["win_rate"], b["n"]
+    return None, 0
+
+
+def history_for(odds: float) -> str:
+    rate, n = history_stats(odds)
+    return f"{rate:.0f}% (n={n})" if rate is not None and n >= MIN_HISTORY_N else "—"
+
+
+# ── NOTE EN ÉTOILES ───────────────────────────────────────────────────────────
+# Poids de l'historique = n / (n + HISTORY_PRIOR_N) : 40 matchs → 12 %, 700 → 70 %
+HISTORY_PRIOR_N = 300
+STARS = [  # (score minimum en %, étoiles, libellé)
+    (2.0,   5, "Excellent"),
+    (0.0,   4, "Intéressant"),
+    (-2.0,  3, "Correct"),
+    (-5.0,  2, "Faible"),
+    (-1e9,  1, "À éviter"),
+]
+
+
+def rating(proba: float | None, odds: float) -> dict:
+    # Score = moyenne pondérée de la valeur marché et de la valeur historique
+    market = None if proba is None else (proba / 100 * odds - 1) * 100
+    rate, n = history_stats(odds)
+    hist = None if rate is None else (rate / 100 * odds - 1) * 100
+    if market is None and hist is None:
+        return {"score": None, "etoiles": None, "note": None}
+    if market is None:
+        score = hist
+    elif hist is None:
+        score = market
+    else:
+        w = n / (n + HISTORY_PRIOR_N)
+        score = w * hist + (1 - w) * market
+    stars, label = next((s, l) for threshold, s, l in STARS if score >= threshold)
+    return {"score": round(score, 1), "etoiles": stars, "note": label}
 
 
 # ── UTILITAIRES ───────────────────────────────────────────────────────────────
@@ -287,6 +324,7 @@ def build_pick(event: dict, data: dict) -> dict | None:
         "home_team": event["home_team"], "away_team": event["away_team"],
         "event_id": event.get("id", ""),
         "pari": None, "cote": None, "proba": None, "historique": "—", "valeur": None,
+        "score": None, "etoiles": None, "note": None,
     }
     if bet:
         pick.update({
@@ -297,6 +335,7 @@ def build_pick(event: dict, data: dict) -> dict | None:
             "historique": history_for(bet["cote"]),
             "valeur": (None if bet["proba"] is None
                        else round((bet["proba"] / 100 * bet["cote"] - 1) * 100, 1)),
+            **rating(bet["proba"], bet["cote"]),
         })
     return pick
 
@@ -364,8 +403,8 @@ def main():
     odds = raw.get("odds", {})
     picks = [p for e in raw.get("events", [])
              if (p := build_pick(e, odds.get(e.get("id"), {})))]
-    # meilleure valeur d'abord, puis probabilité ; matchs sans cotes à la fin
-    picks.sort(key=lambda x: (x["valeur"] is None, -(x["valeur"] or 0), -(x["proba"] or 0)))
+    # meilleure note d'abord (score), puis probabilité ; matchs sans cotes à la fin
+    picks.sort(key=lambda x: (x["score"] is None, -(x["score"] or 0), -(x["proba"] or 0)))
 
     yesterday_resolved = resolve_yesterday(load_yesterday_picks())
     wins   = sum(1 for p in yesterday_resolved if p.get("result") == "win")
@@ -389,7 +428,8 @@ def main():
     for p in picks:
         print(f"  {p['status']} | {p['heure']} | {p['championnat']} | {p['home_team']} – "
               f"{p['away_team']} | {p['pari'] or 'cotes indisponibles'} @ {p['cote']} | "
-              f"{p['proba']}% | hist. {p['historique']} | valeur {p['valeur']}%")
+              f"{p['proba']}% | hist. {p['historique']} | valeur {p['valeur']}% | "
+              f"{p['etoiles']}★ {p['note']} (score {p['score']})")
 
 
 if __name__ == "__main__":
