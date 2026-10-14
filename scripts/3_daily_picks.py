@@ -130,10 +130,18 @@ def history_stats(side: str, line: float, proba: float | None) -> tuple:
     if proba is None:
         return None, 0
     over_proba = proba if side == "Over" else 100 - proba
-    for b in CALIBRATION.get(line, []):
-        if b["min"] <= over_proba < b["max"]:
-            rate = b["win_rate"] if side == "Over" else round(100 - b["win_rate"], 1)
-            return rate, b["n"]
+    # Interpolation linéaire entre les tranches voisines (sur leur probabilité
+    # prédite moyenne) : évite qu'un petit écart franchissant une frontière de
+    # tranche fasse sauter le taux de plusieurs points.
+    bins = [b for b in CALIBRATION.get(line, []) if b["n"] >= MIN_HISTORY_N]
+    if not bins or not bins[0]["pred"] <= over_proba <= bins[-1]["pred"]:
+        return None, 0
+    for lo, hi in zip(bins, bins[1:] + bins[-1:]):
+        if lo["pred"] <= over_proba <= hi["pred"]:
+            t = 0 if hi is lo else (over_proba - lo["pred"]) / (hi["pred"] - lo["pred"])
+            rate = lo["win_rate"] + t * (hi["win_rate"] - lo["win_rate"])
+            n = round(lo["n"] + t * (hi["n"] - lo["n"]))
+            return round(rate if side == "Over" else 100 - rate, 1), n
     return None, 0
 
 
