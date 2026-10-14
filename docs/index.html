@@ -43,6 +43,7 @@
     .odds-value{font-size:1.4rem;font-weight:800}
     .pct-value{font-size:.95rem;font-weight:600}
     .pick-fiability{font-size:.8rem;font-weight:600}
+    .pick-backup{font-size:.75rem;color:var(--muted)}
     .pick-bet{font-size:.75rem;color:var(--muted);border-top:1px solid var(--border);padding-top:.5rem}
     /* Résultats veille */
     .yest-summary{display:flex;gap:1.5rem;margin-bottom:1rem;flex-wrap:wrap}
@@ -72,16 +73,99 @@
       <div class="meta">Sports betting filter — low odds favourites</div>
     </div>
     <div style="display:flex;align-items:center;gap:.75rem">
-      <span class="meta">2026-10-14 · MàJ 14/10/2026 à 10h45</span>
-      <span class="badge">0 picks</span>
+      <span class="meta">2026-10-14 · MàJ 14/10/2026 à 11h12</span>
+      <span class="badge">3 picks</span>
     </div>
   </header>
   <main>
     
     
     <section class="section">
-      <h2>🌅 Rapport 4h30 — Picks du jour</h2>
-      <p class="empty">Aucun pick validé ce matin.</p>
+      <h2>🌅 Rapport 4h30 — Picks du jour <span class="count">3 picks</span></h2>
+      <div class="picks-grid">
+    <div class="pick-card">
+      <div class="pick-status" style="background:#854d0e">🟡 À confirmer à 16h30</div>
+      <div class="pick-header">
+        <span class="pick-time">21h00</span>
+        <span class="pick-league">Championship</span>
+      </div>
+      <div class="pick-match">
+        <span class="pick-opp">Lincoln City</span><span class="pick-vs">–</span><span class="pick-fav">West Ham United</span><span class="pick-vs">(✈️ extérieur)</span>
+      </div>
+      <div class="pick-details">
+        <div class="pick-proba">
+          <span class="odds-label">Probabilité</span>
+          <span class="odds-value">76%</span>
+        </div>
+        <div class="pick-odds">
+          <span class="odds-label">Cote</span>
+          <span class="odds-value" style="color:#22c55e">1.25</span>
+        </div>
+        <div class="pick-pct">
+          <span class="pct-label">Historique</span>
+          <span class="pct-value">81.9% (n=83)</span>
+        </div>
+      </div>
+      <div class="pick-fiability" style="color:#22c55e">★★★★★ Très solide</div>
+      <div class="pick-bet">📋 <strong>Over 1.5 buts</strong> @ 1.25 — réf. Pinnacle</div>
+      <div class="pick-backup">🛟 Secours : Handicap asiatique West Ham United 0 @ 1.33 · 73% — réf. Pinnacle</div>
+    </div>
+
+    <div class="pick-card">
+      <div class="pick-status" style="background:#854d0e">🟡 À confirmer à 16h30</div>
+      <div class="pick-header">
+        <span class="pick-time">20h45</span>
+        <span class="pick-league">Championship</span>
+      </div>
+      <div class="pick-match">
+        <span class="pick-fav">Queens Park Rangers</span><span class="pick-vs">–</span><span class="pick-opp">Derby County</span><span class="pick-vs">(🏠 domicile)</span>
+      </div>
+      <div class="pick-details">
+        <div class="pick-proba">
+          <span class="odds-label">Probabilité</span>
+          <span class="odds-value">74%</span>
+        </div>
+        <div class="pick-odds">
+          <span class="odds-label">Cote</span>
+          <span class="odds-value" style="color:#84cc16">1.28</span>
+        </div>
+        <div class="pick-pct">
+          <span class="pct-label">Historique</span>
+          <span class="pct-value">70.2% (n=114)</span>
+        </div>
+      </div>
+      <div class="pick-fiability" style="color:#84cc16">★★★★☆ Solide</div>
+      <div class="pick-bet">📋 <strong>Over 1.5 buts</strong> @ 1.28 — réf. Pinnacle</div>
+      <div class="pick-backup">🛟 Secours : Handicap asiatique Queens Park Rangers 0 @ 1.28 · 76% — réf. Pinnacle</div>
+    </div>
+
+    <div class="pick-card">
+      <div class="pick-status" style="background:#854d0e">🟡 À confirmer à 16h30</div>
+      <div class="pick-header">
+        <span class="pick-time">21h00</span>
+        <span class="pick-league">UEFA Champions League</span>
+      </div>
+      <div class="pick-match">
+        <span class="pick-opp">ŠK Slovan Bratislava</span><span class="pick-vs">–</span><span class="pick-fav">VfB Stuttgart</span><span class="pick-vs">(✈️ extérieur)</span>
+      </div>
+      <div class="pick-details">
+        <div class="pick-proba">
+          <span class="odds-label">Probabilité</span>
+          <span class="odds-value">71%</span>
+        </div>
+        <div class="pick-odds">
+          <span class="odds-label">Cote</span>
+          <span class="odds-value" style="color:#eab308">1.36</span>
+        </div>
+        <div class="pick-pct">
+          <span class="pct-label">Historique</span>
+          <span class="pct-value">73.2% (n=518)</span>
+        </div>
+      </div>
+      <div class="pick-fiability" style="color:#eab308">★★★☆☆ Correct</div>
+      <div class="pick-bet">📋 <strong>Over 2.5 buts</strong> @ 1.36 — réf. Coolbet</div>
+      <div class="pick-backup">🛟 Secours : Handicap asiatique VfB Stuttgart -1 @ 1.43 · 68% hors remboursement — réf. Coolbet</div>
+    </div></div>
     </section>
     
     <section class="section">
@@ -93,7 +177,7 @@
   <footer>
     Sharp-Edge — outil d'analyse statistique uniquement. Ne constitue pas un conseil en paris.<br>
     Sources : football-data.co.uk · The Odds API · 18 championnats/compétitions actifs<br>
-    Taux historiques : backtest du 2026-10-14 sur 35594 matchs (2021-22 → 2026-27, meilleure cote)
+    Taux historiques : backtest du 2026-10-14 sur 34264 matchs (2021-22 → 2025-26, Over 2.5, meilleure cote)
   </footer>
 </body>
 </html>
