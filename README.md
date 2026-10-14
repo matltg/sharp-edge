@@ -53,8 +53,8 @@ sharp-edge/
 
 ## 🎯 Ce qu'affiche la page (Phase 1 — football)
 
-Tous les matchs du jour des 18 championnats suivis, sans filtre, triés du plus
-probable au moins probable. Pour chaque match :
+Tous les matchs du jour des 18 championnats suivis, sans filtre, triés par
+valeur (meilleure d'abord). Pour chaque match :
 
 | Élément | Contenu |
 |---------|---------|
@@ -63,9 +63,10 @@ probable au moins probable. Pour chaque match :
 | Heure · championnat | Heure de Paris |
 | Match | Domicile – Extérieur |
 | Pari | Over buts, ligne simple (x.5) la plus haute cotée 1,20 – 1,50 ; à défaut la plus proche (signalée) |
-| Cote | Meilleure cote du marché (bookmaker indiqué) |
+| Cote | Betclic si disponible, sinon moyenne des bookmakers (source indiquée) |
 | Probabilité | Estimée par le marché : moyenne des bookmakers, marge retirée (Over vs Under sur la même ligne) |
 | Historique | Taux de réussite de l'Over aux cotes similaires dans le backtest |
+| Valeur | Probabilité × cote − 1 : > 0 % = la cote paie plus que le risque estimé |
 
 Le backtest hebdomadaire (`data/calibration.json`) porte sur les 5 dernières
 saisons complètes + la saison en cours (fenêtre qui avance seule chaque

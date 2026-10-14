@@ -25,7 +25,7 @@ OVER_SOURCES = {
     "max":  ["Max>2.5", "BbMx>2.5"],
 }
 SOURCE_LABELS = {"b365": "B365", "avg": "moyenne", "max": "meilleure cote"}
-REFERENCE_SOURCE = "max"  # comme 3_daily_picks.py (meilleure cote du marché)
+REFERENCE_SOURCE = "avg"  # comme 3_daily_picks.py (cote moyenne, Betclic absent de l'historique)
 
 # Tranches de cote [min, max) pour la colonne « Historique »
 BUCKET_EDGES = [1.01, 1.20, 1.25, 1.30, 1.35, 1.40, 1.45, 1.50,

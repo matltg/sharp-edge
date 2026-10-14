@@ -9,15 +9,18 @@ NOTICE D'INTENTION
 
 OBJECTIF : 2 rapports quotidiens (4h30 et 16h30 heure France).
 
-AFFICHAGE : tous les matchs du jour, sans filtre, triés par probabilité.
+AFFICHAGE : tous les matchs du jour, sans filtre, triés par valeur.
   - Pari : Over buts, ligne simple (x.5, sans remboursement partiel). On prend
-    la ligne la plus haute dont la meilleure cote est dans 1,20–1,50 ; à défaut,
+    la ligne la plus haute dont la cote est dans 1,20–1,50 ; à défaut,
     la ligne dont la cote est la plus proche de cette fenêtre (signalée).
+  - Cote : celle de Betclic si disponible, sinon la moyenne des bookmakers.
   - Probabilité : estimée par le marché — pour chaque bookmaker cotant Over et
     Under sur la même ligne, (1/cote Over) / (1/cote Over + 1/cote Under),
     puis moyenne (la marge du bookmaker est ainsi retirée).
   - Historique : taux de réussite observé dans le backtest sur des cotes
     similaires (data/calibration.json).
+  - Valeur : probabilité × cote − 1. Au-dessus de 0 %, la cote paie plus que
+    le risque estimé par le marché ; en dessous, moins.
 
 STRATÉGIE CRÉDITS (1 crédit = 1 marché renvoyé × 1 région) :
   - Liste des matchs du jour : endpoint /events, gratuit.
@@ -82,6 +85,7 @@ SPORTS = [
 ]
 
 # ── CHOIX DE LA LIGNE ─────────────────────────────────────────────────────────
+PREFERRED_BOOKMAKER = ("betclic_fr", "Betclic")  # sinon : moyenne des bookmakers
 MIN_ODDS = 1.20
 MAX_ODDS = 1.50
 
@@ -175,20 +179,26 @@ def fetch_totals(sport_key: str, event_id: str) -> dict:
 
 
 # ── LECTURE DES COTES ─────────────────────────────────────────────────────────
-def best_prices(data: dict, name: str) -> dict:
-    """{ligne: (meilleure cote, bookmaker)} pour 'Over' ou 'Under'."""
-    best = {}
+def ref_prices(data: dict, name: str) -> dict:
+    """{ligne: (cote, source)} pour 'Over' ou 'Under' : cote Betclic si elle
+    existe pour cette ligne, sinon moyenne des bookmakers."""
+    by_line = {}  # ligne -> {clé bookmaker: cote}
     for bk in data.get("bookmakers", []):
         for m in bk.get("markets", []):
             if m["key"] not in ("totals", "alternate_totals"):
                 continue
             for o in m.get("outcomes", []):
-                if o.get("name") != name or "point" not in o:
-                    continue
-                pt = float(o["point"])
-                if pt not in best or o["price"] > best[pt][0]:
-                    best[pt] = (o["price"], bk["title"])
-    return best
+                if o.get("name") == name and "point" in o:
+                    by_line.setdefault(float(o["point"]), {})[bk["key"]] = o["price"]
+    pref_key, pref_label = PREFERRED_BOOKMAKER
+    out = {}
+    for pt, prices in by_line.items():
+        if pref_key in prices:
+            out[pt] = (prices[pref_key], pref_label)
+        else:
+            out[pt] = (round(sum(prices.values()) / len(prices), 2),
+                       f"moyenne de {len(prices)} bookmaker{'s' if len(prices) > 1 else ''}")
+    return out
 
 
 def fair_prob(data: dict, line: float) -> tuple:
@@ -214,7 +224,7 @@ def fair_prob(data: dict, line: float) -> tuple:
 def choose_bet(data: dict) -> dict | None:
     """Over ligne simple (x.5) : la plus haute dans la fenêtre 1,20–1,50,
     sinon celle dont la cote est la plus proche de la fenêtre."""
-    lines = [(pt, p, b) for pt, (p, b) in best_prices(data, "Over").items() if pt % 1 == 0.5]
+    lines = [(pt, p, b) for pt, (p, b) in ref_prices(data, "Over").items() if pt % 1 == 0.5]
     if not lines:
         return None
     inside = [l for l in lines if in_window(l[1])]
@@ -223,7 +233,7 @@ def choose_bet(data: dict) -> dict | None:
     else:
         pt, price, book = min(lines, key=lambda l: min(abs(l[1] - MIN_ODDS), abs(l[1] - MAX_ODDS)))
     proba, n = fair_prob(data, pt)
-    return {"line": pt, "cote": price, "bookmaker": book, "in_window": bool(inside),
+    return {"line": pt, "cote": price, "source": book, "in_window": bool(inside),
             "proba": proba, "proba_books": n}
 
 
@@ -276,15 +286,17 @@ def build_pick(event: dict, data: dict) -> dict | None:
         "championnat": event.get("sport_title", ""), "sport_key": event.get("sport_key", ""),
         "home_team": event["home_team"], "away_team": event["away_team"],
         "event_id": event.get("id", ""),
-        "pari": None, "cote": None, "proba": None, "historique": "—",
+        "pari": None, "cote": None, "proba": None, "historique": "—", "valeur": None,
     }
     if bet:
         pick.update({
             "pari": f"Over {bet['line']:g} buts", "over_line": bet["line"],
-            "cote": bet["cote"], "bookmaker_ref": bet["bookmaker"],
+            "cote": bet["cote"], "cote_source": bet["source"],
             "dans_fenetre": bet["in_window"],
             "proba": bet["proba"], "proba_books": bet["proba_books"],
             "historique": history_for(bet["cote"]),
+            "valeur": (None if bet["proba"] is None
+                       else round((bet["proba"] / 100 * bet["cote"] - 1) * 100, 1)),
         })
     return pick
 
@@ -352,8 +364,8 @@ def main():
     odds = raw.get("odds", {})
     picks = [p for e in raw.get("events", [])
              if (p := build_pick(e, odds.get(e.get("id"), {})))]
-    # du plus probable au moins probable ; matchs sans cotes à la fin
-    picks.sort(key=lambda x: (x["proba"] is None, -(x["proba"] or 0)))
+    # meilleure valeur d'abord, puis probabilité ; matchs sans cotes à la fin
+    picks.sort(key=lambda x: (x["valeur"] is None, -(x["valeur"] or 0), -(x["proba"] or 0)))
 
     yesterday_resolved = resolve_yesterday(load_yesterday_picks())
     wins   = sum(1 for p in yesterday_resolved if p.get("result") == "win")
@@ -377,7 +389,7 @@ def main():
     for p in picks:
         print(f"  {p['status']} | {p['heure']} | {p['championnat']} | {p['home_team']} – "
               f"{p['away_team']} | {p['pari'] or 'cotes indisponibles'} @ {p['cote']} | "
-              f"{p['proba']}% | hist. {p['historique']}")
+              f"{p['proba']}% | hist. {p['historique']} | valeur {p['valeur']}%")
 
 
 if __name__ == "__main__":

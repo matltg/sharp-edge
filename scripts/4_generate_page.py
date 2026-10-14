@@ -47,6 +47,13 @@ def proba_color(proba) -> str:
     return "#f97316"
 
 
+def fmt_value(v) -> str:
+    if v is None:
+        return "—"
+    color = "#22c55e" if v > 0 else "#94a3b8" if v > -3 else "#f97316"
+    return f'<span style="color:{color}">{v:+.1f}%</span>'
+
+
 def fmt_proba(proba) -> str:
     return "—" if proba is None else f"{proba:.0f}%"
 
@@ -77,8 +84,9 @@ def render_pick_card(pick: dict) -> str:
         <div><span class="bet-label">Probabilité</span>
              <span class="bet-value bet-proba" style="color:{proba_color(pick.get('proba'))}">{fmt_proba(pick.get('proba'))}</span></div>
         <div><span class="bet-label">Historique</span><span class="bet-value">{fmt_history(pick.get('historique'))}</span></div>
+        <div><span class="bet-label">Valeur</span><span class="bet-value">{fmt_value(pick.get('valeur'))}</span></div>
       </div>
-      <div class="bet-ref">Meilleure cote : {pick.get('bookmaker_ref', '—')}{note}</div>"""
+      <div class="bet-ref">Cote : {pick.get('cote_source') or pick.get('bookmaker_ref', '—')}{note}</div>"""
     else:
         bet = '<div class="bet-ref">Cotes Over/Under indisponibles pour ce match</div>'
     return f"""
@@ -233,7 +241,7 @@ def generate_index(date_str: str, picks: dict):
     .pick-team{{font-weight:700;font-size:1rem}}
     .pick-vs{{color:var(--muted);font-size:.8rem}}
     .bet-name{{font-weight:700;font-size:.95rem;border-top:1px solid var(--border);padding-top:.6rem}}
-    .bet-grid{{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem}}
+    .bet-grid{{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem}}
     .bet-n{{display:block;font-size:.65rem;font-weight:400;color:var(--muted)}}
     .bet-label{{display:block;font-size:.68rem;color:var(--muted)}}
     .bet-value{{font-size:.9rem;font-weight:600}}
