@@ -14,11 +14,13 @@ AFFICHAGE : tous les matchs du jour, sans filtre, triés par valeur.
     la ligne la plus haute dont la cote est dans 1,20–1,50 ; à défaut,
     la ligne dont la cote est la plus proche de cette fenêtre (signalée).
   - Cote : celle de Betclic si disponible, sinon la moyenne des bookmakers.
-  - Probabilité : estimée par le marché — pour chaque bookmaker cotant Over et
-    Under sur la même ligne, (1/cote Over) / (1/cote Over + 1/cote Under),
-    puis moyenne (la marge du bookmaker est ainsi retirée).
-  - Historique : taux de réussite observé dans le backtest sur des cotes
-    similaires (data/calibration.json).
+  - Probabilité : cotes Over et Under de Pinnacle (bookmaker de référence, le
+    moins margé) sur la même ligne, marge retirée par la méthode « puissance » ;
+    sans Pinnacle, moyenne des autres bookmakers calculée de la même façon.
+  - Historique : taux de réussite réel, dans le backtest, des matchs dont la
+    probabilité prédite sur cette ligne était similaire (data/calibration.json).
+  - Suivi : chaque pick résolu est ajouté à docs/picks/suivi.json (annoncé
+    contre réalisé), affiché sur la page.
   - Valeur : probabilité × cote − 1. Au-dessus de 0 %, la cote paie plus que
     le risque estimé par le marché ; en dessous, moins.
   - Note (étoiles) : moyenne de la valeur marché et de la valeur historique
@@ -100,32 +102,36 @@ CALIBRATION_PATH = Path(__file__).parent.parent / "data" / "calibration.json"
 MIN_HISTORY_N = 30  # en dessous, l'échantillon est trop petit pour être affiché
 
 
-def load_buckets() -> list:
+def load_calibration() -> dict:
+    """{ligne: [tranches de probabilité]} issu du backtest."""
     try:
         with open(CALIBRATION_PATH, encoding="utf-8") as f:
             cal = json.load(f)
-        buckets = cal["buckets"]
+        lines = {float(k): v for k, v in cal["lines"].items()}
         print(f"  Historique : backtest du {cal['generated_at']} "
               f"({cal['seasons'][0]} → {cal['seasons'][-1]})")
-        return buckets
+        return lines
     except (OSError, KeyError, IndexError, ValueError) as e:
         print(f"  Historique indisponible ({e})")
-        return []
+        return {}
 
 
-BUCKETS = load_buckets()
+CALIBRATION = load_calibration()
 
 
-def history_stats(odds: float) -> tuple:
-    """(taux de réussite %, effectif) de la tranche de cote, ou (None, 0)."""
-    for b in BUCKETS:
-        if b["min"] <= odds < b["max"] and b["n"] and b["win_rate"] is not None:
+def history_stats(line: float, proba: float | None) -> tuple:
+    """(taux de réussite réel %, effectif) des matchs passés dont la probabilité
+    prédite sur cette ligne était dans la même tranche, ou (None, 0)."""
+    if proba is None:
+        return None, 0
+    for b in CALIBRATION.get(line, []):
+        if b["min"] <= proba < b["max"]:
             return b["win_rate"], b["n"]
     return None, 0
 
 
-def history_for(odds: float) -> str:
-    rate, n = history_stats(odds)
+def history_for(line: float, proba: float | None) -> str:
+    rate, n = history_stats(line, proba)
     return f"{rate:.0f}% (n={n})" if rate is not None and n >= MIN_HISTORY_N else "—"
 
 
@@ -141,10 +147,10 @@ STARS = [  # (score minimum en %, étoiles, libellé)
 ]
 
 
-def rating(proba: float | None, odds: float) -> dict:
+def rating(proba: float | None, odds: float, line: float) -> dict:
     # Score = moyenne pondérée de la valeur marché et de la valeur historique
     market = None if proba is None else (proba / 100 * odds - 1) * 100
-    rate, n = history_stats(odds)
+    rate, n = history_stats(line, proba)
     hist = None if rate is None else (rate / 100 * odds - 1) * 100
     if market is None and hist is None:
         return {"score": None, "etoiles": None, "note": None}
@@ -238,10 +244,25 @@ def ref_prices(data: dict, name: str) -> dict:
     return out
 
 
+REFERENCE_BOOKMAKER = ("pinnacle", "Pinnacle")  # le moins margé, cotes les plus précises
+
+
+def power_devig(over: float, under: float) -> float:
+    """Probabilité de l'Over, marge retirée par la méthode « puissance » :
+    on cherche k tel que (1/over)^k + (1/under)^k = 1. Contrairement à la
+    méthode proportionnelle, elle ne sous-estime pas le côté favori."""
+    io, iu = 1 / over, 1 / under
+    lo, hi = 0.5, 3.0
+    for _ in range(60):
+        k = (lo + hi) / 2
+        lo, hi = (k, hi) if io ** k + iu ** k > 1 else (lo, k)
+    return io ** ((lo + hi) / 2)
+
+
 def fair_prob(data: dict, line: float) -> tuple:
-    """Probabilité de l'Over sur `line`, marge retirée, moyenne des bookmakers.
-    Retourne (probabilité en %, nombre de bookmakers)."""
-    probs = []
+    """Probabilité de l'Over sur `line`, marge retirée : Pinnacle si disponible,
+    sinon moyenne des autres bookmakers. Retourne (probabilité %, source)."""
+    probs = {}
     for bk in data.get("bookmakers", []):
         prices = {}
         for m in bk.get("markets", []):
@@ -250,12 +271,15 @@ def fair_prob(data: dict, line: float) -> tuple:
             for o in m.get("outcomes", []):
                 if o.get("point") is not None and float(o["point"]) == line:
                     prices[o["name"]] = o["price"]
-        if "Over" in prices and "Under" in prices:
-            inv_o, inv_u = 1 / prices["Over"], 1 / prices["Under"]
-            probs.append(inv_o / (inv_o + inv_u))
+        if prices.get("Over", 0) > 1 and prices.get("Under", 0) > 1:
+            probs[bk["key"]] = power_devig(prices["Over"], prices["Under"])
     if not probs:
-        return None, 0
-    return round(sum(probs) / len(probs) * 100, 1), len(probs)
+        return None, None
+    ref_key, ref_label = REFERENCE_BOOKMAKER
+    if ref_key in probs:
+        return round(probs[ref_key] * 100, 1), ref_label
+    return (round(sum(probs.values()) / len(probs) * 100, 1),
+            f"moyenne de {len(probs)} bookmaker{'s' if len(probs) > 1 else ''}")
 
 
 def choose_bet(data: dict) -> dict | None:
@@ -269,9 +293,9 @@ def choose_bet(data: dict) -> dict | None:
         pt, price, book = max(inside)
     else:
         pt, price, book = min(lines, key=lambda l: min(abs(l[1] - MIN_ODDS), abs(l[1] - MAX_ODDS)))
-    proba, n = fair_prob(data, pt)
+    proba, proba_source = fair_prob(data, pt)
     return {"line": pt, "cote": price, "source": book, "in_window": bool(inside),
-            "proba": proba, "proba_books": n}
+            "proba": proba, "proba_source": proba_source}
 
 
 # ── COLLECTE (matin) / CACHE (soir) ───────────────────────────────────────────
@@ -331,11 +355,11 @@ def build_pick(event: dict, data: dict) -> dict | None:
             "pari": f"Over {bet['line']:g} buts", "over_line": bet["line"],
             "cote": bet["cote"], "cote_source": bet["source"],
             "dans_fenetre": bet["in_window"],
-            "proba": bet["proba"], "proba_books": bet["proba_books"],
-            "historique": history_for(bet["cote"]),
+            "proba": bet["proba"], "proba_source": bet["proba_source"],
+            "historique": history_for(bet["line"], bet["proba"]),
             "valeur": (None if bet["proba"] is None
                        else round((bet["proba"] / 100 * bet["cote"] - 1) * 100, 1)),
-            **rating(bet["proba"], bet["cote"]),
+            **rating(bet["proba"], bet["cote"], bet["line"]),
         })
     return pick
 
@@ -395,6 +419,47 @@ def resolve_yesterday(picks: list) -> list:
     return resolved
 
 
+# ── SUIVI ANNONCÉ / RÉALISÉ ───────────────────────────────────────────────────
+TRACKING_PATH = PICKS_DIR / "suivi.json"
+
+
+def update_tracking(resolved: list, date: str) -> int:
+    """Ajoute les picks résolus (gagnés/perdus) au journal cumulé, sans doublon."""
+    try:
+        with open(TRACKING_PATH, encoding="utf-8") as f:
+            log = json.load(f)
+    except (OSError, ValueError):
+        log = []
+    seen = {(r["date"], r["event_id"]) for r in log}
+    added = 0
+    for p in resolved:
+        if p.get("result") not in ("win", "loss") or p.get("proba") is None:
+            continue
+        key = (date, p.get("event_id", ""))
+        if key in seen:
+            continue
+        log.append({"date": date, "event_id": key[1], "championnat": p.get("championnat"),
+                    "match": f"{p.get('home_team')} – {p.get('away_team')}",
+                    "pari": p.get("pari"), "cote": p.get("cote"), "proba": p.get("proba"),
+                    "etoiles": p.get("etoiles"), "result": p["result"]})
+        seen.add(key)
+        added += 1
+    with open(TRACKING_PATH, "w", encoding="utf-8") as f:
+        json.dump(log, f, ensure_ascii=False, indent=1)
+    return added
+
+
+def yesterday_from_morning() -> dict | None:
+    """Le soir, reprend les résultats de la veille déjà calculés le matin
+    (évite de repayer l'appel scores)."""
+    path = PICKS_DIR / f"{today_fr()}_morning.json"
+    try:
+        with open(path, encoding="utf-8") as f:
+            return json.load(f).get("yesterday")
+    except (OSError, ValueError):
+        return None
+
+
 # ── MAIN ──────────────────────────────────────────────────────────────────────
 def main():
     print(f"Sharp-Edge | {today_fr()} | Rapport : {REPORT_TYPE}")
@@ -406,10 +471,13 @@ def main():
     # meilleure note d'abord (score), puis probabilité ; matchs sans cotes à la fin
     picks.sort(key=lambda x: (x["score"] is None, -(x["score"] or 0), -(x["proba"] or 0)))
 
-    yesterday_resolved = resolve_yesterday(load_yesterday_picks())
+    cached = yesterday_from_morning() if REPORT_TYPE == "evening" else None
+    yesterday_resolved = (cached or {}).get("resolved") or resolve_yesterday(load_yesterday_picks())
     wins   = sum(1 for p in yesterday_resolved if p.get("result") == "win")
     losses = sum(1 for p in yesterday_resolved if p.get("result") == "loss")
     total  = wins + losses
+    added = update_tracking(yesterday_resolved, yesterday_fr())
+    print(f"  Suivi : {added} pick(s) ajouté(s) à {TRACKING_PATH.name}")
 
     suffix = "morning" if REPORT_TYPE == "morning" else "evening"
     out = PICKS_DIR / f"{today_fr()}_{suffix}.json"

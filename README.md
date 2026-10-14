@@ -64,13 +64,20 @@ note (meilleure d'abord). Pour chaque match :
 | Match | Domicile – Extérieur |
 | Pari | Over buts, ligne simple (x.5) la plus haute cotée 1,20 – 1,50 ; à défaut la plus proche (signalée) |
 | Cote | Betclic si disponible, sinon moyenne des bookmakers (source indiquée) |
-| Probabilité | Estimée par le marché : moyenne des bookmakers, marge retirée (Over vs Under sur la même ligne) |
+| Probabilité | Pinnacle (à défaut moyenne des bookmakers), Over vs Under sur la même ligne, marge retirée par la méthode « puissance » |
 | Note | ★ à ★★★★★ : combine (sans les afficher) la valeur marché (probabilité × cote − 1) et la valeur historique (taux historique aux cotes similaires × cote − 1), l'historique pesant selon la taille de son échantillon. ★★★★★ ≥ +2 %, ★★★★ ≥ 0 %, ★★★ ≥ −2 %, ★★ ≥ −5 %, ★ en dessous |
 
 Le backtest hebdomadaire (`data/calibration.json`) porte sur les 5 dernières
 saisons complètes + la saison en cours (fenêtre qui avance seule chaque
-1er juillet). L'historique football-data.co.uk ne contient que la ligne 2.5 :
-le taux observé à une cote donnée sert de référence pour toute ligne Over.
+1er juillet). football-data.co.uk ne fournit des cotes que pour la ligne 2.5,
+mais donne le score de chaque match : les cotes Over/Under 2.5 de Pinnacle
+donnent le nombre de buts attendu (loi de Poisson), d'où une probabilité
+prédite pour chaque ligne (0.5 à 4.5), comparée au résultat réel. On obtient
+ainsi un historique réel de l'Over 1.5 sur ~34 000 matchs (prédit à ~1 point
+près).
+
+La section « Suivi de fiabilité » compare, cumulé depuis le début, la
+probabilité annoncée et le taux réalisé des picks (`docs/picks/suivi.json`).
 
 Crédits The Odds API : liste des matchs gratuite (/events) + 1 crédit par match
 (lignes Over/Under) + scores de la veille, soit ~800–1 000/mois.

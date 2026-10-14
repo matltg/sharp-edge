@@ -1,20 +1,20 @@
-Championnat,n,win_rate,roi
-Bundesliga (Allemagne),442,72.4,0.21
-Eredivisie (Pays-Bas),409,69.7,-3.73
-Premier League (Angleterre),341,69.5,-2.08
-2. Bundesliga (Allemagne),203,69.5,-0.04
-Super Lig (Turquie),191,72.8,2.08
-Ligue 1 (France),185,70.3,-1.08
-Premiership (Ecosse),158,68.4,-3.85
-LaLiga (Espagne),141,65.2,-9.38
-Pro League (Belgique),138,70.3,0.91
-Liga Portugal (Portugal),121,74.4,5.17
-Serie A (Italie),68,57.4,-18.24
-Super League (Grece),35,80.0,14.26
-Championship (Angleterre),25,64.0,-7.48
-League Two (Angleterre),25,64.0,-6.96
-League One (Angleterre),17,70.6,3.29
-Liga 2 (Espagne),11,45.5,-32.55
-Division 1 (Ecosse),11,54.5,-20.36
-Ligue 2 (France),7,85.7,21.57
-Serie B (Italie),6,50.0,-26.33
+league,Matchs,Over 1.5 prédit%,Over 1.5 réel%,Over 2.5 prédit%,Over 2.5 réel%
+2. Bundesliga (Allemagne),1530,79.9,81.0,57.6,59.1
+Bundesliga (Allemagne),1529,81.0,83.5,59.7,61.0
+Championship (Angleterre),2760,72.5,72.8,47.5,47.6
+Division 1 (Ecosse),900,73.1,72.6,48.2,48.8
+Eredivisie (Pays-Bas),1530,80.9,81.6,59.4,59.1
+LaLiga (Espagne),1900,72.1,72.4,47.4,47.4
+League One (Angleterre),2760,73.6,73.7,48.9,49.4
+League Two (Angleterre),2759,72.6,72.8,47.6,47.3
+Liga 2 (Espagne),2310,67.3,67.6,41.3,43.0
+Liga Portugal (Portugal),1530,73.6,73.3,49.2,51.0
+Ligue 1 (France),1677,76.8,77.2,53.4,53.5
+Ligue 2 (France),1750,69.7,68.5,44.0,45.2
+Premier League (Angleterre),1900,78.6,79.8,56.0,56.6
+Premiership (Ecosse),1140,75.4,77.1,51.7,53.7
+Pro League (Belgique),1547,78.7,78.0,55.9,53.7
+Serie A (Italie),1899,74.1,74.4,49.8,48.9
+Serie B (Italie),1899,70.1,71.9,44.4,45.0
+Super League (Grece),1189,71.0,73.5,45.8,48.4
+Super Lig (Turquie),1721,77.6,77.9,54.4,54.3

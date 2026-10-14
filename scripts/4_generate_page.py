@@ -173,6 +173,62 @@ def render_yesterday_section(yesterday: dict | None) -> str:
     </section>"""
 
 
+TRACKING_PATH = PICKS_DIR / "suivi.json"
+PROBA_RANGES = [(0, 60, "moins de 60 %"), (60, 70, "60 – 70 %"), (70, 80, "70 – 80 %"),
+                (80, 90, "80 – 90 %"), (90, 101, "90 % et plus")]
+
+
+def render_tracking_section() -> str:
+    """Annoncé contre réalisé, cumulé depuis le début du suivi."""
+    try:
+        with open(TRACKING_PATH, encoding="utf-8") as f:
+            log = json.load(f)
+    except (OSError, ValueError):
+        log = []
+    title = "<h2>📈 Suivi de fiabilité — annoncé contre réalisé</h2>"
+    if not log:
+        return (f'<section class="section">{title}<p class="empty">Le suivi démarre : '
+                f"les résultats s'ajoutent chaque matin.</p></section>")
+
+    def row(label, rs):
+        n = len(rs)
+        if not n:
+            return ""
+        won = sum(r["result"] == "win" for r in rs)
+        real = won / n * 100
+        pred = sum(r["proba"] for r in rs) / n
+        gain = sum((r["cote"] - 1) if r["result"] == "win" else -1 for r in rs) / n * 100
+        gap = round(real - pred)
+        gap_color = "#22c55e" if gap >= 0 else "#f97316"
+        return (f"<tr><td>{label}</td><td>{n}</td><td>{pred:.0f}%</td><td>{real:.0f}%</td>"
+                f"<td style='color:{gap_color}'>{gap:+d}</td><td>{gain:+.1f}%</td></tr>")
+
+    by_proba = "".join(row(label, [r for r in log if lo <= r["proba"] < hi])
+                       for lo, hi, label in PROBA_RANGES)
+    by_stars = "".join(row("★" * k + "☆" * (5 - k), [r for r in log if r.get("etoiles") == k])
+                       for k in range(5, 0, -1))
+    total_row = row("Total", log)
+    first, last = min(r["date"] for r in log), max(r["date"] for r in log)
+    return f"""
+    <section class="section">
+      {title}
+      <p class="track-note">{len(log)} paris résolus du {first} au {last}.
+        « Écart » = réalisé − annoncé, en points. « Gain » = résultat moyen d'une mise de 1 à la cote affichée.
+        Il faut plusieurs centaines de paris pour que ces chiffres soient significatifs.</p>
+      <table class="track">
+        <tr><th>Probabilité</th><th>Paris</th><th>Annoncé</th><th>Réalisé</th>
+            <th>Écart</th><th>Gain</th></tr>
+        {by_proba}
+        {total_row}
+      </table>
+      <table class="track">
+        <tr><th>Note</th><th>Paris</th><th>Annoncé</th><th>Réalisé</th>
+            <th>Écart</th><th>Gain</th></tr>
+        {by_stars}
+      </table>
+    </section>"""
+
+
 def render_picks_section(title: str, picks: list, empty_msg: str) -> str:
     if not picks:
         return f"""
@@ -208,6 +264,7 @@ def generate_index(date_str: str, picks: dict):
         "🌆 Rapport 16h30 — Confirmation matchs du soir", picks["evening"],
         "Rapport du soir non encore généré ou aucun match après 18h.")
     history  = get_history_links()
+    track_sec = render_tracking_section()
 
     html = f"""<!DOCTYPE html>
 <html lang="fr">
@@ -269,6 +326,14 @@ def generate_index(date_str: str, picks: dict):
     .yest-result{{font-size:.85rem;font-weight:700}}
     .yest-match{{font-size:.9rem;display:flex;align-items:center;gap:.4rem;flex-wrap:wrap}}
     .yest-meta{{font-size:.75rem;color:var(--muted)}}
+    /* Suivi */
+    .track{{width:100%;border-collapse:collapse;font-size:.78rem;margin-bottom:1rem;
+            background:var(--surface);border-radius:.5rem;overflow:hidden}}
+    .track th,.track td{{padding:.45rem .5rem;text-align:right;border-bottom:1px solid var(--border);
+                         white-space:nowrap}}
+    .track th:first-child,.track td:first-child{{text-align:left}}
+    .track th{{color:var(--muted);font-weight:600}}
+    .track-note{{font-size:.75rem;color:var(--muted);margin-bottom:.75rem}}
     /* Misc */
     .empty{{color:var(--muted);font-style:italic;padding:1rem;background:var(--surface);
             border-radius:.5rem;border:1px solid var(--border)}}
@@ -294,6 +359,7 @@ def generate_index(date_str: str, picks: dict):
     {yest_sec}
     {morn_sec}
     {even_sec}
+    {track_sec}
     {history}
   </main>
   <footer>
