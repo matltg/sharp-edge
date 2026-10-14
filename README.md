@@ -25,7 +25,7 @@ Analyse quotidienne des favoris à cote basse (1,20–1,50) sur les principaux c
 3. Branch : `main` | Folder : `/docs`
 4. Cliquer **Save**
 
-### 4. Lancer le backtest (optionnel mais recommandé)
+### 4. Lancer le premier backtest (ensuite automatique chaque lundi)
 1. Onglet **Actions** → **Sharp-Edge Backtest**
 2. Cliquer **Run workflow**
 3. Attendre ~5 minutes
@@ -47,7 +47,7 @@ sharp-edge/
 ├── .github/workflows/
 │   ├── morning.yml           # Rapport 4h30 France (cron UTC)
 │   ├── evening.yml           # Rapport 16h30 France (cron UTC)
-│   └── backtest.yml          # Backtest manuel
+│   └── backtest.yml          # Backtest hebdo (lundi) + manuel
 └── requirements.txt
 ```
 
@@ -62,12 +62,17 @@ sharp-edge/
 
 ## 📈 Niveaux de fiabilité
 
-| Étoiles | Cote | Taux historique estimé |
-|---------|------|------------------------|
-| ★★★★★ Très solide | 1,20–1,25 | ~82–85% |
-| ★★★★☆ Solide | 1,25–1,30 | ~77–82% |
-| ★★★☆☆ Correct | 1,30–1,40 | ~72–77% |
-| ★★☆☆☆ À surveiller | 1,40–1,50 | ~68–72% |
+| Étoiles | Cote |
+|---------|------|
+| ★★★★★ Très solide | 1,20–1,25 |
+| ★★★★☆ Solide | 1,25–1,30 |
+| ★★★☆☆ Correct | 1,30–1,40 |
+| ★★☆☆☆ À surveiller | 1,40–1,50 |
+
+Le taux de victoire affiché sur chaque pick est calculé automatiquement par le
+backtest hebdomadaire (`data/calibration.json`) : 5 dernières saisons complètes
++ saison en cours, à la meilleure cote du marché. La fenêtre de saisons avance
+seule chaque 1er juillet.
 
 ## 🗺️ Feuille de route
 

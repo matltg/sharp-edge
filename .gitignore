@@ -218,3 +218,6 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Sharp-Edge : historique brut regénéré à chaque backtest (20+ Mo)
+data/historical_raw.csv

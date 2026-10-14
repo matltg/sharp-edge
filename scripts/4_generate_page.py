@@ -12,6 +12,18 @@ DOCS_DIR  = Path(__file__).parent.parent / "docs"
 PICKS_DIR = DOCS_DIR / "picks"
 DOCS_DIR.mkdir(exist_ok=True)
 PICKS_DIR.mkdir(exist_ok=True)
+CALIBRATION_PATH = Path(__file__).parent.parent / "data" / "calibration.json"
+
+
+def calibration_note() -> str:
+    try:
+        with open(CALIBRATION_PATH, encoding="utf-8") as f:
+            cal = json.load(f)
+        return (f"Taux historiques : backtest du {cal['generated_at']} sur "
+                f"{cal['n_matches']} matchs ({cal['seasons'][0]} → {cal['seasons'][-1]}, "
+                f"{cal['source']})")
+    except (OSError, KeyError, IndexError, ValueError):
+        return "Taux historiques : estimations par défaut (backtest non disponible)"
 
 
 def load_picks(date_str: str) -> dict:
@@ -251,7 +263,8 @@ def generate_index(date_str: str, picks: dict):
   </main>
   <footer>
     Sharp-Edge — outil d'analyse statistique uniquement. Ne constitue pas un conseil en paris.<br>
-    Sources : football-data.co.uk · The Odds API · 18 championnats/compétitions actifs
+    Sources : football-data.co.uk · The Odds API · 18 championnats/compétitions actifs<br>
+    {calibration_note()}
   </footer>
 </body>
 </html>"""

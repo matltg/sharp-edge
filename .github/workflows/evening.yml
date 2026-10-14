@@ -61,4 +61,5 @@ jobs:
           git config user.email "bot@sharp-edge"
           git add docs/
           git diff --staged --quiet || git commit -m "🌆 Evening picks $(date -u +'%Y-%m-%d')"
+          git pull --rebase
           git push

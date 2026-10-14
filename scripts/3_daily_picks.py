@@ -83,6 +83,46 @@ HOME_ONLY = True  # Phase 1 : favoris à domicile uniquement
 PICKS_DIR = Path(__file__).parent.parent / "docs" / "picks"
 PICKS_DIR.mkdir(parents=True, exist_ok=True)
 
+# ── PALIERS DE FIABILITÉ ──────────────────────────────────────────────────────
+# Les taux affichés viennent de data/calibration.json (généré chaque semaine par
+# 2_backtest.py). Valeurs ci-dessous utilisées seulement si le fichier manque.
+CALIBRATION_PATH = Path(__file__).parent.parent / "data" / "calibration.json"
+DEFAULT_TIERS = [
+    (1.25, "★★★★★ Très solide",  "~82–85%"),
+    (1.30, "★★★★☆ Solide",       "~77–82%"),
+    (1.40, "★★★☆☆ Correct",      "~72–77%"),
+    (1.50, "★★☆☆☆ À surveiller", "~68–72%"),
+]
+
+
+def load_tiers() -> list:
+    """Retourne [(cote_max, label, pct_affiché), ...] trié par cote."""
+    try:
+        with open(CALIBRATION_PATH, encoding="utf-8") as f:
+            cal = json.load(f)
+        key = "home" if HOME_ONLY else "all"
+        tiers = []
+        for t in cal["tiers"]:
+            s = t[key]
+            pct = f"{s['win_rate']}% (n={s['n']})" if s["n"] else "—"
+            tiers.append((t["max"], t["label"], pct))
+        source = f"backtest du {cal['generated_at']} ({cal['seasons'][0]} → {cal['seasons'][-1]})"
+    except (OSError, KeyError, IndexError, ValueError) as e:
+        print(f"  Calibration absente ou invalide ({e}) — valeurs par défaut")
+        return DEFAULT_TIERS
+    print(f"  Calibration : {source}")
+    return sorted(tiers)
+
+
+TIERS = load_tiers()
+
+
+def tier_for(odds: float) -> tuple:
+    for max_odds, label, pct in TIERS:
+        if odds <= max_odds:
+            return label, pct
+    return TIERS[-1][1], TIERS[-1][2]
+
 
 # ── UTILITAIRES ───────────────────────────────────────────────────────────────
 def today_fr() -> str:
@@ -207,14 +247,7 @@ def identify_favourite(match: dict) -> dict | None:
     else:
         label = "🟢 Jouer maintenant"
 
-    if fav_odds <= 1.25:
-        fiab, pct = "★★★★★ Très solide", "~82–85%"
-    elif fav_odds <= 1.30:
-        fiab, pct = "★★★★☆ Solide",      "~77–82%"
-    elif fav_odds <= 1.40:
-        fiab, pct = "★★★☆☆ Correct",     "~72–77%"
-    else:
-        fiab, pct = "★★☆☆☆ À surveiller", "~68–72%"
+    fiab, pct = tier_for(fav_odds)
 
     return {
         "status": label, "heure": commence_fr.strftime("%Hh%M"),
