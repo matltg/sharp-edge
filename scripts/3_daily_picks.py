@@ -10,9 +10,10 @@ NOTICE D'INTENTION
 OBJECTIF : 2 rapports quotidiens (4h30 et 16h30 heure France).
 
 AFFICHAGE : tous les matchs du jour, sans filtre, triés par valeur.
-  - Pari : Over buts, ligne simple (x.5, sans remboursement partiel). On prend
-    la ligne la plus haute dont la cote est dans 1,20–1,50 ; à défaut,
-    la ligne dont la cote est la plus proche de cette fenêtre (signalée).
+  - Pari : Over ou Under buts, ligne simple (x.5, sans remboursement partiel).
+    Parmi tous ceux cotés dans 1,20–1,50, on prend la meilleure note (puis la
+    meilleure probabilité) ; à défaut, celui dont la cote est la plus proche
+    de cette fenêtre (signalé).
   - Cote : celle de Betclic si disponible, sinon la moyenne des bookmakers.
   - Probabilité : cotes Over et Under de Pinnacle (bookmaker de référence, le
     moins margé) sur la même ligne, marge retirée par la méthode « puissance » ;
@@ -119,19 +120,22 @@ def load_calibration() -> dict:
 CALIBRATION = load_calibration()
 
 
-def history_stats(line: float, proba: float | None) -> tuple:
+def history_stats(side: str, line: float, proba: float | None) -> tuple:
     """(taux de réussite réel %, effectif) des matchs passés dont la probabilité
-    prédite sur cette ligne était dans la même tranche, ou (None, 0)."""
+    prédite sur cette ligne était dans la même tranche, ou (None, 0).
+    Le backtest est calculé pour l'Over : un Under passe quand l'Over échoue."""
     if proba is None:
         return None, 0
+    over_proba = proba if side == "Over" else 100 - proba
     for b in CALIBRATION.get(line, []):
-        if b["min"] <= proba < b["max"]:
-            return b["win_rate"], b["n"]
+        if b["min"] <= over_proba < b["max"]:
+            rate = b["win_rate"] if side == "Over" else round(100 - b["win_rate"], 1)
+            return rate, b["n"]
     return None, 0
 
 
-def history_for(line: float, proba: float | None) -> str:
-    rate, n = history_stats(line, proba)
+def history_for(side: str, line: float, proba: float | None) -> str:
+    rate, n = history_stats(side, line, proba)
     return f"{rate:.0f}% (n={n})" if rate is not None and n >= MIN_HISTORY_N else "—"
 
 
@@ -147,10 +151,10 @@ STARS = [  # (score minimum en %, étoiles, libellé)
 ]
 
 
-def rating(proba: float | None, odds: float, line: float) -> dict:
+def rating(proba: float | None, odds: float, side: str, line: float) -> dict:
     # Score = moyenne pondérée de la valeur marché et de la valeur historique
     market = None if proba is None else (proba / 100 * odds - 1) * 100
-    rate, n = history_stats(line, proba)
+    rate, n = history_stats(side, line, proba)
     hist = None if rate is None else (rate / 100 * odds - 1) * 100
     if market is None and hist is None:
         return {"score": None, "etoiles": None, "note": None}
@@ -283,19 +287,29 @@ def fair_prob(data: dict, line: float) -> tuple:
 
 
 def choose_bet(data: dict) -> dict | None:
-    """Over ligne simple (x.5) : la plus haute dans la fenêtre 1,20–1,50,
-    sinon celle dont la cote est la plus proche de la fenêtre."""
-    lines = [(pt, p, b) for pt, (p, b) in ref_prices(data, "Over").items() if pt % 1 == 0.5]
-    if not lines:
+    """Parmi tous les Over et Under en ligne simple (x.5) cotés dans 1,20–1,50 :
+    celui qui a la meilleure note, puis la meilleure probabilité. Sans candidat
+    dans la fenêtre : celui dont la cote en est la plus proche."""
+    candidates = []
+    for side in ("Over", "Under"):
+        for pt, (price, book) in ref_prices(data, side).items():
+            if pt % 1 != 0.5:
+                continue
+            over_proba, proba_source = fair_prob(data, pt)
+            proba = (None if over_proba is None
+                     else over_proba if side == "Over" else round(100 - over_proba, 1))
+            candidates.append({"side": side, "line": pt, "cote": price, "source": book,
+                               "in_window": in_window(price), "proba": proba,
+                               "proba_source": proba_source,
+                               **rating(proba, price, side, pt)})
+    if not candidates:
         return None
-    inside = [l for l in lines if in_window(l[1])]
+    inside = [c for c in candidates if c["in_window"]]
     if inside:
-        pt, price, book = max(inside)
-    else:
-        pt, price, book = min(lines, key=lambda l: min(abs(l[1] - MIN_ODDS), abs(l[1] - MAX_ODDS)))
-    proba, proba_source = fair_prob(data, pt)
-    return {"line": pt, "cote": price, "source": book, "in_window": bool(inside),
-            "proba": proba, "proba_source": proba_source}
+        return max(inside, key=lambda c: (c["score"] if c["score"] is not None else -1e9,
+                                          c["proba"] or 0))
+    distance = lambda c: min(abs(c["cote"] - MIN_ODDS), abs(c["cote"] - MAX_ODDS))
+    return min(candidates, key=lambda c: (distance(c), -(c["proba"] or 0)))
 
 
 # ── COLLECTE (matin) / CACHE (soir) ───────────────────────────────────────────
@@ -352,14 +366,15 @@ def build_pick(event: dict, data: dict) -> dict | None:
     }
     if bet:
         pick.update({
-            "pari": f"Over {bet['line']:g} buts", "over_line": bet["line"],
+            "pari": f"{bet['side']} {bet['line']:g} buts",
+            "ou_side": bet["side"], "ou_line": bet["line"],
             "cote": bet["cote"], "cote_source": bet["source"],
             "dans_fenetre": bet["in_window"],
             "proba": bet["proba"], "proba_source": bet["proba_source"],
-            "historique": history_for(bet["line"], bet["proba"]),
+            "historique": history_for(bet["side"], bet["line"], bet["proba"]),
             "valeur": (None if bet["proba"] is None
                        else round((bet["proba"] / 100 * bet["cote"] - 1) * 100, 1)),
-            **rating(bet["proba"], bet["cote"], bet["line"]),
+            "score": bet["score"], "etoiles": bet["etoiles"], "note": bet["note"],
         })
     return pick
 
@@ -383,7 +398,10 @@ def fetch_scores(sport_key: str) -> list:
 
 
 def settle(pick: dict, hs: int, as_: int) -> str:
-    if "over_line" in pick:
+    if "ou_line" in pick:
+        over_won = hs + as_ > pick["ou_line"]
+        return "win" if over_won == (pick["ou_side"] == "Over") else "loss"
+    if "over_line" in pick:  # picks antérieurs à l'ajout des Unders
         return "win" if hs + as_ > pick["over_line"] else "loss"
     # anciens picks « Victoire favori »
     fav_won = (hs > as_) if pick.get("camp", "Domicile") == "Domicile" else (as_ > hs)

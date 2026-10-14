@@ -62,7 +62,7 @@ note (meilleure d'abord). Pour chaque match :
 | Statut | 🟢 Bon (avant 18h) · 🟡 À confirmer à 16h30 (18h et après) |
 | Heure · championnat | Heure de Paris |
 | Match | Domicile – Extérieur |
-| Pari | Over buts, ligne simple (x.5) la plus haute cotée 1,20 – 1,50 ; à défaut la plus proche (signalée) |
+| Pari | Over ou Under buts, ligne simple (x.5) : parmi ceux cotés 1,20 – 1,50, la meilleure note ; à défaut le plus proche de la fenêtre (signalé) |
 | Cote | Betclic si disponible, sinon moyenne des bookmakers (source indiquée) |
 | Probabilité | Pinnacle (à défaut moyenne des bookmakers), Over vs Under sur la même ligne, marge retirée par la méthode « puissance » |
 | Note | ★ à ★★★★★ : combine (sans les afficher) la valeur marché (probabilité × cote − 1) et la valeur historique (taux historique aux cotes similaires × cote − 1), l'historique pesant selon la taille de son échantillon. ★★★★★ ≥ +2 %, ★★★★ ≥ 0 %, ★★★ ≥ −2 %, ★★ ≥ −5 %, ★ en dessous |
