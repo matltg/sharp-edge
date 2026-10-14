@@ -4,7 +4,6 @@
   "picks": [
     {
       "sport": "⚽ Football",
-      "status": "🟢 Bon",
       "heure": "21h00",
       "championnat": "UEFA Champions League",
       "sport_key": "soccer_uefa_champs_league",
@@ -28,7 +27,6 @@
     },
     {
       "sport": "⚽ Football",
-      "status": "🟢 Bon",
       "heure": "21h00",
       "championnat": "UEFA Champions League",
       "sport_key": "soccer_uefa_champs_league",
@@ -52,7 +50,6 @@
     },
     {
       "sport": "⚽ Football",
-      "status": "🟢 Bon",
       "heure": "21h00",
       "championnat": "UEFA Champions League",
       "sport_key": "soccer_uefa_champs_league",
@@ -76,7 +73,6 @@
     },
     {
       "sport": "⚽ Football",
-      "status": "🟢 Bon",
       "heure": "21h00",
       "championnat": "UEFA Champions League",
       "sport_key": "soccer_uefa_champs_league",
@@ -100,7 +96,6 @@
     },
     {
       "sport": "⚽ Football",
-      "status": "🟢 Bon",
       "heure": "20h45",
       "championnat": "Championship",
       "sport_key": "soccer_efl_champ",
@@ -124,7 +119,6 @@
     },
     {
       "sport": "⚽ Football",
-      "status": "🟢 Bon",
       "heure": "21h00",
       "championnat": "UEFA Champions League",
       "sport_key": "soccer_uefa_champs_league",
@@ -148,7 +142,6 @@
     },
     {
       "sport": "⚽ Football",
-      "status": "🟢 Bon",
       "heure": "18h45",
       "championnat": "UEFA Champions League",
       "sport_key": "soccer_uefa_champs_league",
@@ -172,7 +165,6 @@
     },
     {
       "sport": "⚽ Football",
-      "status": "🟢 Bon",
       "heure": "21h00",
       "championnat": "UEFA Champions League",
       "sport_key": "soccer_uefa_champs_league",
@@ -196,7 +188,6 @@
     },
     {
       "sport": "⚽ Football",
-      "status": "🟢 Bon",
       "heure": "20h45",
       "championnat": "Championship",
       "sport_key": "soccer_efl_champ",
@@ -220,7 +211,6 @@
     },
     {
       "sport": "⚽ Football",
-      "status": "🟢 Bon",
       "heure": "20h45",
       "championnat": "Championship",
       "sport_key": "soccer_efl_champ",
@@ -244,7 +234,6 @@
     },
     {
       "sport": "⚽ Football",
-      "status": "🟢 Bon",
       "heure": "18h45",
       "championnat": "UEFA Champions League",
       "sport_key": "soccer_uefa_champs_league",
@@ -268,7 +257,6 @@
     },
     {
       "sport": "⚽ Football",
-      "status": "🟢 Bon",
       "heure": "21h00",
       "championnat": "UEFA Champions League",
       "sport_key": "soccer_uefa_champs_league",
@@ -292,7 +280,6 @@
     },
     {
       "sport": "⚽ Football",
-      "status": "🟢 Bon",
       "heure": "21h00",
       "championnat": "Championship",
       "sport_key": "soccer_efl_champ",
