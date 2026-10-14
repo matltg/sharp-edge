@@ -78,7 +78,7 @@ SPORTS = [
 # ── FILTRES ───────────────────────────────────────────────────────────────────
 MIN_ODDS  = 1.20
 MAX_ODDS  = 1.50
-HOME_ONLY = True  # Phase 1 : favoris à domicile uniquement
+HOME_ONLY = False  # backtest : domicile et extérieur ont le même ROI
 
 PICKS_DIR = Path(__file__).parent.parent / "docs" / "picks"
 PICKS_DIR.mkdir(parents=True, exist_ok=True)
@@ -198,7 +198,7 @@ def extract_best_odds(event: dict) -> dict | None:
     if not bookmakers:
         return None
     home, away = event["home_team"], event["away_team"]
-    best_home = best_away = best_draw = best_book = None
+    best_home = best_away = best_draw = book_home = book_away = None
     for bk in bookmakers:
         for market in bk.get("markets", []):
             if market["key"] != "h2h":
@@ -207,10 +207,10 @@ def extract_best_odds(event: dict) -> dict | None:
                 p, n = o["price"], o["name"]
                 if n == home:
                     if best_home is None or p > best_home:
-                        best_home = p; best_book = bk["title"]
+                        best_home = p; book_home = bk["title"]
                 elif n == away:
                     if best_away is None or p > best_away:
-                        best_away = p
+                        best_away = p; book_away = bk["title"]
                 elif n == "Draw":
                     if best_draw is None or p > best_draw:
                         best_draw = p
@@ -218,7 +218,7 @@ def extract_best_odds(event: dict) -> dict | None:
         return None
     return {"home": home, "away": away, "commence": event["commence_time"],
             "odds_home": best_home, "odds_away": best_away, "odds_draw": best_draw,
-            "bookmaker": best_book, "sport": event.get("sport_title", ""),
+            "book_home": book_home, "book_away": book_away, "sport": event.get("sport_title", ""),
             "event_id": event.get("id", "")}
 
 
@@ -254,7 +254,7 @@ def identify_favourite(match: dict) -> dict | None:
         "championnat": match["sport"], "favori": fav_team,
         "adversaire": opp_team, "camp": "Domicile" if fav_camp == "H" else "Extérieur",
         "cote": fav_odds, "pct_victoire_historique": pct,
-        "fiabilite": fiab, "bookmaker_ref": match["bookmaker"],
+        "fiabilite": fiab, "bookmaker_ref": match["book_home"] if fav_camp == "H" else match["book_away"],
         "pari": f"Victoire {fav_team}",
         "home_team": match["home"], "away_team": match["away"],
         "event_id": match["event_id"],

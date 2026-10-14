@@ -56,7 +56,7 @@ sharp-edge/
 | Filtre | Valeur |
 |--------|--------|
 | Cote favori | 1,20 – 1,50 |
-| Camp | Domicile uniquement |
+| Camp | Domicile et extérieur |
 | Rapport matin | Tous matchs du jour |
 | Rapport soir | Matchs après 18h uniquement (confirmation) |
 

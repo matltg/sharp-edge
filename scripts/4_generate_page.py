@@ -46,6 +46,17 @@ def fiability_color(fiabilite: str) -> str:
     else:                           return "#f97316"
 
 
+def match_line(pick: dict) -> str:
+    """Domicile – Extérieur, favori en gras, avec le camp du favori."""
+    home = pick.get("home_team") or pick.get("favori", "?")
+    away = pick.get("away_team") or pick.get("adversaire", "?")
+    fav = pick.get("favori")
+    h = f'<span class="pick-fav">{home}</span>' if home == fav else f'<span class="pick-opp">{home}</span>'
+    a = f'<span class="pick-fav">{away}</span>' if away == fav else f'<span class="pick-opp">{away}</span>'
+    camp = "🏠 domicile" if pick.get("camp") == "Domicile" else "✈️ extérieur"
+    return f'{h}<span class="pick-vs">–</span>{a}<span class="pick-vs">({camp})</span>'
+
+
 def render_pick_card(pick: dict) -> str:
     color    = fiability_color(pick["fiabilite"])
     status_bg = "#166534" if "Jouer" in pick["status"] else "#854d0e"
@@ -57,9 +68,7 @@ def render_pick_card(pick: dict) -> str:
         <span class="pick-league">{pick['championnat']}</span>
       </div>
       <div class="pick-match">
-        <span class="pick-fav">{pick['favori']}</span>
-        <span class="pick-vs">vs</span>
-        <span class="pick-opp">{pick['adversaire']}</span>
+        {match_line(pick)}
       </div>
       <div class="pick-details">
         <div class="pick-odds">
@@ -90,9 +99,7 @@ def render_yesterday_card(pick: dict) -> str:
     <div class="yest-card" style="border-color:{border};background:{bg}">
       <div class="yest-result">{label}</div>
       <div class="yest-match">
-        <strong>{pick.get('favori','?')}</strong>
-        <span class="pick-vs">vs</span>
-        {pick.get('adversaire','?')}
+        {match_line(pick)}
       </div>
       <div class="yest-meta">
         {pick.get('championnat','?')} · {pick.get('heure','?')} · cote {pick.get('cote','?')}
