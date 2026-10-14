@@ -27,13 +27,14 @@ def calibration_note() -> str:
 
 
 def load_picks(date_str: str) -> dict:
-    result = {"morning": [], "evening": [], "yesterday": None}
+    result = {"morning": [], "evening": [], "yesterday": None, "has_evening": False}
     for suffix in ["morning", "evening"]:
         path = PICKS_DIR / f"{date_str}_{suffix}.json"
         if path.exists():
             with open(path, encoding="utf-8") as f:
                 data = json.load(f)
                 result[suffix] = data.get("picks", [])
+                result["has_evening"] |= suffix == "evening"
                 if result["yesterday"] is None:
                     result["yesterday"] = data.get("yesterday")
     return result
@@ -255,14 +256,19 @@ def get_history_links() -> str:
 
 def generate_index(date_str: str, picks: dict):
     now_fr   = datetime.now(TZ_FRANCE).strftime("%d/%m/%Y à %Hh%M")
-    total    = len(picks["morning"]) + len(picks["evening"])
     yest_sec = render_yesterday_section(picks.get("yesterday"))
-    morn_sec = render_picks_section(
-        "🌅 Rapport 4h30 — Matchs du jour", picks["morning"],
-        "Aucun match aujourd'hui dans les championnats suivis.")
-    even_sec = render_picks_section(
-        "🌆 Rapport 16h30 — Confirmation matchs du soir", picks["evening"],
-        "Rapport du soir non encore généré ou aucun match après 18h.")
+    # Une seule liste : celle du matin jusqu'au rapport de 16h30, puis celle du soir
+    if picks.get("has_evening"):
+        current = picks["evening"]
+        day_sec = render_picks_section(
+            "🌆 Matchs du jour — mise à jour 16h30", current,
+            "Plus aucun match à venir aujourd'hui dans les championnats suivis.")
+    else:
+        current = picks["morning"]
+        day_sec = render_picks_section(
+            "🌅 Matchs du jour — rapport 4h30", current,
+            "Aucun match aujourd'hui dans les championnats suivis.")
+    total    = len(current)
     history  = get_history_links()
     track_sec = render_tracking_section()
 
@@ -357,8 +363,7 @@ def generate_index(date_str: str, picks: dict):
   </header>
   <main>
     {yest_sec}
-    {morn_sec}
-    {even_sec}
+    {day_sec}
     {track_sec}
     {history}
   </main>

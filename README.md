@@ -59,7 +59,10 @@ note (meilleure d'abord). Pour chaque match :
 | Élément | Contenu |
 |---------|---------|
 | Sport | ⚽ Football |
-| Statut | 🟢 Bon (avant 18h) · 🟡 À confirmer à 16h30 (18h et après) |
+| Statut | Rapport 4h30 : 🟢 Bon (avant 18h) · 🟡 À confirmer à 16h30 (18h et après). Rapport 16h30 : tous les matchs pas encore commencés, en 🟢 |
+
+La page n'affiche qu'une liste : celle du matin jusqu'au rapport de 16h30, puis
+celle du soir, qui la remplace.
 | Heure · championnat | Heure de Paris |
 | Match | Domicile – Extérieur |
 | Pari | Over ou Under buts, ligne simple (x.5) : parmi ceux cotés 1,20 – 1,50, la meilleure note ; à défaut le plus proche de la fenêtre (signalé) |

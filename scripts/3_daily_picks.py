@@ -36,6 +36,8 @@ STRATÉGIE CRÉDITS (1 crédit = 1 marché renvoyé × 1 région) :
     1 crédit par match.
   - Tout est mis en cache dans docs/picks/YYYY-MM-DD_raw.json ; le rapport du
     soir relit ce cache sans rappeler l'API (sauf REFRESH_EVENING = True).
+  - Le rapport du soir reprend tous les matchs pas encore commencés et
+    remplace celui du matin sur la page.
   - Résultats de la veille : endpoint scores, 2 crédits par source concernée.
   - Estimation : ~25 matchs/jour en moyenne → ~800–1 000 crédits/mois.
 
@@ -390,10 +392,14 @@ def build_pick(event: dict, data: dict) -> dict | None:
     kickoff = kickoff_fr(event)
     if kickoff.strftime("%Y-%m-%d") != today_fr():
         return None
-    if REPORT_TYPE == "morning" and kickoff.hour >= 18:
+    if REPORT_TYPE == "evening":
+        # Le rapport du soir remplace celui du matin sur la page : il reprend
+        # tous les matchs pas encore commencés.
+        if kickoff <= datetime.now(TZ_FRANCE):
+            return None
+        label = "🟢 Bon"
+    elif kickoff.hour >= 18:
         label = "🟡 À confirmer à 16h30"
-    elif REPORT_TYPE == "evening" and kickoff.hour < 18:
-        return None  # déjà couvert par le rapport du matin
     else:
         label = "🟢 Bon"
 
