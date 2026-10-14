@@ -3,10 +3,11 @@ sharp-edge | Script 4 — Génération de la page HTML GitHub Pages
 """
 
 import json
-from datetime import datetime, timezone, timedelta
+from datetime import datetime
+from zoneinfo import ZoneInfo
 from pathlib import Path
 
-TZ_FRANCE = timezone(timedelta(hours=1))
+TZ_FRANCE = ZoneInfo("Europe/Paris")  # gère automatiquement heure été / hiver
 DOCS_DIR  = Path(__file__).parent.parent / "docs"
 PICKS_DIR = DOCS_DIR / "picks"
 DOCS_DIR.mkdir(exist_ok=True)

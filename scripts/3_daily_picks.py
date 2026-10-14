@@ -35,7 +35,8 @@ SOURCES ACTIVES : 18 championnats/compétitions (Phase 1 — football uniquement
 import os
 import json
 import requests
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timedelta
+from zoneinfo import ZoneInfo
 from pathlib import Path
 
 # ── CONFIG ────────────────────────────────────────────────────────────────────
@@ -46,7 +47,7 @@ REPORT_TYPE  = os.environ.get("REPORT_TYPE", "morning")  # morning | evening
 # Plan payant : mettre True pour rafraîchir les cotes à 16h30
 REFRESH_EVENING = False  # ← passer à True lors du passage au plan payant
 
-TZ_FRANCE = timezone(timedelta(hours=1))  # UTC+1 hiver / UTC+2 été
+TZ_FRANCE = ZoneInfo("Europe/Paris")  # gère automatiquement heure été / hiver
 
 # ── SOURCES ACTIVES ───────────────────────────────────────────────────────────
 SPORTS = [

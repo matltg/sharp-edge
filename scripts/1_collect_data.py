@@ -37,8 +37,8 @@ LEAGUES = {
     "G1":  "Super League (Grece)",
 }
 
-# Saisons à télécharger (les 5 dernières)
-SEASONS = ["2021-22", "2022-23", "2023-24", "2024-25"]
+# Saisons à télécharger (les 5 dernières, saison en cours incluse)
+SEASONS = ["2021-22", "2022-23", "2023-24", "2024-25", "2025-26"]
 
 BASE_URL = "https://www.football-data.co.uk/mmz4281/{season}/{league}.csv"
 

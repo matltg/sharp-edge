@@ -4,7 +4,7 @@ on:
   schedule:
     - cron: '30 14 * * *'  # UTC+2 (heure été) → 16h30 France
     - cron: '30 15 * * *'  # UTC+1 (heure hiver) → 16h30 France
-  workflow_dispatch:
+  workflow_dispatch:        # déclenchement manuel possible
 
 jobs:
   evening-picks:
@@ -13,27 +13,49 @@ jobs:
       contents: write
 
     steps:
+      # Les deux crons tournent chaque jour : on ne garde que celui qui
+      # correspond à l'heure légale actuelle de Paris (évite le double appel API).
+      - name: Check DST slot
+        id: gate
+        run: |
+          OFFSET=$(TZ=Europe/Paris date +%z)
+          RUN=true
+          if [ "${{ github.event_name }}" = "schedule" ]; then
+            case "${{ github.event.schedule }}" in
+              "30 14 * * *") [ "$OFFSET" = "+0200" ] || RUN=false ;;
+              "30 15 * * *") [ "$OFFSET" = "+0100" ] || RUN=false ;;
+            esac
+          fi
+          echo "Paris UTC offset: $OFFSET → run=$RUN"
+          echo "run=$RUN" >> "$GITHUB_OUTPUT"
+
       - name: Checkout repo
+        if: steps.gate.outputs.run == 'true'
         uses: actions/checkout@v4
 
       - name: Setup Python
+        if: steps.gate.outputs.run == 'true'
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
       - name: Install dependencies
+        if: steps.gate.outputs.run == 'true'
         run: pip install requests pandas numpy
 
       - name: Run daily picks (evening)
+        if: steps.gate.outputs.run == 'true'
         env:
           ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
           REPORT_TYPE: evening
         run: python scripts/3_daily_picks.py
 
       - name: Generate HTML page
+        if: steps.gate.outputs.run == 'true'
         run: python scripts/4_generate_page.py
 
       - name: Commit and push
+        if: steps.gate.outputs.run == 'true'
         run: |
           git config user.name "sharp-edge-bot"
           git config user.email "bot@sharp-edge"
