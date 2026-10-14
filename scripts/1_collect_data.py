@@ -7,6 +7,7 @@ import os
 import time
 import requests
 import pandas as pd
+from datetime import date
 from pathlib import Path
 
 # Répertoire de sortie
@@ -37,8 +38,17 @@ LEAGUES = {
     "G1":  "Super League (Grece)",
 }
 
-# Saisons à télécharger (les 5 dernières, saison en cours incluse)
-SEASONS = ["2021-22", "2022-23", "2023-24", "2024-25", "2025-26"]
+# Saisons à télécharger : les 5 dernières saisons complètes + la saison en cours
+# (calculé automatiquement ; une saison démarre en juillet)
+N_COMPLETE_SEASONS = 5
+
+def _seasons() -> list[str]:
+    today = date.today()
+    current_start = today.year if today.month >= 7 else today.year - 1
+    starts = range(current_start - N_COMPLETE_SEASONS, current_start + 1)
+    return [f"{y}-{str(y + 1)[2:]}" for y in starts]
+
+SEASONS = _seasons()
 
 BASE_URL = "https://www.football-data.co.uk/mmz4281/{season}/{league}.csv"
 
