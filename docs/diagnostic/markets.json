@@ -1,0 +1,2551 @@
+{
+  "featured": {
+    "soccer_epl": {
+      "http": 200,
+      "events": 20,
+      "events_with_markets": 20,
+      "bookmakers_per_market": {
+        "spreads|marathonbet": 20,
+        "totals|marathonbet": 20,
+        "spreads|onexbet": 20,
+        "totals|onexbet": 20,
+        "spreads|mybookieag": 20,
+        "totals|mybookieag": 20,
+        "totals|williamhill": 20,
+        "totals|tipico_de": 20,
+        "spreads|pinnacle": 20,
+        "totals|pinnacle": 20,
+        "totals|leovegas_se": 20,
+        "totals|unibet_nl": 20,
+        "totals|unibet_se": 20,
+        "totals|pmu_fr": 20,
+        "totals|nordicbet": 20,
+        "totals|betsson": 20,
+        "totals|codere_it": 10,
+        "spreads|betonlineag": 10,
+        "totals|betonlineag": 10,
+        "spreads|matchbook": 10,
+        "totals|matchbook": 10,
+        "spreads|gtbets": 10,
+        "totals|gtbets": 10,
+        "spreads|coolbet": 10,
+        "totals|coolbet": 10,
+        "spreads|betanysports": 9,
+        "totals|betanysports": 9
+      },
+      "lines": {
+        "spreads": {
+          "0.0": 53,
+          "-0.5": 34,
+          "0.5": 34,
+          "-1.0": 29,
+          "1.0": 29,
+          "-1.5": 16,
+          "1.5": 16,
+          "-0.25": 9,
+          "0.25": 9,
+          "2.0": 5,
+          "-2.0": 5,
+          "-0.75": 4,
+          "0.75": 4,
+          "-0.0": 3,
+          "1.25": 3,
+          "-1.25": 3,
+          "1.75": 1,
+          "-1.75": 1
+        },
+        "totals": {
+          "2.5": 418,
+          "3.5": 114,
+          "3.0": 50,
+          "2.75": 12,
+          "3.25": 2,
+          "2.25": 2
+        }
+      },
+      "sample": [
+        {
+          "id": "764e6513cb3f348881503df70ccb90e0",
+          "sport_key": "soccer_epl",
+          "sport_title": "EPL",
+          "commence_time": "2026-10-17T11:30:00Z",
+          "home_team": "Everton",
+          "away_team": "Chelsea",
+          "bookmakers": [
+            {
+              "key": "marathonbet",
+              "title": "Marathon Bet",
+              "last_update": "2026-10-14T08:46:02Z",
+              "markets": [
+                {
+                  "key": "spreads",
+                  "last_update": "2026-10-14T08:45:56Z",
+                  "outcomes": [
+                    {
+                      "name": "Chelsea",
+                      "price": 1.62,
+                      "point": 0.0
+                    },
+                    {
+                      "name": "Everton",
+                      "price": 2.34,
+                      "point": 0.0
+                    }
+                  ]
+                },
+                {
+                  "key": "totals",
+                  "last_update": "2026-10-14T08:45:56Z",
+                  "outcomes": [
+                    {
+                      "name": "Over",
+                      "price": 1.68,
+                      "point": 2.5
+                    },
+                    {
+                      "name": "Under",
+                      "price": 2.21,
+                      "point": 2.5
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "key": "codere_it",
+              "title": "Codere (IT)",
+              "last_update": "2026-10-14T08:46:08Z",
+              "markets": [
+                {
+                  "key": "totals",
+                  "last_update": "2026-10-14T08:46:08Z",
+                  "outcomes": [
+                    {
+                      "name": "Over",
+                      "price": 1.61,
+                      "point": 2.5
+                    },
+                    {
+                      "name": "Under",
+                      "price": 2.13,
+                      "point": 2.5
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "key": "onexbet",
+              "title": "1xBet",
+              "last_update": "2026-10-14T08:42:10Z",
+              "markets": [
+                {
+                  "key": "spreads",
+                  "last_update": "2026-10-14T08:42:10Z",
+                  "outcomes": [
+                    {
+                      "name": "Chelsea",
+                      "price": 1.67,
+                      "point": 0.0
+                    },
+                    {
+                      "name": "Everton",
+                      "price": 2.41,
+                      "point": 0.0
+                    }
+                  ]
+                },
+                {
+                  "key": "totals",
+                  "last_update": "2026-10-14T08:42:10Z",
+                  "outcomes": [
+                    {
+                      "name": "Over",
+                      "price": 1.73,
+                      "point": 2.5
+                    },
+                    {
+                      "name": "Under",
+                      "price": 2.28,
+                      "point": 2.5
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "key": "mybookieag",
+              "title": "MyBookie.ag",
+              "last_update": "2026-10-14T08:46:24Z",
+              "markets": [
+                {
+                  "key": "spreads",
+                  "last_update": "2026-10-14T08:46:24Z",
+                  "outcomes": [
+                    {
+                      "name": "Chelsea",
+                      "price": 2.08,
+                      "point": -0.5
+                    },
+                    {
+                      "name": "Everton",
+                      "price": 1.67,
+                      "point": 0.5
+                    }
+                  ]
+                },
+                {
+                  "key": "totals",
+                  "last_update": "2026-10-14T08:46:24Z",
+                  "outcomes": [
+                    {
+                      "name": "Over",
+                      "price": 1.62,
+                      "point": 2.5
+                    },
+                    {
+                      "name": "Under",
+                      "price": 2.15,
+                      "point": 2.5
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "key": "williamhill",
+              "title": "William Hill",
+              "last_update": "2026-10-14T08:46:39Z",
+              "markets": [
+                {
+                  "key": "totals",
+                  "last_update": "2026-10-14T08:46:39Z",
+                  "outcomes": [
+                    {
+                      "name": "Over",
+                      "price": 1.65,
+                      "point": 2.5
+                    },
+                    {
+                      "name": "Under",
+                      "price": 2.15,
+                      "point": 2.5
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "key": "tipico_de",
+              "title": "Tipico",
+              "last_update": "2026-10-14T08:46:23Z",
+              "markets": [
+                {
+                  "key": "totals",
+                  "last_update": "2026-10-14T08:46:23Z",
+                  "outcomes": [
+                    {
+                      "name": "Over",
+                      "price": 1.6,
+                      "point": 2.5
+                    },
+                    {
+                      "name": "Under",
+                      "price": 2.25,
+                      "point": 2.5
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "key": "pinnacle",
+              "title": "Pinnacle",
+              "last_update": "2026-10-14T08:47:04Z",
+              "markets": [
+                {
+                  "key": "spreads",
+                  "last_update": "2026-10-14T08:47:03Z",
+                  "outcomes": [
+                    {
+                      "name": "Chelsea",
+                      "price": 1.89,
+                      "point": -0.25
+                    },
+                    {
+                      "name": "Everton",
+                      "price": 2.01,
+                      "point": 0.25
+                    }
+                  ]
+                },
+                {
+                  "key": "totals",
+                  "last_update": "2026-10-14T08:47:03Z",
+                  "outcomes": [
+                    {
+                      "name": "Over",
+                      "price": 1.88,
+                      "point": 2.75
+                    },
+                    {
+                      "name": "Under",
+                      "price": 2.02,
+                      "point": 2.75
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "key": "leovegas_se",
+              "title": "LeoVegas (SE)",
+              "last_update": "2026-10-14T08:46:23Z",
+              "markets": [
+                {
+                  "key": "totals",
+                  "last_update": "2026-10-14T08:46:23Z",
+                  "outcomes": [
+                    {
+                      "name": "Over",
+                      "price": 1.67,
+                      "point": 2.5
+                    },
+                    {
+                      "name": "Under",
+                      "price": 2.23,
+                      "point": 2.5
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "key": "unibet_nl",
+              "title": "Unibet (NL)",
+              "last_update": "2026-10-14T08:46:39Z",
+              "markets": [
+                {
+                  "key": "totals",
+                  "last_update": "2026-10-14T08:46:39Z",
+                  "outcomes": [
+                    {
+                      "name": "Over",
+                      "price": 1.65,
+                      "point": 2.5
+                    },
+                    {
+                      "name": "Under",
+                      "price": 2.2,
+                      "point": 2.5
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "key": "unibet_se",
+              "title": "Unibet (SE)",
+              "last_update": "2026-10-14T08:46:39Z",
+              "markets": [
+                {
+                  "key": "totals",
+                  "last_update": "2026-10-14T08:46:39Z",
+                  "outcomes": [
+                    {
+                      "name": "Over",
+                      "price": 1.67,
+                      "point": 2.5
+                    },
+                    {
+                      "name": "Under",
+                      "price": 2.23,
+                      "point": 2.5
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "key": "pmu_fr",
+              "title": "PMU (FR)",
+              "last_update": "2026-10-14T08:46:39Z",
+              "markets": [
+                {
+                  "key": "totals",
+                  "last_update": "2026-10-14T08:46:39Z",
+                  "outcomes": [
+                    {
+                      "name": "Over",
+                      "price": 1.56,
+                      "point": 2.5
+                    },
+                    {
+                      "name": "Under",
+                      "price": 2.08,
+                      "point": 2.5
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "key": "nordicbet",
+              "title": "Nordic Bet",
+              "last_update": "2026-10-14T08:46:57Z",
+              "markets": [
+                {
+                  "key": "totals",
+                  "last_update": "2026-10-14T08:46:56Z",
+                  "outcomes": [
+                    {
+                      "name": "Over",
+                      "price": 1.65,
+                      "point": 2.5
+                    },
+                    {
+                      "name": "Under",
+                      "price": 2.22,
+                      "point": 2.5
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "key": "betsson",
+              "title": "Betsson",
+              "last_update": "2026-10-14T08:45:41Z",
+              "markets": [
+                {
+                  "key": "totals",
+                  "last_update": "2026-10-14T08:45:40Z",
+                  "outcomes": [
+                    {
+                      "name": "Over",
+                      "price": 1.67,
+                      "point": 2.5
+                    },
+                    {
+                      "name": "Under",
+                      "price": 2.23,
+                      "point": 2.5
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "key": "betonlineag",
+              "title": "BetOnline.ag",
+              "last_update": "2026-10-14T08:46:24Z",
+              "markets": [
+                {
+                  "key": "spreads",
+                  "last_update": "2026-10-14T08:46:24Z",
+                  "outcomes": [
+                    {
+                      "name": "Chelsea",
+                      "price": 2.21,
+                      "point": -0.5
+                    },
+                    {
+                      "name": "Everton",
+                      "price": 1.68,
+                      "point": 0.5
+                    }
+                  ]
+                },
+                {
+                  "key": "totals",
+                  "last_update": "2026-10-14T08:46:24Z",
+                  "outcomes": [
+                    {
+                      "name": "Over",
+                      "price": 2.08,
+                      "point": 3.0
+                    },
+                    {
+                      "name": "Under",
+                      "price": 1.75,
+                      "point": 3.0
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "key": "matchbook",
+              "title": "Matchbook",
+              "last_update": "2026-10-14T08:46:40Z",
+              "markets": [
+                {
+                  "key": "spreads",
+                  "last_update": "2026-10-14T08:46:39Z",
+                  "outcomes": [
+                    {
+                      "name": "Chelsea",
+                      "price": 1.93,
+                      "point": -0.25
+                    },
+                    {
+                      "name": "Everton",
+                      "price": 2.02,
+                      "point": 0.25
+                    }
+                  ]
+                },
+                {
+                  "key": "totals",
+                  "last_update": "2026-10-14T08:46:39Z",
+                  "outcomes": [
+                    {
+                      "name": "Over",
+                      "price": 1.72,
+                      "point": 2.5
+                    },
+                    {
+                      "name": "Under",
+                      "price": 2.3,
+                      "point": 2.5
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "key": "gtbets",
+              "title": "GTbets",
+              "last_update": "2026-10-14T08:46:54Z",
+              "markets": [
+                {
+                  "key": "spreads",
+                  "last_update": "2026-10-14T08:46:54Z",
+                  "outcomes": [
+                    {
+                      "name": "Chelsea",
+                      "price": 2.11,
+                      "point": -0.5
+                    },
+                    {
+                      "name": "Everton",
+                      "price": 1.71,
+                      "point": 0.5
+                    }
+                  ]
+                },
+                {
+                  "key": "totals",
+                  "last_update": "2026-10-14T08:46:54Z",
+                  "outcomes": [
+                    {
+                      "name": "Over",
+                      "price": 1.65,
+                      "point": 2.5
+                    },
+                    {
+                      "name": "Under",
+                      "price": 2.2,
+                      "point": 2.5
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "key": "coolbet",
+              "title": "Coolbet",
+              "last_update": "2026-10-14T08:46:39Z",
+              "markets": [
+                {
+                  "key": "spreads",
+                  "last_update": "2026-10-14T08:46:39Z",
+                  "outcomes": [
+                    {
+                      "name": "Chelsea",
+                      "price": 3.25,
+                      "point": -1.0
+                    },
+                    {
+                      "name": "Everton",
+                      "price": 1.38,
+                      "point": 1.0
+                    }
+                  ]
+                },
+                {
+                  "key": "totals",
+                  "last_update": "2026-10-14T08:46:39Z",
+                  "outcomes": [
+                    {
+                      "name": "Over",
+                      "price": 2.12,
+                      "point": 3.0
+                    },
+                    {
+                      "name": "Under",
+                      "price": 1.77,
+                      "point": 3.0
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "key": "betanysports",
+              "title": "BetAnything",
+              "last_update": "2026-10-14T08:46:23Z",
+              "markets": [
+                {
+                  "key": "spreads",
+                  "last_update": "2026-10-14T08:46:23Z",
+                  "outcomes": [
+                    {
+                      "name": "Chelsea",
+                      "price": 2.28,
+                      "point": -0.5
+                    },
+                    {
+                      "name": "Everton",
+                      "price": 1.68,
+                      "point": 0.5
+                    }
+                  ]
+                },
+                {
+                  "key": "totals",
+                  "last_update": "2026-10-14T08:46:23Z",
+                  "outcomes": [
+                    {
+                      "name": "Over",
+                      "price": 2.13,
+                      "point": 3.0
+                    },
+                    {
+                      "name": "Under",
+                      "price": 1.75,
+                      "point": 3.0
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "soccer_france_ligue_one": {
+      "http": 200,
+      "events": 18,
+      "events_with_markets": 18,
+      "bookmakers_per_market": {
+        "spreads|pinnacle": 18,
+        "totals|pinnacle": 18,
+        "totals|williamhill": 18,
+        "totals|tipico_de": 18,
+        "spreads|onexbet": 18,
+        "totals|onexbet": 18,
+        "spreads|marathonbet": 18,
+        "totals|marathonbet": 18,
+        "totals|leovegas_se": 18,
+        "totals|unibet_nl": 18,
+        "totals|unibet_se": 18,
+        "totals|pmu_fr": 18,
+        "totals|nordicbet": 9,
+        "totals|betsson": 9,
+        "spreads|gtbets": 9,
+        "totals|gtbets": 9,
+        "totals|codere_it": 9,
+        "spreads|coolbet": 9,
+        "totals|coolbet": 9,
+        "spreads|betonlineag": 9,
+        "totals|betonlineag": 9
+      },
+      "lines": {
+        "spreads": {
+          "0.0": 51,
+          "1.0": 17,
+          "-1.0": 17,
+          "0.5": 14,
+          "-0.5": 14,
+          "-1.5": 13,
+          "1.5": 13,
+          "0.25": 8,
+          "-0.25": 8,
+          "0.75": 3,
+          "-0.75": 3,
+          "-0.0": 1
+        },
+        "totals": {
+          "2.5": 324,
+          "3.5": 62,
+          "3.0": 24,
+          "2.75": 16,
+          "3.75": 2,
+          "2.25": 2,
+          "3.25": 2
+        }
+      },
+      "sample": [
+        {
+          "id": "66c168c030f3faad3983fcadc3060009",
+          "sport_key": "soccer_france_ligue_one",
+          "sport_title": "Ligue 1 - France",
+          "commence_time": "2026-10-16T18:45:00Z",
+          "home_team": "Le Mans FC",
+          "away_team": "Toulouse",
+          "bookmakers": [
+            {
+              "key": "pinnacle",
+              "title": "Pinnacle",
+              "last_update": "2026-10-14T08:46:40Z",
+              "markets": [
+                {
+                  "key": "spreads",
+                  "last_update": "2026-10-14T08:46:40Z",
+                  "outcomes": [
+                    {
+                      "name": "Le Mans FC",
+                      "price": 1.87,
+                      "point": 0.25
+                    },
+                    {
+                      "name": "Toulouse",
+                      "price": 2.05,
+                      "point": -0.25
+                    }
+                  ]
+                },
+                {
+                  "key": "totals",
+                  "last_update": "2026-10-14T08:46:40Z",
+                  "outcomes": [
+                    {
+                      "name": "Over",
+                      "price": 1.91,
+                      "point": 2.75
+                    },
+                    {
+                      "name": "Under",
+                      "price": 1.98,
+                      "point": 2.75
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "key": "williamhill",
+              "title": "William Hill",
+              "last_update": "2026-10-14T08:46:26Z",
+              "markets": [
+                {
+                  "key": "totals",
+                  "last_update": "2026-10-14T08:46:26Z",
+                  "outcomes": [
+                    {
+                      "name": "Over",
+                      "price": 1.75,
+                      "point": 2.5
+                    },
+                    {
+                      "name": "Under",
+                      "price": 2.0,
+                      "point": 2.5
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "key": "tipico_de",
+              "title": "Tipico",
+              "last_update": "2026-10-14T08:45:57Z",
+              "markets": [
+                {
+                  "key": "totals",
+                  "last_update": "2026-10-14T08:45:56Z",
+                  "outcomes": [
+                    {
+                      "name": "Over",
+                      "price": 1.65,
+                      "point": 2.5
+                    },
+                    {
+                      "name": "Under",
+                      "price": 2.2,
+                      "point": 2.5
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "key": "onexbet",
+              "title": "1xBet",
+              "last_update": "2026-10-14T08:45:54Z",
+              "markets": [
+                {
+                  "key": "spreads",
+                  "last_update": "2026-10-14T08:45:54Z",
+                  "outcomes": [
+                    {
+                      "name": "Le Mans FC",
+                      "price": 2.25,
+                      "point": 0.0
+                    },
+                    {
+                      "name": "Toulouse",
+                      "price": 1.75,
+                      "point": 0.0
+                    }
+                  ]
+                },
+                {
+                  "key": "totals",
+                  "last_update": "2026-10-14T08:45:54Z",
+                  "outcomes": [
+                    {
+                      "name": "Over",
+                      "price": 1.76,
+                      "point": 2.5
+                    },
+                    {
+                      "name": "Under",
+                      "price": 2.23,
+                      "point": 2.5
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "key": "marathonbet",
+              "title": "Marathon Bet",
+              "last_update": "2026-10-14T08:46:15Z",
+              "markets": [
+                {
+                  "key": "spreads",
+                  "last_update": "2026-10-14T08:46:15Z",
+                  "outcomes": [
+                    {
+                      "name": "Le Mans FC",
+                      "price": 2.18,
+                      "point": 0.0
+                    },
+                    {
+                      "name": "Toulouse",
+                      "price": 1.7,
+                      "point": 0.0
+                    }
+                  ]
+                },
+                {
+                  "key": "totals",
+                  "last_update": "2026-10-14T08:46:15Z",
+                  "outcomes": [
+                    {
+                      "name": "Over",
+                      "price": 1.71,
+                      "point": 2.5
+                    },
+                    {
+                      "name": "Under",
+                      "price": 2.16,
+                      "point": 2.5
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "key": "leovegas_se",
+              "title": "LeoVegas (SE)",
+              "last_update": "2026-10-14T08:46:26Z",
+              "markets": [
+                {
+                  "key": "totals",
+                  "last_update": "2026-10-14T08:46:26Z",
+                  "outcomes": [
+                    {
+                      "name": "Over",
+                      "price": 1.7,
+                      "point": 2.5
+                    },
+                    {
+                      "name": "Under",
+                      "price": 2.12,
+                      "point": 2.5
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "key": "unibet_nl",
+              "title": "Unibet (NL)",
+              "last_update": "2026-10-14T08:46:43Z",
+              "markets": [
+                {
+                  "key": "totals",
+                  "last_update": "2026-10-14T08:46:43Z",
+                  "outcomes": [
+                    {
+                      "name": "Over",
+                      "price": 1.7,
+                      "point": 2.5
+                    },
+                    {
+                      "name": "Under",
+                      "price": 2.12,
+                      "point": 2.5
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "key": "unibet_se",
+              "title": "Unibet (SE)",
+              "last_update": "2026-10-14T08:46:11Z",
+              "markets": [
+                {
+                  "key": "totals",
+                  "last_update": "2026-10-14T08:46:11Z",
+                  "outcomes": [
+                    {
+                      "name": "Over",
+                      "price": 1.72,
+                      "point": 2.5
+                    },
+                    {
+                      "name": "Under",
+                      "price": 2.15,
+                      "point": 2.5
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "key": "pmu_fr",
+              "title": "PMU (FR)",
+              "last_update": "2026-10-14T08:46:26Z",
+              "markets": [
+                {
+                  "key": "totals",
+                  "last_update": "2026-10-14T08:46:26Z",
+                  "outcomes": [
+                    {
+                      "name": "Over",
+                      "price": 1.61,
+                      "point": 2.5
+                    },
+                    {
+                      "name": "Under",
+                      "price": 2.0,
+                      "point": 2.5
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "key": "nordicbet",
+              "title": "Nordic Bet",
+              "last_update": "2026-10-14T08:45:08Z",
+              "markets": [
+                {
+                  "key": "totals",
+                  "last_update": "2026-10-14T08:45:08Z",
+                  "outcomes": [
+                    {
+                      "name": "Over",
+                      "price": 1.68,
+                      "point": 2.5
+                    },
+                    {
+                      "name": "Under",
+                      "price": 2.15,
+                      "point": 2.5
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "key": "betsson",
+              "title": "Betsson",
+              "last_update": "2026-10-14T08:45:41Z",
+              "markets": [
+                {
+                  "key": "totals",
+                  "last_update": "2026-10-14T08:45:41Z",
+                  "outcomes": [
+                    {
+                      "name": "Over",
+                      "price": 1.7,
+                      "point": 2.5
+                    },
+                    {
+                      "name": "Under",
+                      "price": 2.18,
+                      "point": 2.5
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "key": "gtbets",
+              "title": "GTbets",
+              "last_update": "2026-10-14T08:46:41Z",
+              "markets": [
+                {
+                  "key": "spreads",
+                  "last_update": "2026-10-14T08:46:41Z",
+                  "outcomes": [
+                    {
+                      "name": "Le Mans FC",
+                      "price": 1.6,
+                      "point": 0.5
+                    },
+                    {
+                      "name": "Toulouse",
+                      "price": 2.31,
+                      "point": -0.5
+                    }
+                  ]
+                },
+                {
+                  "key": "totals",
+                  "last_update": "2026-10-14T08:46:41Z",
+                  "outcomes": [
+                    {
+                      "name": "Over",
+                      "price": 1.74,
+                      "point": 2.5
+                    },
+                    {
+                      "name": "Under",
+                      "price": 2.06,
+                      "point": 2.5
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "key": "codere_it",
+              "title": "Codere (IT)",
+              "last_update": "2026-10-14T08:46:56Z",
+              "markets": [
+                {
+                  "key": "totals",
+                  "last_update": "2026-10-14T08:46:56Z",
+                  "outcomes": [
+                    {
+                      "name": "Over",
+                      "price": 1.66,
+                      "point": 2.5
+                    },
+                    {
+                      "name": "Under",
+                      "price": 2.05,
+                      "point": 2.5
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "key": "coolbet",
+              "title": "Coolbet",
+              "last_update": "2026-10-14T08:46:26Z",
+              "markets": [
+                {
+                  "key": "spreads",
+                  "last_update": "2026-10-14T08:46:26Z",
+                  "outcomes": [
+                    {
+                      "name": "Le Mans FC",
+                      "price": 1.3,
+                      "point": 1.0
+                    },
+                    {
+                      "name": "Toulouse",
+                      "price": 3.7,
+                      "point": -1.0
+                    }
+                  ]
+                },
+                {
+                  "key": "totals",
+                  "last_update": "2026-10-14T08:46:26Z",
+                  "outcomes": [
+                    {
+                      "name": "Over",
+                      "price": 1.7,
+                      "point": 2.5
+                    },
+                    {
+                      "name": "Under",
+                      "price": 2.17,
+                      "point": 2.5
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "key": "betonlineag",
+              "title": "BetOnline.ag",
+              "last_update": "2026-10-14T08:46:56Z",
+              "markets": [
+                {
+                  "key": "spreads",
+                  "last_update": "2026-10-14T08:46:56Z",
+                  "outcomes": [
+                    {
+                      "name": "Le Mans FC",
+                      "price": 2.13,
+                      "point": 0.0
+                    },
+                    {
+                      "name": "Toulouse",
+                      "price": 1.73,
+                      "point": 0.0
+                    }
+                  ]
+                },
+                {
+                  "key": "totals",
+                  "last_update": "2026-10-14T08:46:56Z",
+                  "outcomes": [
+                    {
+                      "name": "Over",
+                      "price": 1.77,
+                      "point": 2.5
+                    },
+                    {
+                      "name": "Under",
+                      "price": 2.06,
+                      "point": 2.5
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "soccer_germany_bundesliga": {
+      "http": 200,
+      "events": 18,
+      "events_with_markets": 18,
+      "bookmakers_per_market": {
+        "spreads|pinnacle": 18,
+        "totals|pinnacle": 18,
+        "totals|tipico_de": 18,
+        "spreads|onexbet": 18,
+        "totals|onexbet": 18,
+        "totals|williamhill": 18,
+        "spreads|marathonbet": 18,
+        "totals|marathonbet": 18,
+        "totals|nordicbet": 18,
+        "totals|betsson": 18,
+        "totals|unibet_se": 10,
+        "totals|pmu_fr": 10,
+        "totals|unibet_nl": 10,
+        "totals|leovegas_se": 10,
+        "spreads|gtbets": 9,
+        "totals|gtbets": 9,
+        "totals|codere_it": 9,
+        "spreads|betonlineag": 9,
+        "totals|betonlineag": 9,
+        "spreads|matchbook": 8,
+        "totals|matchbook": 8,
+        "spreads|coolbet": 8,
+        "totals|coolbet": 8
+      },
+      "lines": {
+        "spreads": {
+          "0.0": 33,
+          "0.5": 19,
+          "-0.5": 19,
+          "1.0": 17,
+          "-1.0": 17,
+          "-1.5": 15,
+          "1.5": 15,
+          "-0.75": 6,
+          "0.75": 6,
+          "0.25": 5,
+          "-0.25": 5,
+          "-2.0": 5,
+          "2.0": 5,
+          "-2.5": 2,
+          "2.5": 2,
+          "-0.0": 1,
+          "-2.25": 1,
+          "2.25": 1,
+          "-1.25": 1,
+          "1.25": 1
+        },
+        "totals": {
+          "3.5": 216,
+          "2.5": 136,
+          "3.0": 28,
+          "4.5": 26,
+          "3.25": 6,
+          "3.75": 4,
+          "4.0": 2
+        }
+      },
+      "sample": [
+        {
+          "id": "947bd5d924835af090d9cdc7bbdf10f6",
+          "sport_key": "soccer_germany_bundesliga",
+          "sport_title": "Bundesliga - Germany",
+          "commence_time": "2026-10-16T18:30:00Z",
+          "home_team": "Eintracht Frankfurt",
+          "away_team": "1. FC Köln",
+          "bookmakers": [
+            {
+              "key": "pinnacle",
+              "title": "Pinnacle",
+              "last_update": "2026-10-14T08:46:38Z",
+              "markets": [
+                {
+                  "key": "spreads",
+                  "last_update": "2026-10-14T08:46:38Z",
+                  "outcomes": [
+                    {
+                      "name": "1. FC Köln",
+                      "price": 1.93,
+                      "point": 0.5
+                    },
+                    {
+                      "name": "Eintracht Frankfurt",
+                      "price": 1.97,
+                      "point": -0.5
+                    }
+                  ]
+                },
+                {
+                  "key": "totals",
+                  "last_update": "2026-10-14T08:46:38Z",
+                  "outcomes": [
+                    {
+                      "name": "Over",
+                      "price": 1.9,
+                      "point": 3.5
+                    },
+                    {
+                      "name": "Under",
+                      "price": 1.99,
+                      "point": 3.5
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "key": "tipico_de",
+              "title": "Tipico",
+              "last_update": "2026-10-14T08:46:24Z",
+              "markets": [
+                {
+                  "key": "totals",
+                  "last_update": "2026-10-14T08:46:24Z",
+                  "outcomes": [
+                    {
+                      "name": "Over",
+                      "price": 1.8,
+                      "point": 3.5
+                    },
+                    {
+                      "name": "Under",
+                      "price": 1.93,
+                      "point": 3.5
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "key": "onexbet",
+              "title": "1xBet",
+              "last_update": "2026-10-14T08:46:08Z",
+              "markets": [
+                {
+                  "key": "spreads",
+                  "last_update": "2026-10-14T08:46:08Z",
+                  "outcomes": [
+                    {
+                      "name": "1. FC Köln",
+                      "price": 2.71,
+                      "point": 0.0
+                    },
+                    {
+                      "name": "Eintracht Frankfurt",
+                      "price": 1.55,
+                      "point": 0.0
+                    }
+                  ]
+                },
+                {
+                  "key": "totals",
+                  "last_update": "2026-10-14T08:46:08Z",
+                  "outcomes": [
+                    {
+                      "name": "Over",
+                      "price": 1.94,
+                      "point": 3.5
+                    },
+                    {
+                      "name": "Under",
+                      "price": 2.0,
+                      "point": 3.5
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "key": "williamhill",
+              "title": "William Hill",
+              "last_update": "2026-10-14T08:45:54Z",
+              "markets": [
+                {
+                  "key": "totals",
+                  "last_update": "2026-10-14T08:45:52Z",
+                  "outcomes": [
+                    {
+                      "name": "Over",
+                      "price": 1.36,
+                      "point": 2.5
+                    },
+                    {
+                      "name": "Under",
+                      "price": 3.1,
+                      "point": 2.5
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "key": "marathonbet",
+              "title": "Marathon Bet",
+              "last_update": "2026-10-14T08:46:59Z",
+              "markets": [
+                {
+                  "key": "spreads",
+                  "last_update": "2026-10-14T08:46:59Z",
+                  "outcomes": [
+                    {
+                      "name": "1. FC Köln",
+                      "price": 2.62,
+                      "point": 0.0
+                    },
+                    {
+                      "name": "Eintracht Frankfurt",
+                      "price": 1.5,
+                      "point": 0.0
+                    }
+                  ]
+                },
+                {
+                  "key": "totals",
+                  "last_update": "2026-10-14T08:46:59Z",
+                  "outcomes": [
+                    {
+                      "name": "Over",
+                      "price": 1.88,
+                      "point": 3.5
+                    },
+                    {
+                      "name": "Under",
+                      "price": 1.94,
+                      "point": 3.5
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "key": "nordicbet",
+              "title": "Nordic Bet",
+              "last_update": "2026-10-14T08:45:37Z",
+              "markets": [
+                {
+                  "key": "totals",
+                  "last_update": "2026-10-14T08:45:37Z",
+                  "outcomes": [
+                    {
+                      "name": "Over",
+                      "price": 1.34,
+                      "point": 2.5
+                    },
+                    {
+                      "name": "Under",
+                      "price": 3.2,
+                      "point": 2.5
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "key": "betsson",
+              "title": "Betsson",
+              "last_update": "2026-10-14T08:46:43Z",
+              "markets": [
+                {
+                  "key": "totals",
+                  "last_update": "2026-10-14T08:46:43Z",
+                  "outcomes": [
+                    {
+                      "name": "Over",
+                      "price": 1.35,
+                      "point": 2.5
+                    },
+                    {
+                      "name": "Under",
+                      "price": 3.26,
+                      "point": 2.5
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "key": "unibet_se",
+              "title": "Unibet (SE)",
+              "last_update": "2026-10-14T08:46:54Z",
+              "markets": [
+                {
+                  "key": "totals",
+                  "last_update": "2026-10-14T08:46:54Z",
+                  "outcomes": [
+                    {
+                      "name": "Over",
+                      "price": 1.92,
+                      "point": 3.5
+                    },
+                    {
+                      "name": "Under",
+                      "price": 1.87,
+                      "point": 3.5
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "key": "pmu_fr",
+              "title": "PMU (FR)",
+              "last_update": "2026-10-14T08:46:24Z",
+              "markets": [
+                {
+                  "key": "totals",
+                  "last_update": "2026-10-14T08:46:24Z",
+                  "outcomes": [
+                    {
+                      "name": "Over",
+                      "price": 1.81,
+                      "point": 3.5
+                    },
+                    {
+                      "name": "Under",
+                      "price": 1.76,
+                      "point": 3.5
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "key": "unibet_nl",
+              "title": "Unibet (NL)",
+              "last_update": "2026-10-14T08:46:54Z",
+              "markets": [
+                {
+                  "key": "totals",
+                  "last_update": "2026-10-14T08:46:54Z",
+                  "outcomes": [
+                    {
+                      "name": "Over",
+                      "price": 1.91,
+                      "point": 3.5
+                    },
+                    {
+                      "name": "Under",
+                      "price": 1.85,
+                      "point": 3.5
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "key": "leovegas_se",
+              "title": "LeoVegas (SE)",
+              "last_update": "2026-10-14T08:46:26Z",
+              "markets": [
+                {
+                  "key": "totals",
+                  "last_update": "2026-10-14T08:46:25Z",
+                  "outcomes": [
+                    {
+                      "name": "Over",
+                      "price": 1.92,
+                      "point": 3.5
+                    },
+                    {
+                      "name": "Under",
+                      "price": 1.87,
+                      "point": 3.5
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "key": "matchbook",
+              "title": "Matchbook",
+              "last_update": "2026-10-14T08:46:55Z",
+              "markets": [
+                {
+                  "key": "spreads",
+                  "last_update": "2026-10-14T08:46:55Z",
+                  "outcomes": [
+                    {
+                      "name": "1. FC Köln",
+                      "price": 1.92,
+                      "point": 0.5
+                    },
+                    {
+                      "name": "Eintracht Frankfurt",
+                      "price": 2.0,
+                      "point": -0.5
+                    }
+                  ]
+                },
+                {
+                  "key": "totals",
+                  "last_update": "2026-10-14T08:46:55Z",
+                  "outcomes": [
+                    {
+                      "name": "Over",
+                      "price": 1.97,
+                      "point": 3.5
+                    },
+                    {
+                      "name": "Under",
+                      "price": 1.98,
+                      "point": 3.5
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "key": "gtbets",
+              "title": "GTbets",
+              "last_update": "2026-10-14T08:46:08Z",
+              "markets": [
+                {
+                  "key": "spreads",
+                  "last_update": "2026-10-14T08:46:08Z",
+                  "outcomes": [
+                    {
+                      "name": "1. FC Köln",
+                      "price": 1.85,
+                      "point": 0.5
+                    },
+                    {
+                      "name": "Eintracht Frankfurt",
+                      "price": 1.92,
+                      "point": -0.5
+                    }
+                  ]
+                },
+                {
+                  "key": "totals",
+                  "last_update": "2026-10-14T08:46:08Z",
+                  "outcomes": [
+                    {
+                      "name": "Over",
+                      "price": 1.87,
+                      "point": 3.5
+                    },
+                    {
+                      "name": "Under",
+                      "price": 1.9,
+                      "point": 3.5
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "key": "codere_it",
+              "title": "Codere (IT)",
+              "last_update": "2026-10-14T08:46:39Z",
+              "markets": [
+                {
+                  "key": "totals",
+                  "last_update": "2026-10-14T08:46:39Z",
+                  "outcomes": [
+                    {
+                      "name": "Over",
+                      "price": 1.82,
+                      "point": 3.5
+                    },
+                    {
+                      "name": "Under",
+                      "price": 1.85,
+                      "point": 3.5
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "key": "coolbet",
+              "title": "Coolbet",
+              "last_update": "2026-10-14T08:46:40Z",
+              "markets": [
+                {
+                  "key": "spreads",
+                  "last_update": "2026-10-14T08:46:40Z",
+                  "outcomes": [
+                    {
+                      "name": "1. FC Köln",
+                      "price": 1.5,
+                      "point": 1.0
+                    },
+                    {
+                      "name": "Eintracht Frankfurt",
+                      "price": 2.7,
+                      "point": -1.0
+                    }
+                  ]
+                },
+                {
+                  "key": "totals",
+                  "last_update": "2026-10-14T08:46:40Z",
+                  "outcomes": [
+                    {
+                      "name": "Over",
+                      "price": 1.89,
+                      "point": 3.5
+                    },
+                    {
+                      "name": "Under",
+                      "price": 1.92,
+                      "point": 3.5
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "key": "betonlineag",
+              "title": "BetOnline.ag",
+              "last_update": "2026-10-14T08:46:55Z",
+              "markets": [
+                {
+                  "key": "spreads",
+                  "last_update": "2026-10-14T08:46:55Z",
+                  "outcomes": [
+                    {
+                      "name": "1. FC Köln",
+                      "price": 1.86,
+                      "point": 0.5
+                    },
+                    {
+                      "name": "Eintracht Frankfurt",
+                      "price": 1.97,
+                      "point": -0.5
+                    }
+                  ]
+                },
+                {
+                  "key": "totals",
+                  "last_update": "2026-10-14T08:46:55Z",
+                  "outcomes": [
+                    {
+                      "name": "Over",
+                      "price": 1.94,
+                      "point": 3.5
+                    },
+                    {
+                      "name": "Under",
+                      "price": 1.87,
+                      "point": 3.5
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "event_level": {
+    "http": 200,
+    "sport": "soccer_epl",
+    "events": 1,
+    "events_with_markets": 1,
+    "bookmakers_per_market": {
+      "alternate_totals|codere_it": 1,
+      "alternate_spreads|onexbet": 1,
+      "alternate_totals|onexbet": 1,
+      "alternate_totals|williamhill": 1,
+      "alternate_spreads|pinnacle": 1,
+      "alternate_totals|pinnacle": 1,
+      "alternate_spreads|coolbet": 1,
+      "alternate_totals|coolbet": 1
+    },
+    "lines": {
+      "alternate_totals": {
+        "2.5": 10,
+        "1.5": 8,
+        "3.5": 8,
+        "0.5": 6,
+        "4.5": 6,
+        "5.5": 6,
+        "2.0": 6,
+        "3.0": 6,
+        "1.0": 4,
+        "4.0": 4,
+        "5.0": 4,
+        "6.5": 4,
+        "7.5": 2,
+        "2.75": 2,
+        "1.75": 2,
+        "2.25": 2,
+        "3.25": 2,
+        "3.75": 2
+      },
+      "alternate_spreads": {
+        "1.0": 5,
+        "-1.0": 5,
+        "1.5": 4,
+        "-1.5": 4,
+        "0.0": 3,
+        "-2.0": 3,
+        "-2.5": 3,
+        "2.0": 3,
+        "2.5": 3,
+        "-0.25": 2,
+        "0.75": 2,
+        "0.5": 2,
+        "0.25": 2,
+        "-0.5": 2,
+        "-0.75": 2,
+        "-0.0": 1,
+        "-1.25": 1,
+        "1.25": 1,
+        "-3.0": 1,
+        "-3.5": 1
+      }
+    },
+    "sample": [
+      {
+        "id": "764e6513cb3f348881503df70ccb90e0",
+        "sport_key": "soccer_epl",
+        "sport_title": "EPL",
+        "commence_time": "2026-10-17T11:30:00Z",
+        "home_team": "Everton",
+        "away_team": "Chelsea",
+        "bookmakers": [
+          {
+            "key": "codere_it",
+            "title": "Codere (IT)",
+            "markets": [
+              {
+                "key": "alternate_totals",
+                "last_update": "2026-10-14T08:46:08Z",
+                "outcomes": [
+                  {
+                    "name": "Over",
+                    "price": 1.03,
+                    "point": 0.5
+                  },
+                  {
+                    "name": "Over",
+                    "price": 1.19,
+                    "point": 1.5
+                  },
+                  {
+                    "name": "Over",
+                    "price": 1.61,
+                    "point": 2.5
+                  },
+                  {
+                    "name": "Over",
+                    "price": 2.48,
+                    "point": 3.5
+                  },
+                  {
+                    "name": "Over",
+                    "price": 4.3,
+                    "point": 4.5
+                  },
+                  {
+                    "name": "Over",
+                    "price": 7.0,
+                    "point": 5.5
+                  },
+                  {
+                    "name": "Under",
+                    "price": 8.6,
+                    "point": 0.5
+                  },
+                  {
+                    "name": "Under",
+                    "price": 4.1,
+                    "point": 1.5
+                  },
+                  {
+                    "name": "Under",
+                    "price": 2.13,
+                    "point": 2.5
+                  },
+                  {
+                    "name": "Under",
+                    "price": 1.46,
+                    "point": 3.5
+                  },
+                  {
+                    "name": "Under",
+                    "price": 1.17,
+                    "point": 4.5
+                  },
+                  {
+                    "name": "Under",
+                    "price": 1.05,
+                    "point": 5.5
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "key": "onexbet",
+            "title": "1xBet",
+            "markets": [
+              {
+                "key": "alternate_spreads",
+                "last_update": "2026-10-14T08:40:19Z",
+                "outcomes": [
+                  {
+                    "name": "Chelsea",
+                    "price": 1.07,
+                    "point": 1.5
+                  },
+                  {
+                    "name": "Chelsea",
+                    "price": 1.11,
+                    "point": 1.0
+                  },
+                  {
+                    "name": "Chelsea",
+                    "price": 1.67,
+                    "point": 0.0
+                  },
+                  {
+                    "name": "Chelsea",
+                    "price": 3.15,
+                    "point": -1.0
+                  },
+                  {
+                    "name": "Chelsea",
+                    "price": 3.92,
+                    "point": -1.5
+                  },
+                  {
+                    "name": "Chelsea",
+                    "price": 7.4,
+                    "point": -2.0
+                  },
+                  {
+                    "name": "Chelsea",
+                    "price": 8.3,
+                    "point": -2.5
+                  },
+                  {
+                    "name": "Everton",
+                    "price": 6.45,
+                    "point": -1.5
+                  },
+                  {
+                    "name": "Everton",
+                    "price": 5.55,
+                    "point": -1.0
+                  },
+                  {
+                    "name": "Everton",
+                    "price": 2.41,
+                    "point": 0.0
+                  },
+                  {
+                    "name": "Everton",
+                    "price": 1.31,
+                    "point": 1.0
+                  },
+                  {
+                    "name": "Everton",
+                    "price": 1.19,
+                    "point": 1.5
+                  },
+                  {
+                    "name": "Everton",
+                    "price": 1.03,
+                    "point": 2.0
+                  },
+                  {
+                    "name": "Everton",
+                    "price": 1.01,
+                    "point": 2.5
+                  }
+                ]
+              },
+              {
+                "key": "alternate_totals",
+                "last_update": "2026-10-14T08:40:19Z",
+                "outcomes": [
+                  {
+                    "name": "Over",
+                    "price": 1.01,
+                    "point": 0.5
+                  },
+                  {
+                    "name": "Over",
+                    "price": 1.01,
+                    "point": 1.0
+                  },
+                  {
+                    "name": "Over",
+                    "price": 1.17,
+                    "point": 1.5
+                  },
+                  {
+                    "name": "Over",
+                    "price": 1.28,
+                    "point": 2.0
+                  },
+                  {
+                    "name": "Over",
+                    "price": 1.73,
+                    "point": 2.5
+                  },
+                  {
+                    "name": "Over",
+                    "price": 2.07,
+                    "point": 3.0
+                  },
+                  {
+                    "name": "Over",
+                    "price": 2.61,
+                    "point": 3.5
+                  },
+                  {
+                    "name": "Over",
+                    "price": 4.0,
+                    "point": 4.0
+                  },
+                  {
+                    "name": "Over",
+                    "price": 4.7,
+                    "point": 4.5
+                  },
+                  {
+                    "name": "Over",
+                    "price": 8.5,
+                    "point": 5.0
+                  },
+                  {
+                    "name": "Over",
+                    "price": 9.3,
+                    "point": 5.5
+                  },
+                  {
+                    "name": "Over",
+                    "price": 19.0,
+                    "point": 6.5
+                  },
+                  {
+                    "name": "Over",
+                    "price": 41.0,
+                    "point": 7.5
+                  },
+                  {
+                    "name": "Under",
+                    "price": 15.0,
+                    "point": 0.5
+                  },
+                  {
+                    "name": "Under",
+                    "price": 11.5,
+                    "point": 1.0
+                  },
+                  {
+                    "name": "Under",
+                    "price": 4.3,
+                    "point": 1.5
+                  },
+                  {
+                    "name": "Under",
+                    "price": 3.4,
+                    "point": 2.0
+                  },
+                  {
+                    "name": "Under",
+                    "price": 2.28,
+                    "point": 2.5
+                  },
+                  {
+                    "name": "Under",
+                    "price": 1.69,
+                    "point": 3.0
+                  },
+                  {
+                    "name": "Under",
+                    "price": 1.42,
+                    "point": 3.5
+                  },
+                  {
+                    "name": "Under",
+                    "price": 1.18,
+                    "point": 4.0
+                  },
+                  {
+                    "name": "Under",
+                    "price": 1.12,
+                    "point": 4.5
+                  },
+                  {
+                    "name": "Under",
+                    "price": 1.01,
+                    "point": 5.0
+                  },
+                  {
+                    "name": "Under",
+                    "price": 1.0,
+                    "point": 5.5
+                  },
+                  {
+                    "name": "Under",
+                    "price": 1.02,
+                    "point": 6.5
+                  },
+                  {
+                    "name": "Under",
+                    "price": 1.0,
+                    "point": 7.5
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "key": "williamhill",
+            "title": "William Hill",
+            "markets": [
+              {
+                "key": "alternate_totals",
+                "last_update": "2026-10-14T08:46:39Z",
+                "outcomes": [
+                  {
+                    "name": "Over",
+                    "price": 1.2,
+                    "point": 1.5
+                  },
+                  {
+                    "name": "Over",
+                    "price": 1.65,
+                    "point": 2.5
+                  },
+                  {
+                    "name": "Under",
+                    "price": 4.4,
+                    "point": 1.5
+                  },
+                  {
+                    "name": "Under",
+                    "price": 2.15,
+                    "point": 2.5
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "key": "pinnacle",
+            "title": "Pinnacle",
+            "markets": [
+              {
+                "key": "alternate_spreads",
+                "last_update": "2026-10-14T08:47:03Z",
+                "outcomes": [
+                  {
+                    "name": "Chelsea",
+                    "price": 1.89,
+                    "point": -0.25
+                  },
+                  {
+                    "name": "Chelsea",
+                    "price": 1.26,
+                    "point": 0.75
+                  },
+                  {
+                    "name": "Chelsea",
+                    "price": 1.37,
+                    "point": 0.5
+                  },
+                  {
+                    "name": "Chelsea",
+                    "price": 1.47,
+                    "point": 0.25
+                  },
+                  {
+                    "name": "Chelsea",
+                    "price": 1.61,
+                    "point": -0.0
+                  },
+                  {
+                    "name": "Chelsea",
+                    "price": 2.17,
+                    "point": -0.5
+                  },
+                  {
+                    "name": "Chelsea",
+                    "price": 2.52,
+                    "point": -0.75
+                  },
+                  {
+                    "name": "Chelsea",
+                    "price": 3.18,
+                    "point": -1.0
+                  },
+                  {
+                    "name": "Chelsea",
+                    "price": 3.59,
+                    "point": -1.25
+                  },
+                  {
+                    "name": "Everton",
+                    "price": 2.01,
+                    "point": 0.25
+                  },
+                  {
+                    "name": "Everton",
+                    "price": 4.13,
+                    "point": -0.75
+                  },
+                  {
+                    "name": "Everton",
+                    "price": 3.26,
+                    "point": -0.5
+                  },
+                  {
+                    "name": "Everton",
+                    "price": 2.86,
+                    "point": -0.25
+                  },
+                  {
+                    "name": "Everton",
+                    "price": 2.45,
+                    "point": 0.0
+                  },
+                  {
+                    "name": "Everton",
+                    "price": 1.76,
+                    "point": 0.5
+                  },
+                  {
+                    "name": "Everton",
+                    "price": 1.57,
+                    "point": 0.75
+                  },
+                  {
+                    "name": "Everton",
+                    "price": 1.39,
+                    "point": 1.0
+                  },
+                  {
+                    "name": "Everton",
+                    "price": 1.32,
+                    "point": 1.25
+                  }
+                ]
+              },
+              {
+                "key": "alternate_totals",
+                "last_update": "2026-10-14T08:47:03Z",
+                "outcomes": [
+                  {
+                    "name": "Over",
+                    "price": 1.88,
+                    "point": 2.75
+                  },
+                  {
+                    "name": "Over",
+                    "price": 1.25,
+                    "point": 1.75
+                  },
+                  {
+                    "name": "Over",
+                    "price": 1.31,
+                    "point": 2.0
+                  },
+                  {
+                    "name": "Over",
+                    "price": 1.5,
+                    "point": 2.25
+                  },
+                  {
+                    "name": "Over",
+                    "price": 1.7,
+                    "point": 2.5
+                  },
+                  {
+                    "name": "Over",
+                    "price": 2.14,
+                    "point": 3.0
+                  },
+                  {
+                    "name": "Over",
+                    "price": 2.43,
+                    "point": 3.25
+                  },
+                  {
+                    "name": "Over",
+                    "price": 2.7,
+                    "point": 3.5
+                  },
+                  {
+                    "name": "Over",
+                    "price": 3.21,
+                    "point": 3.75
+                  },
+                  {
+                    "name": "Under",
+                    "price": 2.02,
+                    "point": 2.75
+                  },
+                  {
+                    "name": "Under",
+                    "price": 4.14,
+                    "point": 1.75
+                  },
+                  {
+                    "name": "Under",
+                    "price": 3.63,
+                    "point": 2.0
+                  },
+                  {
+                    "name": "Under",
+                    "price": 2.7,
+                    "point": 2.25
+                  },
+                  {
+                    "name": "Under",
+                    "price": 2.25,
+                    "point": 2.5
+                  },
+                  {
+                    "name": "Under",
+                    "price": 1.76,
+                    "point": 3.0
+                  },
+                  {
+                    "name": "Under",
+                    "price": 1.6,
+                    "point": 3.25
+                  },
+                  {
+                    "name": "Under",
+                    "price": 1.49,
+                    "point": 3.5
+                  },
+                  {
+                    "name": "Under",
+                    "price": 1.37,
+                    "point": 3.75
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "key": "coolbet",
+            "title": "Coolbet",
+            "markets": [
+              {
+                "key": "alternate_spreads",
+                "last_update": "2026-10-14T08:46:39Z",
+                "outcomes": [
+                  {
+                    "name": "Chelsea",
+                    "price": 18.0,
+                    "point": -3.0
+                  },
+                  {
+                    "name": "Chelsea",
+                    "price": 7.5,
+                    "point": -2.0
+                  },
+                  {
+                    "name": "Chelsea",
+                    "price": 3.25,
+                    "point": -1.0
+                  },
+                  {
+                    "name": "Chelsea",
+                    "price": 21.5,
+                    "point": -3.5
+                  },
+                  {
+                    "name": "Chelsea",
+                    "price": 9.0,
+                    "point": -2.5
+                  },
+                  {
+                    "name": "Chelsea",
+                    "price": 1.16,
+                    "point": 1.0
+                  },
+                  {
+                    "name": "Chelsea",
+                    "price": 4.15,
+                    "point": -1.5
+                  },
+                  {
+                    "name": "Chelsea",
+                    "price": 1.12,
+                    "point": 1.5
+                  },
+                  {
+                    "name": "Chelsea",
+                    "price": 1.04,
+                    "point": 2.0
+                  },
+                  {
+                    "name": "Chelsea",
+                    "price": 1.02,
+                    "point": 2.5
+                  },
+                  {
+                    "name": "Everton",
+                    "price": 1.02,
+                    "point": 3.0
+                  },
+                  {
+                    "name": "Everton",
+                    "price": 1.11,
+                    "point": 2.0
+                  },
+                  {
+                    "name": "Everton",
+                    "price": 1.38,
+                    "point": 1.0
+                  },
+                  {
+                    "name": "Everton",
+                    "price": 1.01,
+                    "point": 3.5
+                  },
+                  {
+                    "name": "Everton",
+                    "price": 1.08,
+                    "point": 2.5
+                  },
+                  {
+                    "name": "Everton",
+                    "price": 5.7,
+                    "point": -1.0
+                  },
+                  {
+                    "name": "Everton",
+                    "price": 1.26,
+                    "point": 1.5
+                  },
+                  {
+                    "name": "Everton",
+                    "price": 7.1,
+                    "point": -1.5
+                  },
+                  {
+                    "name": "Everton",
+                    "price": 14.5,
+                    "point": -2.0
+                  },
+                  {
+                    "name": "Everton",
+                    "price": 17.0,
+                    "point": -2.5
+                  }
+                ]
+              },
+              {
+                "key": "alternate_totals",
+                "last_update": "2026-10-14T08:46:39Z",
+                "outcomes": [
+                  {
+                    "name": "Over",
+                    "price": 4.25,
+                    "point": 4.0
+                  },
+                  {
+                    "name": "Over",
+                    "price": 9.1,
+                    "point": 5.0
+                  },
+                  {
+                    "name": "Over",
+                    "price": 2.7,
+                    "point": 3.5
+                  },
+                  {
+                    "name": "Over",
+                    "price": 5.0,
+                    "point": 4.5
+                  },
+                  {
+                    "name": "Over",
+                    "price": 1.05,
+                    "point": 1.0
+                  },
+                  {
+                    "name": "Over",
+                    "price": 1.22,
+                    "point": 1.5
+                  },
+                  {
+                    "name": "Over",
+                    "price": 1.03,
+                    "point": 0.5
+                  },
+                  {
+                    "name": "Over",
+                    "price": 1.32,
+                    "point": 2.0
+                  },
+                  {
+                    "name": "Over",
+                    "price": 1.69,
+                    "point": 2.5
+                  },
+                  {
+                    "name": "Over",
+                    "price": 2.12,
+                    "point": 3.0
+                  },
+                  {
+                    "name": "Over",
+                    "price": 20.0,
+                    "point": 6.5
+                  },
+                  {
+                    "name": "Over",
+                    "price": 9.9,
+                    "point": 5.5
+                  },
+                  {
+                    "name": "Under",
+                    "price": 1.25,
+                    "point": 4.0
+                  },
+                  {
+                    "name": "Under",
+                    "price": 1.08,
+                    "point": 5.0
+                  },
+                  {
+                    "name": "Under",
+                    "price": 1.51,
+                    "point": 3.5
+                  },
+                  {
+                    "name": "Under",
+                    "price": 1.2,
+                    "point": 4.5
+                  },
+                  {
+                    "name": "Under",
+                    "price": 12.5,
+                    "point": 1.0
+                  },
+                  {
+                    "name": "Under",
+                    "price": 4.6,
+                    "point": 1.5
+                  },
+                  {
+                    "name": "Under",
+                    "price": 15.0,
+                    "point": 0.5
+                  },
+                  {
+                    "name": "Under",
+                    "price": 3.65,
+                    "point": 2.0
+                  },
+                  {
+                    "name": "Under",
+                    "price": 2.26,
+                    "point": 2.5
+                  },
+                  {
+                    "name": "Under",
+                    "price": 1.77,
+                    "point": 3.0
+                  },
+                  {
+                    "name": "Under",
+                    "price": 1.02,
+                    "point": 6.5
+                  },
+                  {
+                    "name": "Under",
+                    "price": 1.07,
+                    "point": 5.5
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "credits": {
+    "soccer_epl": {
+      "x-requests-used": "53",
+      "x-requests-remaining": "447",
+      "x-requests-last": "2"
+    },
+    "soccer_france_ligue_one": {
+      "x-requests-used": "55",
+      "x-requests-remaining": "445",
+      "x-requests-last": "2"
+    },
+    "soccer_germany_bundesliga": {
+      "x-requests-used": "57",
+      "x-requests-remaining": "443",
+      "x-requests-last": "2"
+    },
+    "event_level": {
+      "x-requests-used": "59",
+      "x-requests-remaining": "441",
+      "x-requests-last": "2"
+    }
+  }
+}
