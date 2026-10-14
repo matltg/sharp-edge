@@ -71,6 +71,10 @@ def render_pick_card(pick: dict) -> str:
         {match_line(pick)}
       </div>
       <div class="pick-details">
+        <div class="pick-proba">
+          <span class="odds-label">Probabilité</span>
+          <span class="odds-value">{fmt_proba(pick.get('proba'))}</span>
+        </div>
         <div class="pick-odds">
           <span class="odds-label">Cote</span>
           <span class="odds-value" style="color:{color}">{pick['cote']}</span>
@@ -86,11 +90,18 @@ def render_pick_card(pick: dict) -> str:
     </div>"""
 
 
+def fmt_proba(proba) -> str:
+    return "—" if proba is None else f"{proba:.0f}%"
+
+
 def render_backup(sec: dict | None) -> str:
     if not sec:
         return '<div class="pick-backup">🛟 Secours : handicap ligne entière indisponible</div>'
     note = "" if sec.get("dans_fenetre") else " · hors fenêtre 1,20–1,50"
-    return (f'<div class="pick-backup">🛟 Secours : {sec["pari"]} @ {sec["cote"]}'
+    # ligne entière non nulle : remboursement possible, la probabilité l'exclut
+    push = " hors remboursement" if sec.get("ah_line") else ""
+    proba = f" · {fmt_proba(sec.get('proba'))}{push}" if sec.get("proba") is not None else ""
+    return (f'<div class="pick-backup">🛟 Secours : {sec["pari"]} @ {sec["cote"]}{proba}'
             f' — réf. {sec["bookmaker"]}{note}</div>')
 
 

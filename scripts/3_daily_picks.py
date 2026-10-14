@@ -18,7 +18,8 @@ PARIS (notice Phase 1 football) :
   - Pari de secours (toujours affiché) : handicap asiatique ligne entière
     (0, -1, -2…) pour le favori, même règle de fenêtre ; à défaut,
     la ligne entière la plus proche, signalée hors fenêtre.
-  - Tri : du plus solide au moins fort — proxy Phase 1 : cote croissante.
+  - Probabilité : estimée par le marché (moyenne des bookmakers, marge retirée).
+  - Tri : du plus probable au moins probable (à défaut : cote croissante).
 
 STRATÉGIE CRÉDITS (1 crédit = 1 marché × 1 région) :
   - Matin : handicap asiatique (spreads) pour les 18 sources = 18 crédits,
@@ -244,6 +245,29 @@ def over_lines(event: dict) -> dict:
     return best
 
 
+def fair_prob(event: dict, market_keys: tuple, side: tuple, other: tuple) -> tuple:
+    """Probabilité de `side` estimée par le marché, marge du bookmaker retirée.
+    side / other = (nom de l'issue, ligne) des deux issues opposées d'un même pari.
+    Pour chaque bookmaker cotant les deux : (1/cote) / (1/cote + 1/cote_opposée),
+    puis moyenne. Retourne (probabilité en %, nombre de bookmakers)."""
+    probs = []
+    for bk in event.get("bookmakers", []):
+        prices = {}
+        for m in bk.get("markets", []):
+            if m["key"] not in market_keys:
+                continue
+            for o in m.get("outcomes", []):
+                key = (o.get("name"), float(o["point"]) + 0.0) if "point" in o else None
+                if key in (side, other):
+                    prices[key] = o["price"]
+        if side in prices and other in prices:
+            inv, inv_other = 1 / prices[side], 1 / prices[other]
+            probs.append(inv / (inv + inv_other))
+    if not probs:
+        return None, 0
+    return round(sum(probs) / len(probs) * 100, 1), len(probs)
+
+
 def choose_over(alt: dict) -> dict | None:
     """Ligne simple (x.5) la plus haute dont la meilleure cote est dans la fenêtre."""
     ok = [(pt, p, b) for pt, (p, b) in over_lines(alt).items()
@@ -251,7 +275,8 @@ def choose_over(alt: dict) -> dict | None:
     if not ok:
         return None
     pt, price, book = max(ok)
-    return {"line": pt, "cote": price, "bookmaker": book}
+    proba, n = fair_prob(alt, ("totals", "alternate_totals"), ("Over", pt), ("Under", pt))
+    return {"line": pt, "cote": price, "bookmaker": book, "proba": proba, "proba_books": n}
 
 
 def choose_handicap(event: dict, alt: dict, team: str) -> dict | None:
@@ -266,9 +291,14 @@ def choose_handicap(event: dict, alt: dict, team: str) -> dict | None:
     inside = [w for w in whole if in_window(w[1])]
     if inside:
         pt, price, book = min(inside)  # handicap le plus fort
-        return {"line": pt, "cote": price, "bookmaker": book, "in_window": True}
-    pt, price, book = min(whole, key=lambda w: min(abs(w[1] - MIN_ODDS), abs(w[1] - MAX_ODDS)))
-    return {"line": pt, "cote": price, "bookmaker": book, "in_window": False}
+    else:
+        pt, price, book = min(whole, key=lambda w: min(abs(w[1] - MIN_ODDS), abs(w[1] - MAX_ODDS)))
+    opp = event["away_team"] if team == event["home_team"] else event["home_team"]
+    proba, n = fair_prob(alt, ("spreads", "alternate_spreads"), (team, pt), (opp, -pt + 0.0))
+    if proba is None:
+        proba, n = fair_prob(event, ("spreads",), (team, pt), (opp, -pt + 0.0))
+    return {"line": pt, "cote": price, "bookmaker": book, "in_window": bool(inside),
+            "proba": proba, "proba_books": n}
 
 
 # ── COLLECTE (matin) / CACHE (soir) ───────────────────────────────────────────
@@ -337,11 +367,13 @@ def build_pick(event: dict, alt: dict) -> dict | None:
         "handicap_consensus": fav["line"],
         "pari": f"Over {main['line']:g} buts", "over_line": main["line"],
         "cote": main["cote"], "bookmaker_ref": main["bookmaker"],
+        "proba": main["proba"], "proba_books": main["proba_books"],
         "pct_victoire_historique": pct, "fiabilite": fiab,
         "secours": None if backup is None else {
             "pari": f"Handicap asiatique {fav['team']} {fmt_line(backup['line'])}",
             "ah_line": backup["line"], "cote": backup["cote"],
             "bookmaker": backup["bookmaker"], "dans_fenetre": backup["in_window"],
+            "proba": backup["proba"], "proba_books": backup["proba_books"],
         },
     }
 
@@ -450,7 +482,8 @@ def main():
         pick = build_pick(event, alternates.get(event.get("id"), {}))
         if pick:
             picks.append(pick)
-    picks.sort(key=lambda x: x["cote"])
+    # du plus probable au moins probable (à défaut de probabilité : cote croissante)
+    picks.sort(key=lambda x: (-(x["proba"] or 0), x["cote"]))
 
     yesterday_resolved = resolve_yesterday(load_yesterday_picks())
     wins   = sum(1 for p in yesterday_resolved if p.get("result") == "win")
