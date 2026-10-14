@@ -31,20 +31,21 @@
     .picks-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:1rem}
     .pick-card{background:var(--surface);border:1px solid var(--border);
                 border-radius:.75rem;padding:1rem;display:flex;flex-direction:column;gap:.6rem}
+    .pick-top{display:flex;justify-content:space-between;align-items:center;gap:.5rem}
+    .pick-sport{font-size:.75rem;color:var(--muted)}
     .pick-status{display:inline-block;padding:.2rem .6rem;border-radius:.4rem;
                   font-size:.72rem;font-weight:600;width:fit-content}
-    .pick-header{display:flex;justify-content:space-between;font-size:.8rem;color:var(--muted)}
+    .pick-header{font-size:.8rem;color:var(--muted)}
     .pick-match{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
-    .pick-fav{font-weight:700;font-size:1rem}
+    .pick-team{font-weight:700;font-size:1rem}
     .pick-vs{color:var(--muted);font-size:.8rem}
-    .pick-opp{color:var(--muted);font-size:.9rem}
-    .pick-details{display:flex;gap:1.5rem}
-    .odds-label,.pct-label{display:block;font-size:.7rem;color:var(--muted)}
-    .odds-value{font-size:1.4rem;font-weight:800}
-    .pct-value{font-size:.95rem;font-weight:600}
-    .pick-fiability{font-size:.8rem;font-weight:600}
-    .pick-backup{font-size:.75rem;color:var(--muted)}
-    .pick-bet{font-size:.75rem;color:var(--muted);border-top:1px solid var(--border);padding-top:.5rem}
+    .bet-name{font-weight:700;font-size:.95rem;border-top:1px solid var(--border);padding-top:.6rem}
+    .bet-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem}
+    .bet-n{display:block;font-size:.65rem;font-weight:400;color:var(--muted)}
+    .bet-label{display:block;font-size:.68rem;color:var(--muted)}
+    .bet-value{font-size:.9rem;font-weight:600}
+    .bet-proba{font-size:1.15rem;font-weight:800}
+    .bet-ref{font-size:.72rem;color:var(--muted)}
     /* Résultats veille */
     .yest-summary{display:flex;gap:1.5rem;margin-bottom:1rem;flex-wrap:wrap}
     .yest-stat{text-align:center}
@@ -70,107 +71,244 @@
   <header>
     <div>
       <div class="logo">⚡ Sharp-Edge</div>
-      <div class="meta">Sports betting filter — low odds favourites</div>
+      <div class="meta">Probabilités Over/Under — matchs du jour</div>
     </div>
     <div style="display:flex;align-items:center;gap:.75rem">
-      <span class="meta">2026-10-14 · MàJ 14/10/2026 à 11h12</span>
-      <span class="badge">3 picks</span>
+      <span class="meta">2026-10-14 · MàJ 14/10/2026 à 11h26</span>
+      <span class="badge">13 matchs</span>
     </div>
   </header>
   <main>
     
     
     <section class="section">
-      <h2>🌅 Rapport 4h30 — Picks du jour <span class="count">3 picks</span></h2>
+      <h2>🌅 Rapport 4h30 — Matchs du jour <span class="count">13 matchs</span></h2>
       <div class="picks-grid">
     <div class="pick-card">
-      <div class="pick-status" style="background:#854d0e">🟡 À confirmer à 16h30</div>
-      <div class="pick-header">
-        <span class="pick-time">21h00</span>
-        <span class="pick-league">Championship</span>
+      <div class="pick-top">
+        <span class="pick-sport">⚽ Football</span>
+        <span class="pick-status" style="background:#854d0e">🟡 À confirmer à 16h30</span>
       </div>
-      <div class="pick-match">
-        <span class="pick-opp">Lincoln City</span><span class="pick-vs">–</span><span class="pick-fav">West Ham United</span><span class="pick-vs">(✈️ extérieur)</span>
+      <div class="pick-header">20h45 · Championship</div>
+      <div class="pick-match"><span class="pick-team">Norwich City</span><span class="pick-vs">–</span><span class="pick-team">Southampton</span></div>
+      <div class="bet-name">Over 1.5 buts</div>
+      <div class="bet-grid">
+        <div><span class="bet-label">Cote</span><span class="bet-value">1.17</span></div>
+        <div><span class="bet-label">Probabilité</span>
+             <span class="bet-value bet-proba" style="color:#22c55e">81%</span></div>
+        <div><span class="bet-label">Historique</span><span class="bet-value">—</span></div>
       </div>
-      <div class="pick-details">
-        <div class="pick-proba">
-          <span class="odds-label">Probabilité</span>
-          <span class="odds-value">76%</span>
-        </div>
-        <div class="pick-odds">
-          <span class="odds-label">Cote</span>
-          <span class="odds-value" style="color:#22c55e">1.25</span>
-        </div>
-        <div class="pick-pct">
-          <span class="pct-label">Historique</span>
-          <span class="pct-value">81.9% (n=83)</span>
-        </div>
-      </div>
-      <div class="pick-fiability" style="color:#22c55e">★★★★★ Très solide</div>
-      <div class="pick-bet">📋 <strong>Over 1.5 buts</strong> @ 1.25 — réf. Pinnacle</div>
-      <div class="pick-backup">🛟 Secours : Handicap asiatique West Ham United 0 @ 1.33 · 73% — réf. Pinnacle</div>
+      <div class="bet-ref">Meilleure cote : Pinnacle · hors fenêtre 1,20–1,50</div>
     </div>
 
     <div class="pick-card">
-      <div class="pick-status" style="background:#854d0e">🟡 À confirmer à 16h30</div>
-      <div class="pick-header">
-        <span class="pick-time">20h45</span>
-        <span class="pick-league">Championship</span>
+      <div class="pick-top">
+        <span class="pick-sport">⚽ Football</span>
+        <span class="pick-status" style="background:#854d0e">🟡 À confirmer à 16h30</span>
       </div>
-      <div class="pick-match">
-        <span class="pick-fav">Queens Park Rangers</span><span class="pick-vs">–</span><span class="pick-opp">Derby County</span><span class="pick-vs">(🏠 domicile)</span>
+      <div class="pick-header">21h00 · UEFA Champions League</div>
+      <div class="pick-match"><span class="pick-team">Aston Villa</span><span class="pick-vs">–</span><span class="pick-team">Fenerbahce</span></div>
+      <div class="bet-name">Over 1.5 buts</div>
+      <div class="bet-grid">
+        <div><span class="bet-label">Cote</span><span class="bet-value">1.19</span></div>
+        <div><span class="bet-label">Probabilité</span>
+             <span class="bet-value bet-proba" style="color:#22c55e">81%</span></div>
+        <div><span class="bet-label">Historique</span><span class="bet-value">—</span></div>
       </div>
-      <div class="pick-details">
-        <div class="pick-proba">
-          <span class="odds-label">Probabilité</span>
-          <span class="odds-value">74%</span>
-        </div>
-        <div class="pick-odds">
-          <span class="odds-label">Cote</span>
-          <span class="odds-value" style="color:#84cc16">1.28</span>
-        </div>
-        <div class="pick-pct">
-          <span class="pct-label">Historique</span>
-          <span class="pct-value">70.2% (n=114)</span>
-        </div>
-      </div>
-      <div class="pick-fiability" style="color:#84cc16">★★★★☆ Solide</div>
-      <div class="pick-bet">📋 <strong>Over 1.5 buts</strong> @ 1.28 — réf. Pinnacle</div>
-      <div class="pick-backup">🛟 Secours : Handicap asiatique Queens Park Rangers 0 @ 1.28 · 76% — réf. Pinnacle</div>
+      <div class="bet-ref">Meilleure cote : Coolbet · hors fenêtre 1,20–1,50</div>
     </div>
 
     <div class="pick-card">
-      <div class="pick-status" style="background:#854d0e">🟡 À confirmer à 16h30</div>
-      <div class="pick-header">
-        <span class="pick-time">21h00</span>
-        <span class="pick-league">UEFA Champions League</span>
+      <div class="pick-top">
+        <span class="pick-sport">⚽ Football</span>
+        <span class="pick-status" style="background:#854d0e">🟡 À confirmer à 16h30</span>
       </div>
-      <div class="pick-match">
-        <span class="pick-opp">ŠK Slovan Bratislava</span><span class="pick-vs">–</span><span class="pick-fav">VfB Stuttgart</span><span class="pick-vs">(✈️ extérieur)</span>
+      <div class="pick-header">21h00 · UEFA Champions League</div>
+      <div class="pick-match"><span class="pick-team">Real Betis</span><span class="pick-vs">–</span><span class="pick-team">Porto</span></div>
+      <div class="bet-name">Over 1.5 buts</div>
+      <div class="bet-grid">
+        <div><span class="bet-label">Cote</span><span class="bet-value">1.24</span></div>
+        <div><span class="bet-label">Probabilité</span>
+             <span class="bet-value bet-proba" style="color:#22c55e">77%</span></div>
+        <div><span class="bet-label">Historique</span><span class="bet-value">79%<span class="bet-n">(n=48)</span></span></div>
       </div>
-      <div class="pick-details">
-        <div class="pick-proba">
-          <span class="odds-label">Probabilité</span>
-          <span class="odds-value">71%</span>
-        </div>
-        <div class="pick-odds">
-          <span class="odds-label">Cote</span>
-          <span class="odds-value" style="color:#eab308">1.36</span>
-        </div>
-        <div class="pick-pct">
-          <span class="pct-label">Historique</span>
-          <span class="pct-value">73.2% (n=518)</span>
-        </div>
+      <div class="bet-ref">Meilleure cote : Coolbet</div>
+    </div>
+
+    <div class="pick-card">
+      <div class="pick-top">
+        <span class="pick-sport">⚽ Football</span>
+        <span class="pick-status" style="background:#854d0e">🟡 À confirmer à 16h30</span>
       </div>
-      <div class="pick-fiability" style="color:#eab308">★★★☆☆ Correct</div>
-      <div class="pick-bet">📋 <strong>Over 2.5 buts</strong> @ 1.36 — réf. Coolbet</div>
-      <div class="pick-backup">🛟 Secours : Handicap asiatique VfB Stuttgart -1 @ 1.43 · 68% hors remboursement — réf. Coolbet</div>
+      <div class="pick-header">21h00 · Championship</div>
+      <div class="pick-match"><span class="pick-team">Lincoln City</span><span class="pick-vs">–</span><span class="pick-team">West Ham United</span></div>
+      <div class="bet-name">Over 1.5 buts</div>
+      <div class="bet-grid">
+        <div><span class="bet-label">Cote</span><span class="bet-value">1.25</span></div>
+        <div><span class="bet-label">Probabilité</span>
+             <span class="bet-value bet-proba" style="color:#22c55e">76%</span></div>
+        <div><span class="bet-label">Historique</span><span class="bet-value">77%<span class="bet-n">(n=118)</span></span></div>
+      </div>
+      <div class="bet-ref">Meilleure cote : Pinnacle</div>
+    </div>
+
+    <div class="pick-card">
+      <div class="pick-top">
+        <span class="pick-sport">⚽ Football</span>
+        <span class="pick-status" style="background:#854d0e">🟡 À confirmer à 16h30</span>
+      </div>
+      <div class="pick-header">20h45 · Championship</div>
+      <div class="pick-match"><span class="pick-team">Queens Park Rangers</span><span class="pick-vs">–</span><span class="pick-team">Derby County</span></div>
+      <div class="bet-name">Over 1.5 buts</div>
+      <div class="bet-grid">
+        <div><span class="bet-label">Cote</span><span class="bet-value">1.28</span></div>
+        <div><span class="bet-label">Probabilité</span>
+             <span class="bet-value bet-proba" style="color:#84cc16">74%</span></div>
+        <div><span class="bet-label">Historique</span><span class="bet-value">77%<span class="bet-n">(n=118)</span></span></div>
+      </div>
+      <div class="bet-ref">Meilleure cote : Pinnacle</div>
+    </div>
+
+    <div class="pick-card">
+      <div class="pick-top">
+        <span class="pick-sport">⚽ Football</span>
+        <span class="pick-status" style="background:#854d0e">🟡 À confirmer à 16h30</span>
+      </div>
+      <div class="pick-header">21h00 · UEFA Champions League</div>
+      <div class="pick-match"><span class="pick-team">Shakhtar Donetsk</span><span class="pick-vs">–</span><span class="pick-team">AEK Athens</span></div>
+      <div class="bet-name">Over 1.5 buts</div>
+      <div class="bet-grid">
+        <div><span class="bet-label">Cote</span><span class="bet-value">1.3</span></div>
+        <div><span class="bet-label">Probabilité</span>
+             <span class="bet-value bet-proba" style="color:#84cc16">74%</span></div>
+        <div><span class="bet-label">Historique</span><span class="bet-value">77%<span class="bet-n">(n=177)</span></span></div>
+      </div>
+      <div class="bet-ref">Meilleure cote : Coolbet</div>
+    </div>
+
+    <div class="pick-card">
+      <div class="pick-top">
+        <span class="pick-sport">⚽ Football</span>
+        <span class="pick-status" style="background:#854d0e">🟡 À confirmer à 16h30</span>
+      </div>
+      <div class="pick-header">20h45 · Championship</div>
+      <div class="pick-match"><span class="pick-team">Portsmouth</span><span class="pick-vs">–</span><span class="pick-team">Sheffield United</span></div>
+      <div class="bet-name">Over 1.5 buts</div>
+      <div class="bet-grid">
+        <div><span class="bet-label">Cote</span><span class="bet-value">1.32</span></div>
+        <div><span class="bet-label">Probabilité</span>
+             <span class="bet-value bet-proba" style="color:#84cc16">72%</span></div>
+        <div><span class="bet-label">Historique</span><span class="bet-value">77%<span class="bet-n">(n=177)</span></span></div>
+      </div>
+      <div class="bet-ref">Meilleure cote : Pinnacle</div>
+    </div>
+
+    <div class="pick-card">
+      <div class="pick-top">
+        <span class="pick-sport">⚽ Football</span>
+        <span class="pick-status" style="background:#854d0e">🟡 À confirmer à 16h30</span>
+      </div>
+      <div class="pick-header">21h00 · UEFA Champions League</div>
+      <div class="pick-match"><span class="pick-team">ŠK Slovan Bratislava</span><span class="pick-vs">–</span><span class="pick-team">VfB Stuttgart</span></div>
+      <div class="bet-name">Over 2.5 buts</div>
+      <div class="bet-grid">
+        <div><span class="bet-label">Cote</span><span class="bet-value">1.36</span></div>
+        <div><span class="bet-label">Probabilité</span>
+             <span class="bet-value bet-proba" style="color:#84cc16">71%</span></div>
+        <div><span class="bet-label">Historique</span><span class="bet-value">68%<span class="bet-n">(n=298)</span></span></div>
+      </div>
+      <div class="bet-ref">Meilleure cote : Coolbet</div>
+    </div>
+
+    <div class="pick-card">
+      <div class="pick-top">
+        <span class="pick-sport">⚽ Football</span>
+        <span class="pick-status" style="background:#854d0e">🟡 À confirmer à 16h30</span>
+      </div>
+      <div class="pick-header">21h00 · UEFA Champions League</div>
+      <div class="pick-match"><span class="pick-team">Bodø/Glimt</span><span class="pick-vs">–</span><span class="pick-team">Borussia Dortmund</span></div>
+      <div class="bet-name">Over 2.5 buts</div>
+      <div class="bet-grid">
+        <div><span class="bet-label">Cote</span><span class="bet-value">1.41</span></div>
+        <div><span class="bet-label">Probabilité</span>
+             <span class="bet-value bet-proba" style="color:#84cc16">68%</span></div>
+        <div><span class="bet-label">Historique</span><span class="bet-value">71%<span class="bet-n">(n=510)</span></span></div>
+      </div>
+      <div class="bet-ref">Meilleure cote : Coolbet</div>
+    </div>
+
+    <div class="pick-card">
+      <div class="pick-top">
+        <span class="pick-sport">⚽ Football</span>
+        <span class="pick-status" style="background:#854d0e">🟡 À confirmer à 16h30</span>
+      </div>
+      <div class="pick-header">21h00 · UEFA Champions League</div>
+      <div class="pick-match"><span class="pick-team">Manchester City</span><span class="pick-vs">–</span><span class="pick-team">Paris Saint Germain</span></div>
+      <div class="bet-name">Over 2.5 buts</div>
+      <div class="bet-grid">
+        <div><span class="bet-label">Cote</span><span class="bet-value">1.45</span></div>
+        <div><span class="bet-label">Probabilité</span>
+             <span class="bet-value bet-proba" style="color:#84cc16">66%</span></div>
+        <div><span class="bet-label">Historique</span><span class="bet-value">68%<span class="bet-n">(n=536)</span></span></div>
+      </div>
+      <div class="bet-ref">Meilleure cote : Pinnacle</div>
+    </div>
+
+    <div class="pick-card">
+      <div class="pick-top">
+        <span class="pick-sport">⚽ Football</span>
+        <span class="pick-status" style="background:#854d0e">🟡 À confirmer à 16h30</span>
+      </div>
+      <div class="pick-header">21h00 · UEFA Champions League</div>
+      <div class="pick-match"><span class="pick-team">AS Roma</span><span class="pick-vs">–</span><span class="pick-team">Real Madrid</span></div>
+      <div class="bet-name">Over 2.5 buts</div>
+      <div class="bet-grid">
+        <div><span class="bet-label">Cote</span><span class="bet-value">1.46</span></div>
+        <div><span class="bet-label">Probabilité</span>
+             <span class="bet-value bet-proba" style="color:#84cc16">66%</span></div>
+        <div><span class="bet-label">Historique</span><span class="bet-value">68%<span class="bet-n">(n=536)</span></span></div>
+      </div>
+      <div class="bet-ref">Meilleure cote : Pinnacle</div>
+    </div>
+
+    <div class="pick-card">
+      <div class="pick-top">
+        <span class="pick-sport">⚽ Football</span>
+        <span class="pick-status" style="background:#854d0e">🟡 À confirmer à 16h30</span>
+      </div>
+      <div class="pick-header">18h45 · UEFA Champions League</div>
+      <div class="pick-match"><span class="pick-team">Feyenoord</span><span class="pick-vs">–</span><span class="pick-team">Como</span></div>
+      <div class="bet-name">Over 2.5 buts</div>
+      <div class="bet-grid">
+        <div><span class="bet-label">Cote</span><span class="bet-value">1.51</span></div>
+        <div><span class="bet-label">Probabilité</span>
+             <span class="bet-value bet-proba" style="color:#eab308">63%</span></div>
+        <div><span class="bet-label">Historique</span><span class="bet-value">65%<span class="bet-n">(n=1913)</span></span></div>
+      </div>
+      <div class="bet-ref">Meilleure cote : Pinnacle · hors fenêtre 1,20–1,50</div>
+    </div>
+
+    <div class="pick-card">
+      <div class="pick-top">
+        <span class="pick-sport">⚽ Football</span>
+        <span class="pick-status" style="background:#854d0e">🟡 À confirmer à 16h30</span>
+      </div>
+      <div class="pick-header">18h45 · UEFA Champions League</div>
+      <div class="pick-match"><span class="pick-team">LASK</span><span class="pick-vs">–</span><span class="pick-team">Liverpool</span></div>
+      <div class="bet-name">Over 2.5 buts</div>
+      <div class="bet-grid">
+        <div><span class="bet-label">Cote</span><span class="bet-value">1.52</span></div>
+        <div><span class="bet-label">Probabilité</span>
+             <span class="bet-value bet-proba" style="color:#eab308">63%</span></div>
+        <div><span class="bet-label">Historique</span><span class="bet-value">65%<span class="bet-n">(n=1913)</span></span></div>
+      </div>
+      <div class="bet-ref">Meilleure cote : Coolbet · hors fenêtre 1,20–1,50</div>
     </div></div>
     </section>
     
     <section class="section">
       <h2>🌆 Rapport 16h30 — Confirmation matchs du soir</h2>
-      <p class="empty">Rapport du soir non encore généré ou aucun match à confirmer.</p>
+      <p class="empty">Rapport du soir non encore généré ou aucun match après 18h.</p>
     </section>
     <div class='history'><strong>Historique :</strong> <a href="picks/2026-10-14_morning.json">2026-10-14</a></div>
   </main>
