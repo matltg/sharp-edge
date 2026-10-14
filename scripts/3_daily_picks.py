@@ -9,7 +9,8 @@ NOTICE D'INTENTION
 
 OBJECTIF : 2 rapports quotidiens (4h30 et 16h30 heure France).
 
-AFFICHAGE : tous les matchs du jour, sans filtre, triés par valeur.
+AFFICHAGE : tous les matchs du jour, sans filtre, triés par nombre d'étoiles
+  puis, à étoiles égales, par probabilité.
   - Pari : Over ou Under buts, ligne simple (x.5, sans remboursement partiel).
     Parmi tous ceux cotés dans 1,20–1,50, on prend la meilleure note (puis la
     meilleure probabilité) ; à défaut, celui dont la cote est la plus proche
@@ -529,8 +530,9 @@ def main():
     odds = raw.get("odds", {})
     picks = [p for e in raw.get("events", [])
              if (p := build_pick(e, odds.get(e.get("id"), {})))]
-    # meilleure note d'abord (score), puis probabilité ; matchs sans cotes à la fin
-    picks.sort(key=lambda x: (x["score"] is None, -(x["score"] or 0), -(x["proba"] or 0)))
+    # plus d'étoiles d'abord, puis la probabilité (les écarts de score à l'intérieur
+    # d'un même nombre d'étoiles ne sont pas significatifs) ; sans cotes à la fin
+    picks.sort(key=lambda x: (x["etoiles"] is None, -(x["etoiles"] or 0), -(x["proba"] or 0)))
 
     cached = yesterday_from_morning() if REPORT_TYPE == "evening" else None
     yesterday_resolved = (cached or {}).get("resolved") or resolve_yesterday(load_yesterday_picks())

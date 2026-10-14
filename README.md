@@ -54,7 +54,7 @@ sharp-edge/
 ## 🎯 Ce qu'affiche la page (Phase 1 — football)
 
 Tous les matchs du jour des 18 championnats suivis, sans filtre, triés par
-note (meilleure d'abord). Pour chaque match :
+nombre d'étoiles, puis par probabilité. Pour chaque match :
 
 | Élément | Contenu |
 |---------|---------|
