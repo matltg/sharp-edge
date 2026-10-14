@@ -1,0 +1,13 @@
+{
+  "date": "2026-10-14",
+  "type": "morning",
+  "picks": [],
+  "yesterday": {
+    "date": "2026-10-13",
+    "resolved": [],
+    "wins": 0,
+    "losses": 0,
+    "total": 0,
+    "win_rate": null
+  }
+}

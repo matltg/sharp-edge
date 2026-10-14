@@ -2,23 +2,98 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Sharp-Edge — Initialisation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Sharp-Edge — 2026-10-14</title>
   <style>
-    :root { --bg: #0f172a; --text: #f1f5f9; --accent: #38bdf8; --muted: #94a3b8; }
-    body { background: var(--bg); color: var(--text); font-family: -apple-system, sans-serif;
-           display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
-    .box { text-align: center; padding: 2rem; }
-    .logo { font-size: 2rem; font-weight: 800; color: var(--accent); margin-bottom: 0.5rem; }
-    p { color: var(--muted); margin-top: 0.5rem; }
+    :root {
+      --bg:#0f172a; --surface:#1e293b; --border:#334155;
+      --text:#f1f5f9; --muted:#94a3b8; --accent:#38bdf8;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+          background:var(--bg);color:var(--text);
+          padding:env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0);
+          min-height:100vh}
+    header{background:var(--surface);border-bottom:1px solid var(--border);
+            padding:1.25rem 1.5rem;display:flex;justify-content:space-between;
+            align-items:center;flex-wrap:wrap;gap:.5rem}
+    .logo{font-size:1.4rem;font-weight:700;color:var(--accent)}
+    .meta{font-size:.8rem;color:var(--muted)}
+    .badge{background:var(--accent);color:#0f172a;padding:.2rem .6rem;
+            border-radius:999px;font-size:.75rem;font-weight:700}
+    main{max-width:960px;margin:0 auto;padding:1.5rem 1rem}
+    .section{margin-bottom:2.5rem}
+    h2{font-size:1.05rem;margin-bottom:1rem;color:var(--muted);
+        display:flex;align-items:center;gap:.75rem;flex-wrap:wrap}
+    .count,.date-badge{background:var(--border);padding:.15rem .5rem;
+                        border-radius:999px;font-size:.72rem}
+    /* Picks du jour */
+    .picks-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:1rem}
+    .pick-card{background:var(--surface);border:1px solid var(--border);
+                border-radius:.75rem;padding:1rem;display:flex;flex-direction:column;gap:.6rem}
+    .pick-status{display:inline-block;padding:.2rem .6rem;border-radius:.4rem;
+                  font-size:.72rem;font-weight:600;width:fit-content}
+    .pick-header{display:flex;justify-content:space-between;font-size:.8rem;color:var(--muted)}
+    .pick-match{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
+    .pick-fav{font-weight:700;font-size:1rem}
+    .pick-vs{color:var(--muted);font-size:.8rem}
+    .pick-opp{color:var(--muted);font-size:.9rem}
+    .pick-details{display:flex;gap:1.5rem}
+    .odds-label,.pct-label{display:block;font-size:.7rem;color:var(--muted)}
+    .odds-value{font-size:1.4rem;font-weight:800}
+    .pct-value{font-size:.95rem;font-weight:600}
+    .pick-fiability{font-size:.8rem;font-weight:600}
+    .pick-bet{font-size:.75rem;color:var(--muted);border-top:1px solid var(--border);padding-top:.5rem}
+    /* Résultats veille */
+    .yest-summary{display:flex;gap:1.5rem;margin-bottom:1rem;flex-wrap:wrap}
+    .yest-stat{text-align:center}
+    .yest-num{display:block;font-size:1.6rem;font-weight:800}
+    .yest-label{font-size:.75rem;color:var(--muted)}
+    .yest-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:.75rem}
+    .yest-card{border:1px solid;border-radius:.65rem;padding:.85rem;display:flex;
+                flex-direction:column;gap:.4rem}
+    .yest-result{font-size:.85rem;font-weight:700}
+    .yest-match{font-size:.9rem;display:flex;align-items:center;gap:.4rem;flex-wrap:wrap}
+    .yest-meta{font-size:.75rem;color:var(--muted)}
+    /* Misc */
+    .empty{color:var(--muted);font-style:italic;padding:1rem;background:var(--surface);
+            border-radius:.5rem;border:1px solid var(--border)}
+    .history{margin-top:2rem;font-size:.8rem;color:var(--muted)}
+    .history a{color:var(--accent);text-decoration:none;margin:0 .2rem}
+    footer{text-align:center;padding:2rem 1rem;font-size:.75rem;color:var(--muted);
+            border-top:1px solid var(--border)}
+    @media(max-width:480px){.picks-grid,.yest-grid{grid-template-columns:1fr}}
   </style>
 </head>
 <body>
-  <div class="box">
-    <div class="logo">⚡ Sharp-Edge</div>
-    <p>Sports betting filter — low odds favourites validator</p>
-    <p style="margin-top:2rem">Premier rapport disponible demain à 4h30.</p>
-    <p>Configure ODDS_API_KEY dans les secrets GitHub pour activer le bot.</p>
-  </div>
+  <header>
+    <div>
+      <div class="logo">⚡ Sharp-Edge</div>
+      <div class="meta">Sports betting filter — low odds favourites</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:.75rem">
+      <span class="meta">2026-10-14 · MàJ 14/10/2026 à 09h47</span>
+      <span class="badge">0 picks</span>
+    </div>
+  </header>
+  <main>
+    
+    
+    <section class="section">
+      <h2>🌅 Rapport 4h30 — Picks du jour</h2>
+      <p class="empty">Aucun pick validé ce matin.</p>
+    </section>
+    
+    <section class="section">
+      <h2>🌆 Rapport 16h30 — Confirmation matchs du soir</h2>
+      <p class="empty">Rapport du soir non encore généré ou aucun match à confirmer.</p>
+    </section>
+    <div class='history'><strong>Historique :</strong> <a href="picks/2026-10-14_morning.json">2026-10-14</a></div>
+  </main>
+  <footer>
+    Sharp-Edge — outil d'analyse statistique uniquement. Ne constitue pas un conseil en paris.<br>
+    Sources : football-data.co.uk · The Odds API · 18 championnats/compétitions actifs<br>
+    Taux historiques : backtest du 2026-10-14 sur 35594 matchs (2021-22 → 2026-27, meilleure cote)
+  </footer>
 </body>
 </html>
