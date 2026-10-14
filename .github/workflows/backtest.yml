@@ -1,0 +1,36 @@
+name: Sharp-Edge Backtest (manuel)
+
+on:
+  workflow_dispatch:  # déclenchement manuel uniquement
+
+jobs:
+  backtest:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests pandas numpy
+
+      - name: Collect historical data
+        run: python scripts/1_collect_data.py
+
+      - name: Run backtest
+        run: python scripts/2_backtest.py
+
+      - name: Commit results
+        run: |
+          git config user.name "sharp-edge-bot"
+          git config user.email "bot@sharp-edge"
+          git add data/
+          git diff --staged --quiet || git commit -m "📈 Backtest results $(date -u +'%Y-%m-%d')"
+          git push
