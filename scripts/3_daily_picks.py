@@ -78,7 +78,7 @@ SPORTS = [
 # ── FILTRES ───────────────────────────────────────────────────────────────────
 MIN_ODDS  = 1.20
 MAX_ODDS  = 1.50
-HOME_ONLY = False  # backtest : domicile et extérieur ont le même ROI
+HOME_ONLY = True  # notice Phase 1 : domicile uniquement (ne pas modifier avant 200 paris loggés)
 
 PICKS_DIR = Path(__file__).parent.parent / "docs" / "picks"
 PICKS_DIR.mkdir(parents=True, exist_ok=True)
