@@ -392,20 +392,14 @@ def build_pick(event: dict, data: dict) -> dict | None:
     kickoff = kickoff_fr(event)
     if kickoff.strftime("%Y-%m-%d") != today_fr():
         return None
-    if REPORT_TYPE == "evening":
-        # Le rapport du soir remplace celui du matin sur la page : il reprend
-        # tous les matchs pas encore commencés.
-        if kickoff <= datetime.now(TZ_FRANCE):
-            return None
-        label = "🟢 Bon"
-    elif kickoff.hour >= 18:
-        label = "🟡 À confirmer à 16h30"
-    else:
-        label = "🟢 Bon"
+    # Le rapport du soir remplace celui du matin sur la page : il reprend
+    # tous les matchs pas encore commencés.
+    if REPORT_TYPE == "evening" and kickoff <= datetime.now(TZ_FRANCE):
+        return None
 
     bet = choose_bet(data)
     pick = {
-        "sport": SPORT_LABEL, "status": label, "heure": kickoff.strftime("%Hh%M"),
+        "sport": SPORT_LABEL, "heure": kickoff.strftime("%Hh%M"),
         "championnat": event.get("sport_title", ""), "sport_key": event.get("sport_key", ""),
         "home_team": event["home_team"], "away_team": event["away_team"],
         "event_id": event.get("id", ""),
@@ -561,7 +555,7 @@ def main():
     print(f"\n✓ {len(picks)} matchs → {out}")
     print(f"  Veille : {wins}W / {losses}L sur {total} résolus")
     for p in picks:
-        print(f"  {p['status']} | {p['heure']} | {p['championnat']} | {p['home_team']} – "
+        print(f"  {p['heure']} | {p['championnat']} | {p['home_team']} – "
               f"{p['away_team']} | {p['pari'] or 'cotes indisponibles'} @ {p['cote']} | "
               f"{p['proba']}% | hist. {p['historique']} | valeur {p['valeur']}% | "
               f"{p['etoiles']}★ {p['note']} (score {p['score']})")

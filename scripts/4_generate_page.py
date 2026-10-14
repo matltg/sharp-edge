@@ -86,7 +86,6 @@ def match_line(pick: dict) -> str:
 
 
 def render_pick_card(pick: dict) -> str:
-    status_bg = "#854d0e" if "confirmer" in pick["status"] else "#166534"
     if pick.get("pari"):
         note = "" if pick.get("dans_fenetre", True) else " · hors fenêtre 1,20–1,50"
         bet = f"""
@@ -102,10 +101,7 @@ def render_pick_card(pick: dict) -> str:
         bet = '<div class="bet-ref">Cotes Over/Under indisponibles pour ce match</div>'
     return f"""
     <div class="pick-card">
-      <div class="pick-top">
-        <span class="pick-sport">{pick.get('sport', '⚽ Football')}</span>
-        <span class="pick-status" style="background:{status_bg}">{pick['status']}</span>
-      </div>
+      <div class="pick-sport">{pick.get('sport', '⚽ Football')}</div>
       <div class="pick-header">{pick['heure']} · {pick['championnat']}</div>
       <div class="pick-match">{match_line(pick)}</div>{bet}
     </div>"""
@@ -305,10 +301,7 @@ def generate_index(date_str: str, picks: dict):
     .picks-grid{{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:1rem}}
     .pick-card{{background:var(--surface);border:1px solid var(--border);
                 border-radius:.75rem;padding:1rem;display:flex;flex-direction:column;gap:.6rem}}
-    .pick-top{{display:flex;justify-content:space-between;align-items:center;gap:.5rem}}
     .pick-sport{{font-size:.75rem;color:var(--muted)}}
-    .pick-status{{display:inline-block;padding:.2rem .6rem;border-radius:.4rem;
-                  font-size:.72rem;font-weight:600;width:fit-content}}
     .pick-header{{font-size:.8rem;color:var(--muted)}}
     .pick-match{{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}}
     .pick-team{{font-weight:700;font-size:1rem}}
