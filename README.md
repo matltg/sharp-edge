@@ -55,10 +55,15 @@ sharp-edge/
 
 | Filtre | Valeur |
 |--------|--------|
-| Cote favori | 1,20 – 1,50 |
-| Camp | Domicile uniquement |
+| Match | Favori à domicile (handicap asiatique médian du domicile ≤ -0,75) |
+| Pari principal | Over buts, ligne simple (x.5) la plus haute cotée 1,20 – 1,50 |
+| Pari de secours | Handicap asiatique ligne entière (0, -1, -2…) pour le domicile, toujours affiché |
+| Tri | Cote croissante (proxy Phase 1 du plus solide au moins fort) |
 | Rapport matin | Tous matchs du jour |
 | Rapport soir | Matchs après 18h uniquement (confirmation) |
+
+Crédits The Odds API : ~18/jour (handicaps des 18 sources) + ~2 par favori à
+domicile du jour (lignes alternatives) + scores de la veille, soit ~700–750/mois.
 
 ## 📈 Niveaux de fiabilité
 
@@ -69,9 +74,10 @@ sharp-edge/
 | ★★★☆☆ Correct | 1,30–1,40 |
 | ★★☆☆☆ À surveiller | 1,40–1,50 |
 
-Le taux de victoire affiché sur chaque pick est calculé automatiquement par le
-backtest hebdomadaire (`data/calibration.json`) : 5 dernières saisons complètes
-+ saison en cours, à la meilleure cote du marché. La fenêtre de saisons avance
+Le taux de réussite affiché sur chaque pick est calculé automatiquement par le
+backtest hebdomadaire (`data/calibration.json`) sur l'Over 2.5 — seule ligne
+Over/Under disponible dans l'historique football-data.co.uk — : 5 dernières
+saisons complètes + saison en cours, à la meilleure cote du marché. La fenêtre de saisons avance
 seule chaque 1er juillet.
 
 ## 🗺️ Feuille de route

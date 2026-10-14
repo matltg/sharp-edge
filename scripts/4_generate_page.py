@@ -81,8 +81,17 @@ def render_pick_card(pick: dict) -> str:
         </div>
       </div>
       <div class="pick-fiability" style="color:{color}">{pick['fiabilite']}</div>
-      <div class="pick-bet">📋 {pick['pari']} — réf. {pick['bookmaker_ref']}</div>
+      <div class="pick-bet">📋 <strong>{pick['pari']}</strong> @ {pick['cote']} — réf. {pick['bookmaker_ref']}</div>
+      {render_backup(pick.get('secours'))}
     </div>"""
+
+
+def render_backup(sec: dict | None) -> str:
+    if not sec:
+        return '<div class="pick-backup">🛟 Secours : handicap ligne entière indisponible</div>'
+    note = "" if sec.get("dans_fenetre") else " · hors fenêtre 1,20–1,50"
+    return (f'<div class="pick-backup">🛟 Secours : {sec["pari"]} @ {sec["cote"]}'
+            f' — réf. {sec["bookmaker"]}{note}</div>')
 
 
 def render_yesterday_card(pick: dict) -> str:
@@ -102,8 +111,9 @@ def render_yesterday_card(pick: dict) -> str:
         {match_line(pick)}
       </div>
       <div class="yest-meta">
-        {pick.get('championnat','?')} · {pick.get('heure','?')} · cote {pick.get('cote','?')}
+        {pick.get('pari','?')} @ {pick.get('cote','?')} · {pick.get('championnat','?')} · {pick.get('heure','?')}
       </div>
+      {f'<div class="yest-meta">{pick["secours_label"]}</div>' if pick.get('secours_label') else ''}
     </div>"""
 
 
@@ -229,6 +239,7 @@ def generate_index(date_str: str, picks: dict):
     .odds-value{{font-size:1.4rem;font-weight:800}}
     .pct-value{{font-size:.95rem;font-weight:600}}
     .pick-fiability{{font-size:.8rem;font-weight:600}}
+    .pick-backup{{font-size:.75rem;color:var(--muted)}}
     .pick-bet{{font-size:.75rem;color:var(--muted);border-top:1px solid var(--border);padding-top:.5rem}}
     /* Résultats veille */
     .yest-summary{{display:flex;gap:1.5rem;margin-bottom:1rem;flex-wrap:wrap}}

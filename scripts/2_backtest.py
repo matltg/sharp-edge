@@ -1,12 +1,14 @@
 """
-sharp-edge | Script 2 — Backtesting
-Vérifie que le biais favori-outsider est présent sur nos championnats.
-Calcule le ROI de différentes stratégies de mise sur les favoris 1.20-1.50,
-pour plusieurs sources de cotes (Bet365, moyenne du marché, meilleure cote).
+sharp-edge | Script 2 — Backtesting (paris de la notice Phase 1)
+- Pari principal : Over buts coté 1,20–1,50. L'historique football-data.co.uk
+  ne contient que la ligne 2.5 : elle sert de proxy (les picks réels prennent
+  souvent l'Over 1.5, non backtestable ici).
+- Pari de secours : handicap asiatique ligne entière pour le domicile, sur la
+  ligne principale du marché (seule disponible dans l'historique).
+- Favori à domicile = ligne handicap domicile ≤ -0.75, comme 3_daily_picks.py.
 
-Produit aussi data/calibration.json : taux de victoire observés par palier de
-cote, relu par 3_daily_picks.py et 4_generate_page.py. Les pourcentages
-affichés sur les picks suivent donc automatiquement la fenêtre de saisons.
+Produit data/calibration.json (taux de réussite de l'Over par palier de cote),
+relu par 3_daily_picks.py et 4_generate_page.py.
 """
 
 import json
@@ -19,30 +21,27 @@ import pandas as pd
 DATA_DIR = Path(__file__).parent.parent / "data"
 DATA_DIR.mkdir(exist_ok=True)
 
-# Sources de cotes : par ligne, la 1re colonne renseignée est utilisée
-# (les colonnes Bb* servent de secours pour les anciennes saisons)
-ODDS_SOURCES = {
-    "b365": {"H": ["B365H"],          "A": ["B365A"]},
-    "avg":  {"H": ["AvgH", "BbAvH"],  "A": ["AvgA", "BbAvA"]},
-    "max":  {"H": ["MaxH", "BbMxH"],  "A": ["MaxA", "BbMxA"]},
+# Par ligne, la 1re colonne renseignée est utilisée (Bb* = anciennes saisons)
+OVER_SOURCES = {
+    "b365": ["B365>2.5"],
+    "avg":  ["Avg>2.5", "BbAv>2.5"],
+    "max":  ["Max>2.5", "BbMx>2.5"],
+}
+AH_LINE = ["AHh", "BbAHh"]
+AH_HOME_SOURCES = {
+    "b365": ["B365AHH"],
+    "avg":  ["AvgAHH", "BbAvAHH"],
+    "max":  ["MaxAHH", "BbMxAHH"],
 }
 SOURCE_LABELS = {"b365": "B365", "avg": "moyenne", "max": "meilleure cote"}
+REFERENCE_SOURCE = "max"  # comme 3_daily_picks.py (meilleure cote du marché)
 
-# "max" = meilleure cote du marché, comme 3_daily_picks.py (best odds EU)
-REFERENCE_SOURCE = "max"
+MIN_ODDS, MAX_ODDS = 1.20, 1.50
+HOME_FAV_MAX_LINE = -0.75
 
-MIN_ODDS = 1.20
+ODDS_WINDOWS = [(1.20, 1.30), (1.30, 1.40), (1.40, 1.50), (1.20, 1.50)]
 
-# Fenêtres de cotes à tester (borne basse exclue sauf 1.20, borne haute incluse,
-# comme les filtres de 3_daily_picks.py)
-ODDS_WINDOWS = [
-    (1.20, 1.30),
-    (1.30, 1.40),
-    (1.40, 1.50),
-    (1.20, 1.50),  # fenêtre globale
-]
-
-# Paliers de fiabilité affichés sur les picks
+# Paliers de fiabilité affichés sur les picks (cote du pari principal)
 TIERS = [
     (1.20, 1.25, "★★★★★ Très solide"),
     (1.25, 1.30, "★★★★☆ Solide"),
@@ -56,7 +55,8 @@ def load_data() -> pd.DataFrame:
     if not path.exists():
         raise FileNotFoundError("Lance d'abord 1_collect_data.py")
     df = pd.read_csv(path, low_memory=False)
-    print(f"Données chargées : {len(df)} matchs")
+    df = df[df["FTR"].isin(["H", "D", "A"])].copy()
+    print(f"Données chargées : {len(df)} matchs joués")
     return df
 
 
@@ -68,20 +68,30 @@ def coalesce(df: pd.DataFrame, cols: list) -> pd.Series:
     return out
 
 
-def favourites(df: pd.DataFrame, source: str) -> pd.DataFrame:
-    """Une ligne par match : cote du favori, camp ('H'/'A'), victoire du favori."""
-    h = coalesce(df, ODDS_SOURCES[source]["H"])
-    a = coalesce(df, ODDS_SOURCES[source]["A"])
-    home_fav = h < a
-    fav = pd.DataFrame({
-        "league": df["league_name"],
-        "season": df["season"],
-        "odds":   np.where(home_fav, h, a),
-        "camp":   np.where(home_fav, "H", "A"),
-        "won":    np.where(home_fav, df["FTR"] == "H", df["FTR"] == "A"),
+def over_bets(df: pd.DataFrame, source: str) -> pd.DataFrame:
+    goals = pd.to_numeric(df["FTHG"], errors="coerce") + pd.to_numeric(df["FTAG"], errors="coerce")
+    odds = coalesce(df, OVER_SOURCES[source])
+    won = goals > 2.5
+    bets = pd.DataFrame({
+        "league": df["league_name"], "season": df["season"], "odds": odds,
+        "home_fav": coalesce(df, AH_LINE) <= HOME_FAV_MAX_LINE,
+        "won": won, "profit": np.where(won, odds - 1, -1.0),
     })
-    valid = h.notna() & a.notna() & df["FTR"].isin(["H", "D", "A"])
-    return fav[valid]
+    return bets[odds.notna() & goals.notna()]
+
+
+def ah_bets(df: pd.DataFrame, source: str) -> pd.DataFrame:
+    line = coalesce(df, AH_LINE)
+    odds = coalesce(df, AH_HOME_SOURCES[source])
+    margin = pd.to_numeric(df["FTHG"], errors="coerce") - pd.to_numeric(df["FTAG"], errors="coerce")
+    res = margin + line
+    bets = pd.DataFrame({
+        "season": df["season"], "line": line, "odds": odds,
+        "won": res > 0, "push": res == 0,
+        "profit": np.select([res > 0, res == 0], [odds - 1, 0.0], -1.0),
+    })
+    mask = odds.notna() & (line % 1 == 0) & (line <= HOME_FAV_MAX_LINE)
+    return bets[mask]
 
 
 def in_range(odds: pd.Series, lo: float, hi: float) -> pd.Series:
@@ -89,106 +99,108 @@ def in_range(odds: pd.Series, lo: float, hi: float) -> pd.Series:
     return lower & (odds <= hi)
 
 
-def select(fav: pd.DataFrame, lo: float, hi: float, home_only: bool) -> pd.DataFrame:
-    mask = in_range(fav["odds"], lo, hi)
+def select(bets: pd.DataFrame, lo: float, hi: float, home_only: bool) -> pd.DataFrame:
+    mask = in_range(bets["odds"], lo, hi)
     if home_only:
-        mask &= fav["camp"] == "H"
-    return fav[mask]
+        mask &= bets["home_fav"]
+    return bets[mask]
 
 
 def stats(sub: pd.DataFrame) -> dict:
     n = len(sub)
     if n == 0:
         return {"n": 0, "win_rate": None, "roi": None}
-    profit = np.where(sub["won"], sub["odds"] - 1, -1.0)
     return {
         "n": n,
         "win_rate": round(float(sub["won"].mean()) * 100, 1),
-        "roi": round(float(profit.mean()) * 100, 2),
+        "roi": round(float(sub["profit"].mean()) * 100, 2),
     }
 
 
 def main():
     df = load_data()
-    favs = {src: favourites(df, src) for src in ODDS_SOURCES}
-    for src, fav in favs.items():
-        print(f"  {SOURCE_LABELS[src]:15s} : {len(fav)} matchs exploitables")
-    ref = favs[REFERENCE_SOURCE]
+    overs = {src: over_bets(df, src) for src in OVER_SOURCES}
+    ref = overs[REFERENCE_SOURCE]
 
-    # 1. Résultats globaux par fenêtre de cotes, pour chaque source
-    print("\n=== BACKTESTING GLOBAL (tous championnats) ===")
-    summary_rows = []
+    # 1. Over 2.5 : résultats globaux par fenêtre de cotes, pour chaque source
+    print("\n=== OVER 2.5 — GLOBAL ===")
+    rows = []
     for lo, hi in ODDS_WINDOWS:
         for home_only in [False, True]:
-            label = f"{lo}–{hi}" + (" domicile" if home_only else " tous")
+            label = f"{lo}–{hi}" + (" favori domicile" if home_only else " tous matchs")
             row = {"Stratégie": label}
-            for src, fav in favs.items():
-                s = stats(select(fav, lo, hi, home_only))
+            for src, bets in overs.items():
+                s = stats(select(bets, lo, hi, home_only))
                 name = SOURCE_LABELS[src]
                 row[f"n ({name})"] = s["n"]
                 row[f"Win% ({name})"] = s["win_rate"]
                 row[f"ROI% ({name})"] = s["roi"]
-            summary_rows.append(row)
-            print(f"  {label:20s} | " + " | ".join(
-                f"{SOURCE_LABELS[s]} n={row[f'n ({SOURCE_LABELS[s]})']:5d} "
-                f"ROI={row[f'ROI% ({SOURCE_LABELS[s]})'] or 0:+6.2f}%"
-                for s in favs))
-    pd.DataFrame(summary_rows).to_csv(DATA_DIR / "backtest_global.csv", index=False)
+            rows.append(row)
+            r = row[f"ROI% ({SOURCE_LABELS[REFERENCE_SOURCE]})"]
+            print(f"  {label:28s} | n={row[f'n ({SOURCE_LABELS[REFERENCE_SOURCE]})']:5d} | "
+                  f"ROI meilleure cote={r if r is not None else 0:+6.2f}%")
+    pd.DataFrame(rows).to_csv(DATA_DIR / "backtest_global.csv", index=False)
 
-    # 2. Par saison (fenêtre 1.20–1.50, domicile, meilleure cote) : stabilité
-    print("\n=== PAR SAISON (1.20–1.50 domicile, meilleure cote) ===")
+    # 2. Par saison (1.20–1.50, favori domicile, meilleure cote) : stabilité
+    print("\n=== OVER 2.5 — PAR SAISON (1.20–1.50 favori domicile, meilleure cote) ===")
     season_rows = []
     for season in sorted(ref["season"].dropna().unique()):
-        s = stats(select(ref[ref["season"] == season], 1.20, 1.50, home_only=True))
+        s = stats(select(ref[ref["season"] == season], MIN_ODDS, MAX_ODDS, home_only=True))
         season_rows.append({"Saison": season, "Matchs": s["n"],
                             "Win%": s["win_rate"], "ROI%": s["roi"]})
     season_df = pd.DataFrame(season_rows)
     print(season_df.to_string(index=False))
     season_df.to_csv(DATA_DIR / "backtest_by_season.csv", index=False)
 
-    # 3. Par championnat (fenêtre 1.20–1.50, meilleure cote)
-    print("\n=== PAR CHAMPIONNAT (1.20–1.50, meilleure cote) ===")
+    # 3. Par championnat (1.20–1.50, meilleure cote)
     league_rows = []
     for league in ref["league"].dropna().unique():
         sub = ref[ref["league"] == league]
-        s_all = stats(select(sub, 1.20, 1.50, home_only=False))
-        s_home = stats(select(sub, 1.20, 1.50, home_only=True))
+        s_all = stats(select(sub, MIN_ODDS, MAX_ODDS, home_only=False))
+        s_home = stats(select(sub, MIN_ODDS, MAX_ODDS, home_only=True))
         league_rows.append({
             "Championnat": league,
             "Matchs (tous)": s_all["n"], "Win% (tous)": s_all["win_rate"],
             "ROI% (tous)": s_all["roi"],
-            "Matchs (domicile)": s_home["n"], "Win% (domicile)": s_home["win_rate"],
-            "ROI% (domicile)": s_home["roi"],
+            "Matchs (favori domicile)": s_home["n"], "Win% (favori domicile)": s_home["win_rate"],
+            "ROI% (favori domicile)": s_home["roi"],
         })
-    league_df = pd.DataFrame(league_rows).sort_values("ROI% (tous)", ascending=False)
-    print(league_df.to_string(index=False))
+    league_df = pd.DataFrame(league_rows).sort_values("ROI% (favori domicile)", ascending=False)
     league_df.to_csv(DATA_DIR / "backtest_by_league.csv", index=False)
+    # Filtres candidats — échantillons faibles : à confirmer avant usage
+    league_df[(league_df["ROI% (favori domicile)"] > 0) &
+              (league_df["Matchs (favori domicile)"] > 50)].to_csv(
+        DATA_DIR / "backtest_filters.csv", index=False)
 
-    # 4. Filtres candidats — échantillons faibles : à confirmer avant usage
-    good = league_df[(league_df["ROI% (domicile)"] > 0) &
-                     (league_df["Matchs (domicile)"] > 50)]
-    good.to_csv(DATA_DIR / "backtest_filters.csv", index=False)
+    # 4. Secours : handicap asiatique ligne entière (ligne principale)
+    print("\n=== SECOURS — HANDICAP ASIATIQUE LIGNE ENTIÈRE (domicile) ===")
+    ah_rows = []
+    for src in AH_HOME_SOURCES:
+        b = ah_bets(df, src)
+        s = stats(b)
+        ah_rows.append({"Source": SOURCE_LABELS[src], **s,
+                        "Remboursés%": round(float(b["push"].mean()) * 100, 1) if len(b) else None,
+                        "Cote médiane": round(float(b["odds"].median()), 2) if len(b) else None})
+        print(f"  {SOURCE_LABELS[src]:15s} | n={s['n']:5d} | gagnés={s['win_rate']}% | ROI={s['roi']}%")
+    pd.DataFrame(ah_rows).to_csv(DATA_DIR / "backtest_handicap.csv", index=False)
 
-    # 5. Calibration des paliers, relue par les scripts de picks et de page
-    tiers = []
-    for lo, hi, label in TIERS:
-        tiers.append({
-            "min": lo, "max": hi, "label": label,
-            "home": stats(select(ref, lo, hi, home_only=True)),
-            "all":  stats(select(ref, lo, hi, home_only=False)),
-        })
-    seasons = sorted(df["season"].dropna().unique().tolist())
+    # 5. Calibration des paliers (Over 2.5, meilleure cote)
+    tiers = [{"min": lo, "max": hi, "label": label,
+              "home": stats(select(ref, lo, hi, home_only=True)),
+              "all":  stats(select(ref, lo, hi, home_only=False))}
+             for lo, hi, label in TIERS]
     calibration = {
         "generated_at": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
-        "source": SOURCE_LABELS[REFERENCE_SOURCE],
-        "seasons": seasons,
+        "market": "Over 2.5 buts",
+        "source": f"Over 2.5, {SOURCE_LABELS[REFERENCE_SOURCE]}",
+        "seasons": sorted(df["season"].dropna().unique().tolist()),
         "n_matches": int(len(df)),
         "tiers": tiers,
     }
     with open(DATA_DIR / "calibration.json", "w", encoding="utf-8") as f:
         json.dump(calibration, f, ensure_ascii=False, indent=2)
 
-    print("\n=== CALIBRATION (domicile, meilleure cote) ===")
+    print("\n=== CALIBRATION (Over 2.5, favori domicile, meilleure cote) ===")
     for t in tiers:
         s = t["home"]
         print(f"  {t['label']:22s} {t['min']}–{t['max']} | n={s['n']:5d} | "
