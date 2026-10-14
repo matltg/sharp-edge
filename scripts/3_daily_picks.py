@@ -20,6 +20,8 @@ AFFICHAGE : tous les matchs du jour, sans filtre, triés par valeur.
     sans Pinnacle, moyenne des autres bookmakers calculée de la même façon.
   - Historique : taux de réussite réel, dans le backtest, des matchs dont la
     probabilité prédite sur cette ligne était similaire (data/calibration.json).
+    La prédiction est faite comme dans le backtest : ligne 2.5 de Pinnacle →
+    nombre de buts attendu (Poisson) → probabilité de la ligne.
   - Suivi : chaque pick résolu est ajouté à docs/picks/suivi.json (annoncé
     contre réalisé), affiché sur la page.
   - Valeur : probabilité × cote − 1. Au-dessus de 0 %, la cote paie plus que
@@ -49,6 +51,7 @@ SOURCES ACTIVES : 18 championnats/compétitions (Phase 1 — football uniquement
 import os
 import json
 import requests
+from math import exp, factorial
 from datetime import datetime, timedelta, timezone
 from zoneinfo import ZoneInfo
 from pathlib import Path
@@ -151,10 +154,13 @@ STARS = [  # (score minimum en %, étoiles, libellé)
 ]
 
 
-def rating(proba: float | None, odds: float, side: str, line: float) -> dict:
-    # Score = moyenne pondérée de la valeur marché et de la valeur historique
+def rating(proba: float | None, odds: float, side: str, line: float,
+           model_proba: float | None) -> dict:
+    # Score = moyenne pondérée de la valeur marché et de la valeur historique.
+    # L'historique est cherché avec la probabilité « modèle » (Poisson depuis la
+    # ligne 2.5), comme dans le backtest — pas avec la probabilité de marché.
     market = None if proba is None else (proba / 100 * odds - 1) * 100
-    rate, n = history_stats(side, line, proba)
+    rate, n = history_stats(side, line, model_proba)
     hist = None if rate is None else (rate / 100 * odds - 1) * 100
     if market is None and hist is None:
         return {"score": None, "etoiles": None, "note": None}
@@ -286,10 +292,35 @@ def fair_prob(data: dict, line: float) -> tuple:
             f"moyenne de {len(probs)} bookmaker{'s' if len(probs) > 1 else ''}")
 
 
+def p_over_poisson(lam: float, line: float) -> float:
+    """P(buts > line) pour une loi de Poisson de moyenne lam."""
+    return 1 - sum(exp(-lam) * lam ** i / factorial(i) for i in range(int(line) + 1))
+
+
+def match_lambda(data: dict) -> float | None:
+    """Nombre de buts attendu, déduit de la ligne 2.5 (Pinnacle, marge retirée)
+    comme dans le backtest ; à défaut, de la ligne x.5 disponible la plus proche."""
+    lines = sorted({float(o["point"]) for bk in data.get("bookmakers", [])
+                    for m in bk.get("markets", []) for o in m.get("outcomes", [])
+                    if o.get("point") is not None and float(o["point"]) % 1 == 0.5},
+                   key=lambda pt: abs(pt - 2.5))
+    for pt in lines:
+        p, _ = fair_prob(data, pt)
+        if p is None or not 0.5 < p < 99.5:
+            continue
+        lo, hi = 0.05, 10.0
+        for _ in range(60):
+            lam = (lo + hi) / 2
+            lo, hi = (lam, hi) if p_over_poisson(lam, pt) < p / 100 else (lo, lam)
+        return (lo + hi) / 2
+    return None
+
+
 def choose_bet(data: dict) -> dict | None:
     """Parmi tous les Over et Under en ligne simple (x.5) cotés dans 1,20–1,50 :
     celui qui a la meilleure note, puis la meilleure probabilité. Sans candidat
     dans la fenêtre : celui dont la cote en est la plus proche."""
+    lam = match_lambda(data)
     candidates = []
     for side in ("Over", "Under"):
         for pt, (price, book) in ref_prices(data, side).items():
@@ -298,10 +329,13 @@ def choose_bet(data: dict) -> dict | None:
             over_proba, proba_source = fair_prob(data, pt)
             proba = (None if over_proba is None
                      else over_proba if side == "Over" else round(100 - over_proba, 1))
+            model_over = None if lam is None else p_over_poisson(lam, pt) * 100
+            model = (None if model_over is None
+                     else round(model_over if side == "Over" else 100 - model_over, 1))
             candidates.append({"side": side, "line": pt, "cote": price, "source": book,
                                "in_window": in_window(price), "proba": proba,
-                               "proba_source": proba_source,
-                               **rating(proba, price, side, pt)})
+                               "proba_source": proba_source, "proba_modele": model,
+                               **rating(proba, price, side, pt, model)})
     if not candidates:
         return None
     inside = [c for c in candidates if c["in_window"]]
@@ -371,7 +405,8 @@ def build_pick(event: dict, data: dict) -> dict | None:
             "cote": bet["cote"], "cote_source": bet["source"],
             "dans_fenetre": bet["in_window"],
             "proba": bet["proba"], "proba_source": bet["proba_source"],
-            "historique": history_for(bet["side"], bet["line"], bet["proba"]),
+            "proba_modele": bet["proba_modele"],
+            "historique": history_for(bet["side"], bet["line"], bet["proba_modele"]),
             "valeur": (None if bet["proba"] is None
                        else round((bet["proba"] / 100 * bet["cote"] - 1) * 100, 1)),
             "score": bet["score"], "etoiles": bet["etoiles"], "note": bet["note"],
