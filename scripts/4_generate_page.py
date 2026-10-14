@@ -39,70 +39,57 @@ def load_picks(date_str: str) -> dict:
     return result
 
 
-def fiability_color(fiabilite: str) -> str:
-    if "Très solide" in fiabilite: return "#22c55e"
-    elif "Solide"     in fiabilite: return "#84cc16"
-    elif "Correct"    in fiabilite: return "#eab308"
-    else:                           return "#f97316"
-
-
-def match_line(pick: dict) -> str:
-    """Domicile – Extérieur, favori en gras, avec le camp du favori."""
-    home = pick.get("home_team") or pick.get("favori", "?")
-    away = pick.get("away_team") or pick.get("adversaire", "?")
-    fav = pick.get("favori")
-    h = f'<span class="pick-fav">{home}</span>' if home == fav else f'<span class="pick-opp">{home}</span>'
-    a = f'<span class="pick-fav">{away}</span>' if away == fav else f'<span class="pick-opp">{away}</span>'
-    camp = "🏠 domicile" if pick.get("camp") == "Domicile" else "✈️ extérieur"
-    return f'{h}<span class="pick-vs">–</span>{a}<span class="pick-vs">({camp})</span>'
-
-
-def render_pick_card(pick: dict) -> str:
-    color    = fiability_color(pick["fiabilite"])
-    status_bg = "#166534" if "Jouer" in pick["status"] else "#854d0e"
-    return f"""
-    <div class="pick-card">
-      <div class="pick-status" style="background:{status_bg}">{pick['status']}</div>
-      <div class="pick-header">
-        <span class="pick-time">{pick['heure']}</span>
-        <span class="pick-league">{pick['championnat']}</span>
-      </div>
-      <div class="pick-match">
-        {match_line(pick)}
-      </div>
-      <div class="pick-details">
-        <div class="pick-proba">
-          <span class="odds-label">Probabilité</span>
-          <span class="odds-value">{fmt_proba(pick.get('proba'))}</span>
-        </div>
-        <div class="pick-odds">
-          <span class="odds-label">Cote</span>
-          <span class="odds-value" style="color:{color}">{pick['cote']}</span>
-        </div>
-        <div class="pick-pct">
-          <span class="pct-label">Historique</span>
-          <span class="pct-value">{pick['pct_victoire_historique']}</span>
-        </div>
-      </div>
-      <div class="pick-fiability" style="color:{color}">{pick['fiabilite']}</div>
-      <div class="pick-bet">📋 <strong>{pick['pari']}</strong> @ {pick['cote']} — réf. {pick['bookmaker_ref']}</div>
-      {render_backup(pick.get('secours'))}
-    </div>"""
+def proba_color(proba) -> str:
+    if proba is None: return "var(--muted)"
+    if proba >= 75:   return "#22c55e"
+    if proba >= 65:   return "#84cc16"
+    if proba >= 55:   return "#eab308"
+    return "#f97316"
 
 
 def fmt_proba(proba) -> str:
     return "—" if proba is None else f"{proba:.0f}%"
 
 
-def render_backup(sec: dict | None) -> str:
-    if not sec:
-        return '<div class="pick-backup">🛟 Secours : handicap ligne entière indisponible</div>'
-    note = "" if sec.get("dans_fenetre") else " · hors fenêtre 1,20–1,50"
-    # ligne entière non nulle : remboursement possible, la probabilité l'exclut
-    push = " hors remboursement" if sec.get("ah_line") else ""
-    proba = f" · {fmt_proba(sec.get('proba'))}{push}" if sec.get("proba") is not None else ""
-    return (f'<div class="pick-backup">🛟 Secours : {sec["pari"]} @ {sec["cote"]}{proba}'
-            f' — réf. {sec["bookmaker"]}{note}</div>')
+def fmt_history(hist) -> str:
+    """« 79% (n=48) » → 79% avec l'effectif en petit dessous."""
+    if not hist or hist == "—":
+        return "—"
+    pct, _, n = hist.partition(" ")
+    return f'{pct}<span class="bet-n">{n}</span>' if n else pct
+
+
+def match_line(pick: dict) -> str:
+    """Domicile – Extérieur."""
+    home = pick.get("home_team") or pick.get("favori", "?")
+    away = pick.get("away_team") or pick.get("adversaire", "?")
+    return f'<span class="pick-team">{home}</span><span class="pick-vs">–</span><span class="pick-team">{away}</span>'
+
+
+def render_pick_card(pick: dict) -> str:
+    status_bg = "#854d0e" if "confirmer" in pick["status"] else "#166534"
+    if pick.get("pari"):
+        note = "" if pick.get("dans_fenetre", True) else " · hors fenêtre 1,20–1,50"
+        bet = f"""
+      <div class="bet-name">{pick['pari']}</div>
+      <div class="bet-grid">
+        <div><span class="bet-label">Cote</span><span class="bet-value">{pick['cote']}</span></div>
+        <div><span class="bet-label">Probabilité</span>
+             <span class="bet-value bet-proba" style="color:{proba_color(pick.get('proba'))}">{fmt_proba(pick.get('proba'))}</span></div>
+        <div><span class="bet-label">Historique</span><span class="bet-value">{fmt_history(pick.get('historique'))}</span></div>
+      </div>
+      <div class="bet-ref">Meilleure cote : {pick.get('bookmaker_ref', '—')}{note}</div>"""
+    else:
+        bet = '<div class="bet-ref">Cotes Over/Under indisponibles pour ce match</div>'
+    return f"""
+    <div class="pick-card">
+      <div class="pick-top">
+        <span class="pick-sport">{pick.get('sport', '⚽ Football')}</span>
+        <span class="pick-status" style="background:{status_bg}">{pick['status']}</span>
+      </div>
+      <div class="pick-header">{pick['heure']} · {pick['championnat']}</div>
+      <div class="pick-match">{match_line(pick)}</div>{bet}
+    </div>"""
 
 
 def render_yesterday_card(pick: dict) -> str:
@@ -124,7 +111,6 @@ def render_yesterday_card(pick: dict) -> str:
       <div class="yest-meta">
         {pick.get('pari','?')} @ {pick.get('cote','?')} · {pick.get('championnat','?')} · {pick.get('heure','?')}
       </div>
-      {f'<div class="yest-meta">{pick["secours_label"]}</div>' if pick.get('secours_label') else ''}
     </div>"""
 
 
@@ -179,7 +165,7 @@ def render_picks_section(title: str, picks: list, empty_msg: str) -> str:
     cards = "\n".join(render_pick_card(p) for p in picks)
     return f"""
     <section class="section">
-      <h2>{title} <span class="count">{len(picks)} picks</span></h2>
+      <h2>{title} <span class="count">{len(picks)} matchs</span></h2>
       <div class="picks-grid">{cards}</div>
     </section>"""
 
@@ -198,11 +184,11 @@ def generate_index(date_str: str, picks: dict):
     total    = len(picks["morning"]) + len(picks["evening"])
     yest_sec = render_yesterday_section(picks.get("yesterday"))
     morn_sec = render_picks_section(
-        "🌅 Rapport 4h30 — Picks du jour", picks["morning"],
-        "Aucun pick validé ce matin.")
+        "🌅 Rapport 4h30 — Matchs du jour", picks["morning"],
+        "Aucun match aujourd'hui dans les championnats suivis.")
     even_sec = render_picks_section(
         "🌆 Rapport 16h30 — Confirmation matchs du soir", picks["evening"],
-        "Rapport du soir non encore généré ou aucun match à confirmer.")
+        "Rapport du soir non encore généré ou aucun match après 18h.")
     history  = get_history_links()
 
     html = f"""<!DOCTYPE html>
@@ -238,20 +224,21 @@ def generate_index(date_str: str, picks: dict):
     .picks-grid{{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:1rem}}
     .pick-card{{background:var(--surface);border:1px solid var(--border);
                 border-radius:.75rem;padding:1rem;display:flex;flex-direction:column;gap:.6rem}}
+    .pick-top{{display:flex;justify-content:space-between;align-items:center;gap:.5rem}}
+    .pick-sport{{font-size:.75rem;color:var(--muted)}}
     .pick-status{{display:inline-block;padding:.2rem .6rem;border-radius:.4rem;
                   font-size:.72rem;font-weight:600;width:fit-content}}
-    .pick-header{{display:flex;justify-content:space-between;font-size:.8rem;color:var(--muted)}}
+    .pick-header{{font-size:.8rem;color:var(--muted)}}
     .pick-match{{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}}
-    .pick-fav{{font-weight:700;font-size:1rem}}
+    .pick-team{{font-weight:700;font-size:1rem}}
     .pick-vs{{color:var(--muted);font-size:.8rem}}
-    .pick-opp{{color:var(--muted);font-size:.9rem}}
-    .pick-details{{display:flex;gap:1.5rem}}
-    .odds-label,.pct-label{{display:block;font-size:.7rem;color:var(--muted)}}
-    .odds-value{{font-size:1.4rem;font-weight:800}}
-    .pct-value{{font-size:.95rem;font-weight:600}}
-    .pick-fiability{{font-size:.8rem;font-weight:600}}
-    .pick-backup{{font-size:.75rem;color:var(--muted)}}
-    .pick-bet{{font-size:.75rem;color:var(--muted);border-top:1px solid var(--border);padding-top:.5rem}}
+    .bet-name{{font-weight:700;font-size:.95rem;border-top:1px solid var(--border);padding-top:.6rem}}
+    .bet-grid{{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem}}
+    .bet-n{{display:block;font-size:.65rem;font-weight:400;color:var(--muted)}}
+    .bet-label{{display:block;font-size:.68rem;color:var(--muted)}}
+    .bet-value{{font-size:.9rem;font-weight:600}}
+    .bet-proba{{font-size:1.15rem;font-weight:800}}
+    .bet-ref{{font-size:.72rem;color:var(--muted)}}
     /* Résultats veille */
     .yest-summary{{display:flex;gap:1.5rem;margin-bottom:1rem;flex-wrap:wrap}}
     .yest-stat{{text-align:center}}
@@ -277,11 +264,11 @@ def generate_index(date_str: str, picks: dict):
   <header>
     <div>
       <div class="logo">⚡ Sharp-Edge</div>
-      <div class="meta">Sports betting filter — low odds favourites</div>
+      <div class="meta">Probabilités Over/Under — matchs du jour</div>
     </div>
     <div style="display:flex;align-items:center;gap:.75rem">
       <span class="meta">{date_str} · MàJ {now_fr}</span>
-      <span class="badge">{total} picks</span>
+      <span class="badge">{total} matchs</span>
     </div>
   </header>
   <main>
@@ -310,7 +297,7 @@ def main():
     picks    = load_picks(date_str)
     generate_index(date_str, picks)
     total = len(picks["morning"]) + len(picks["evening"])
-    print(f"  Matin : {len(picks['morning'])} picks | Soir : {len(picks['evening'])} picks | Total : {total}")
+    print(f"  Matin : {len(picks['morning'])} matchs | Soir : {len(picks['evening'])} matchs | Total : {total}")
 
 
 if __name__ == "__main__":

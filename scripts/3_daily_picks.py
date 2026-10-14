@@ -1,6 +1,7 @@
 """
-sharp-edge | Script 3 — Picks du jour
-Récupère les matchs via The Odds API et applique les filtres de validation.
+sharp-edge | Script 3 — Matchs du jour
+Liste tous les matchs du jour avec un pari Over/Under, sa cote, sa probabilité
+estimée par le marché et le taux historique sur des cotes similaires.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 NOTICE D'INTENTION
@@ -8,36 +9,29 @@ NOTICE D'INTENTION
 
 OBJECTIF : 2 rapports quotidiens (4h30 et 16h30 heure France).
 
-PARIS (notice Phase 1 football) :
-  - Sélection : favori (domicile ou extérieur), repéré par le handicap
-    asiatique médian des bookmakers (il rend au moins FAV_MAX_LINE but).
-    HOME_ONLY = True limite aux favoris à domicile.
-  - Pari principal : Over buts, ligne simple (x.5, sans remboursement partiel).
-    On prend la ligne la plus haute dont la meilleure cote est dans 1,20–1,50.
-    Pas de ligne dans la fenêtre → pas de pick.
-  - Pari de secours (toujours affiché) : handicap asiatique ligne entière
-    (0, -1, -2…) pour le favori, même règle de fenêtre ; à défaut,
-    la ligne entière la plus proche, signalée hors fenêtre.
-  - Probabilité : estimée par le marché (moyenne des bookmakers, marge retirée).
-  - Tri : du plus probable au moins probable (à défaut : cote croissante).
+AFFICHAGE : tous les matchs du jour, sans filtre, triés par probabilité.
+  - Pari : Over buts, ligne simple (x.5, sans remboursement partiel). On prend
+    la ligne la plus haute dont la meilleure cote est dans 1,20–1,50 ; à défaut,
+    la ligne dont la cote est la plus proche de cette fenêtre (signalée).
+  - Probabilité : estimée par le marché — pour chaque bookmaker cotant Over et
+    Under sur la même ligne, (1/cote Over) / (1/cote Over + 1/cote Under),
+    puis moyenne (la marge du bookmaker est ainsi retirée).
+  - Historique : taux de réussite observé dans le backtest sur des cotes
+    similaires (data/calibration.json).
 
-STRATÉGIE CRÉDITS (1 crédit = 1 marché × 1 région) :
-  - Matin : handicap asiatique (spreads) pour les 18 sources = 18 crédits,
-    puis lignes alternatives (alternate_totals + alternate_spreads) pour les
-    seuls favoris du jour = ~2 crédits/match.
+STRATÉGIE CRÉDITS (1 crédit = 1 marché renvoyé × 1 région) :
+  - Liste des matchs du jour : endpoint /events, gratuit.
+  - Lignes Over/Under de chaque match (alternate_totals, à défaut totals) :
+    1 crédit par match.
   - Tout est mis en cache dans docs/picks/YYYY-MM-DD_raw.json ; le rapport du
     soir relit ce cache sans rappeler l'API (sauf REFRESH_EVENING = True).
   - Résultats de la veille : endpoint scores, 2 crédits par source concernée.
-  - Estimation : ~800–900 crédits/mois → au-delà du plan gratuit (500).
-
-PASSAGE AU PLAN PAYANT :
-  Activer REFRESH_EVENING = True ci-dessous pour rafraîchir les cotes à 16h30.
+  - Estimation : ~25 matchs/jour en moyenne → ~800–1 000 crédits/mois.
 
 SOURCES RETIRÉES VOLONTAIREMENT (réactiver en décommentant) :
   - soccer_greece_super_league  : marché peu liquide, peu de matchs en semaine
   - soccer_spl                  : Écosse Premiership — faible volume
   - soccer_italy_serie_b        : peu actif les soirs de coupe européenne
-  Ces 3 sources peuvent aussi être réactivées lors du passage au plan payant.
 
 SOURCES ACTIVES : 18 championnats/compétitions (Phase 1 — football uniquement)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -45,9 +39,8 @@ SOURCES ACTIVES : 18 championnats/compétitions (Phase 1 — football uniquement
 
 import os
 import json
-import statistics
 import requests
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from zoneinfo import ZoneInfo
 from pathlib import Path
 
@@ -57,9 +50,10 @@ BASE_URL     = "https://api.the-odds-api.com/v4"
 REPORT_TYPE  = os.environ.get("REPORT_TYPE", "morning")  # morning | evening
 
 # Plan payant : mettre True pour rafraîchir les cotes à 16h30
-REFRESH_EVENING = False  # ← passer à True lors du passage au plan payant
+REFRESH_EVENING = False
 
 TZ_FRANCE = ZoneInfo("Europe/Paris")  # gère automatiquement heure été / hiver
+SPORT_LABEL = "⚽ Football"
 
 # ── SOURCES ACTIVES ───────────────────────────────────────────────────────────
 SPORTS = [
@@ -81,63 +75,47 @@ SPORTS = [
     "soccer_uefa_champs_league",             # UEFA Champions League
     "soccer_uefa_europa_league",             # UEFA Europa League
     "soccer_uefa_europa_conference_league",  # UEFA Conference League
-    # ── DÉSACTIVÉES — décommenter pour réactiver (plan payant recommandé) ──
+    # ── DÉSACTIVÉES — décommenter pour réactiver ──
     # "soccer_greece_super_league",          # Super League Grèce
     # "soccer_spl",                          # Premiership Écosse
     # "soccer_italy_serie_b",                # Serie B Italie
 ]
 
-# ── FILTRES ───────────────────────────────────────────────────────────────────
-MIN_ODDS  = 1.20
-MAX_ODDS  = 1.50
-HOME_ONLY = False  # filtre domicile retiré (la notice Phase 1 prévoyait domicile uniquement)
-# Favori = équipe dont le handicap asiatique médian est ≤ cette ligne.
-# -0.75 correspond à peu près à une cote 1X2 ≤ 1,55.
-FAV_MAX_LINE = -0.75
+# ── CHOIX DE LA LIGNE ─────────────────────────────────────────────────────────
+MIN_ODDS = 1.20
+MAX_ODDS = 1.50
 
 PICKS_DIR = Path(__file__).parent.parent / "docs" / "picks"
 PICKS_DIR.mkdir(parents=True, exist_ok=True)
 
-# ── PALIERS DE FIABILITÉ ──────────────────────────────────────────────────────
-# Les taux affichés viennent de data/calibration.json (généré chaque semaine par
-# 2_backtest.py, sur l'Over 2.5 — seule ligne disponible dans l'historique).
-# Valeurs ci-dessous utilisées seulement si le fichier manque.
+# ── HISTORIQUE (backtest) ─────────────────────────────────────────────────────
 CALIBRATION_PATH = Path(__file__).parent.parent / "data" / "calibration.json"
-DEFAULT_TIERS = [
-    (1.25, "★★★★★ Très solide",  "—"),
-    (1.30, "★★★★☆ Solide",       "—"),
-    (1.40, "★★★☆☆ Correct",      "—"),
-    (1.50, "★★☆☆☆ À surveiller", "—"),
-]
+MIN_HISTORY_N = 30  # en dessous, l'échantillon est trop petit pour être affiché
 
 
-def load_tiers() -> list:
-    """Retourne [(cote_max, label, pct_affiché), ...] trié par cote."""
+def load_buckets() -> list:
     try:
         with open(CALIBRATION_PATH, encoding="utf-8") as f:
             cal = json.load(f)
-        key = "home" if HOME_ONLY else "all"
-        tiers = []
-        for t in cal["tiers"]:
-            s = t[key]
-            pct = f"{s['win_rate']}% (n={s['n']})" if s["n"] else "—"
-            tiers.append((t["max"], t["label"], pct))
-        source = f"backtest du {cal['generated_at']} ({cal['seasons'][0]} → {cal['seasons'][-1]})"
+        buckets = cal["buckets"]
+        print(f"  Historique : backtest du {cal['generated_at']} "
+              f"({cal['seasons'][0]} → {cal['seasons'][-1]})")
+        return buckets
     except (OSError, KeyError, IndexError, ValueError) as e:
-        print(f"  Calibration absente ou invalide ({e}) — valeurs par défaut")
-        return DEFAULT_TIERS
-    print(f"  Calibration : {source}")
-    return sorted(tiers)
+        print(f"  Historique indisponible ({e})")
+        return []
 
 
-TIERS = load_tiers()
+BUCKETS = load_buckets()
 
 
-def tier_for(odds: float) -> tuple:
-    for max_odds, label, pct in TIERS:
-        if odds <= max_odds:
-            return label, pct
-    return TIERS[-1][1], TIERS[-1][2]
+def history_for(odds: float) -> str:
+    for b in BUCKETS:
+        if b["min"] <= odds < b["max"]:
+            if b["n"] >= MIN_HISTORY_N:
+                return f"{b['win_rate']:.0f}% (n={b['n']})"
+            break
+    return "—"
 
 
 # ── UTILITAIRES ───────────────────────────────────────────────────────────────
@@ -156,8 +134,12 @@ def kickoff_fr(event: dict) -> datetime:
 def in_window(price: float) -> bool:
     return MIN_ODDS <= price <= MAX_ODDS
 
-def fmt_line(point: float) -> str:
-    return f"{point:+g}" if point else "0"
+def today_bounds_utc() -> tuple:
+    """Début et fin de la journée de Paris, en UTC, au format attendu par l'API."""
+    start = datetime.now(TZ_FRANCE).replace(hour=0, minute=0, second=0, microsecond=0)
+    end = start + timedelta(days=1)
+    fmt = "%Y-%m-%dT%H:%M:%SZ"
+    return start.astimezone(timezone.utc).strftime(fmt), end.astimezone(timezone.utc).strftime(fmt)
 
 
 # ── APPELS API ────────────────────────────────────────────────────────────────
@@ -166,8 +148,7 @@ def api_get(path: str, params: dict):
         return None
     try:
         r = requests.get(f"{BASE_URL}{path}", timeout=15,
-                         params={"apiKey": API_KEY, "regions": "eu",
-                                 "oddsFormat": "decimal", "dateFormat": "iso", **params})
+                         params={"apiKey": API_KEY, "dateFormat": "iso", **params})
         if r.status_code == 200:
             return r.json()
         print(f"  API {path}: HTTP {r.status_code} {r.text[:120]}")
@@ -176,68 +157,33 @@ def api_get(path: str, params: dict):
     return None
 
 
-def fetch_spreads(sport_key: str) -> list:
-    """Handicap asiatique (ligne principale) de tous les matchs à venir — 1 crédit."""
-    return api_get(f"/sports/{sport_key}/odds", {"markets": "spreads"}) or []
+def fetch_today_events(sport_key: str) -> list:
+    """Matchs du jour (heure de Paris) — endpoint gratuit, sans cotes."""
+    start, end = today_bounds_utc()
+    return api_get(f"/sports/{sport_key}/events",
+                   {"commenceTimeFrom": start, "commenceTimeTo": end}) or []
 
 
-def fetch_alternates(sport_key: str, event_id: str) -> dict:
-    """Toutes les lignes Over/Under et handicap d'un match — ~2 crédits."""
-    return api_get(f"/sports/{sport_key}/events/{event_id}/odds",
-                   {"markets": "alternate_totals,alternate_spreads"}) or {}
+def fetch_totals(sport_key: str, event_id: str) -> dict:
+    """Toutes les lignes Over/Under d'un match — 1 crédit (rien si vide)."""
+    path = f"/sports/{sport_key}/events/{event_id}/odds"
+    base = {"regions": "eu", "oddsFormat": "decimal"}
+    data = api_get(path, {**base, "markets": "alternate_totals"}) or {}
+    if not data.get("bookmakers"):  # pas de lignes alternatives : lignes standard
+        data = api_get(path, {**base, "markets": "totals"}) or {}
+    return data
 
 
 # ── LECTURE DES COTES ─────────────────────────────────────────────────────────
-def team_lines(event: dict, team: str, market_keys: tuple) -> dict:
-    """{ligne handicap de l'équipe: (meilleure cote, bookmaker)}"""
+def best_prices(data: dict, name: str) -> dict:
+    """{ligne: (meilleure cote, bookmaker)} pour 'Over' ou 'Under'."""
     best = {}
-    for bk in event.get("bookmakers", []):
-        for m in bk.get("markets", []):
-            if m["key"] not in market_keys:
-                continue
-            for o in m.get("outcomes", []):
-                if o.get("name") != team or "point" not in o:
-                    continue
-                pt = float(o["point"]) + 0.0  # normalise -0.0
-                if pt not in best or o["price"] > best[pt][0]:
-                    best[pt] = (o["price"], bk["title"])
-    return best
-
-
-def consensus_home_line(event: dict) -> float | None:
-    """Ligne handicap principale médiane donnée au domicile par les bookmakers."""
-    pts = []
-    for bk in event.get("bookmakers", []):
-        for m in bk.get("markets", []):
-            if m["key"] != "spreads":
-                continue
-            for o in m.get("outcomes", []):
-                if o.get("name") == event["home_team"] and "point" in o:
-                    pts.append(float(o["point"]))
-    return statistics.median(pts) if pts else None
-
-
-def favourite(event: dict) -> dict | None:
-    """Favori du match d'après le handicap médian, ou None si pas assez net."""
-    h = consensus_home_line(event)
-    if h is None:
-        return None
-    if h <= FAV_MAX_LINE:
-        return {"team": event["home_team"], "opp": event["away_team"], "camp": "Domicile", "line": h}
-    if not HOME_ONLY and -h <= FAV_MAX_LINE:
-        return {"team": event["away_team"], "opp": event["home_team"], "camp": "Extérieur", "line": -h}
-    return None
-
-
-def over_lines(event: dict) -> dict:
-    """{ligne Over: (meilleure cote, bookmaker)}"""
-    best = {}
-    for bk in event.get("bookmakers", []):
+    for bk in data.get("bookmakers", []):
         for m in bk.get("markets", []):
             if m["key"] not in ("totals", "alternate_totals"):
                 continue
             for o in m.get("outcomes", []):
-                if o.get("name") != "Over" or "point" not in o:
+                if o.get("name") != name or "point" not in o:
                     continue
                 pt = float(o["point"])
                 if pt not in best or o["price"] > best[pt][0]:
@@ -245,79 +191,52 @@ def over_lines(event: dict) -> dict:
     return best
 
 
-def fair_prob(event: dict, market_keys: tuple, side: tuple, other: tuple) -> tuple:
-    """Probabilité de `side` estimée par le marché, marge du bookmaker retirée.
-    side / other = (nom de l'issue, ligne) des deux issues opposées d'un même pari.
-    Pour chaque bookmaker cotant les deux : (1/cote) / (1/cote + 1/cote_opposée),
-    puis moyenne. Retourne (probabilité en %, nombre de bookmakers)."""
+def fair_prob(data: dict, line: float) -> tuple:
+    """Probabilité de l'Over sur `line`, marge retirée, moyenne des bookmakers.
+    Retourne (probabilité en %, nombre de bookmakers)."""
     probs = []
-    for bk in event.get("bookmakers", []):
+    for bk in data.get("bookmakers", []):
         prices = {}
         for m in bk.get("markets", []):
-            if m["key"] not in market_keys:
+            if m["key"] not in ("totals", "alternate_totals"):
                 continue
             for o in m.get("outcomes", []):
-                key = (o.get("name"), float(o["point"]) + 0.0) if "point" in o else None
-                if key in (side, other):
-                    prices[key] = o["price"]
-        if side in prices and other in prices:
-            inv, inv_other = 1 / prices[side], 1 / prices[other]
-            probs.append(inv / (inv + inv_other))
+                if o.get("point") is not None and float(o["point"]) == line:
+                    prices[o["name"]] = o["price"]
+        if "Over" in prices and "Under" in prices:
+            inv_o, inv_u = 1 / prices["Over"], 1 / prices["Under"]
+            probs.append(inv_o / (inv_o + inv_u))
     if not probs:
         return None, 0
     return round(sum(probs) / len(probs) * 100, 1), len(probs)
 
 
-def choose_over(alt: dict) -> dict | None:
-    """Ligne simple (x.5) la plus haute dont la meilleure cote est dans la fenêtre."""
-    ok = [(pt, p, b) for pt, (p, b) in over_lines(alt).items()
-          if pt % 1 == 0.5 and in_window(p)]
-    if not ok:
+def choose_bet(data: dict) -> dict | None:
+    """Over ligne simple (x.5) : la plus haute dans la fenêtre 1,20–1,50,
+    sinon celle dont la cote est la plus proche de la fenêtre."""
+    lines = [(pt, p, b) for pt, (p, b) in best_prices(data, "Over").items() if pt % 1 == 0.5]
+    if not lines:
         return None
-    pt, price, book = max(ok)
-    proba, n = fair_prob(alt, ("totals", "alternate_totals"), ("Over", pt), ("Under", pt))
-    return {"line": pt, "cote": price, "bookmaker": book, "proba": proba, "proba_books": n}
-
-
-def choose_handicap(event: dict, alt: dict, team: str) -> dict | None:
-    """Ligne entière (0, -1, -2…) pour le favori : la plus forte dans la fenêtre,
-    sinon la plus proche de la fenêtre (signalée hors fenêtre)."""
-    lines = team_lines(event, team, ("spreads",))
-    lines.update({pt: v for pt, v in team_lines(alt, team, ("spreads", "alternate_spreads")).items()
-                  if pt not in lines or v[0] > lines[pt][0]})
-    whole = [(pt, p, b) for pt, (p, b) in lines.items() if pt % 1 == 0 and pt <= 0]
-    if not whole:
-        return None
-    inside = [w for w in whole if in_window(w[1])]
+    inside = [l for l in lines if in_window(l[1])]
     if inside:
-        pt, price, book = min(inside)  # handicap le plus fort
+        pt, price, book = max(inside)
     else:
-        pt, price, book = min(whole, key=lambda w: min(abs(w[1] - MIN_ODDS), abs(w[1] - MAX_ODDS)))
-    opp = event["away_team"] if team == event["home_team"] else event["home_team"]
-    proba, n = fair_prob(alt, ("spreads", "alternate_spreads"), (team, pt), (opp, -pt + 0.0))
-    if proba is None:
-        proba, n = fair_prob(event, ("spreads",), (team, pt), (opp, -pt + 0.0))
+        pt, price, book = min(lines, key=lambda l: min(abs(l[1] - MIN_ODDS), abs(l[1] - MAX_ODDS)))
+    proba, n = fair_prob(data, pt)
     return {"line": pt, "cote": price, "bookmaker": book, "in_window": bool(inside),
             "proba": proba, "proba_books": n}
 
 
 # ── COLLECTE (matin) / CACHE (soir) ───────────────────────────────────────────
-def is_today_candidate(event: dict) -> bool:
-    if kickoff_fr(event).strftime("%Y-%m-%d") != today_fr():
-        return False
-    return favourite(event) is not None
-
-
 def fetch_all() -> dict:
-    events, alternates = [], {}
+    events, odds = [], {}
     for sport in SPORTS:
-        evs = fetch_spreads(sport)
+        evs = fetch_today_events(sport)
+        for e in evs:
+            odds[e["id"]] = fetch_totals(sport, e["id"])
         events.extend(evs)
-        cands = [e for e in evs if is_today_candidate(e)]
-        for e in cands:
-            alternates[e["id"]] = fetch_alternates(sport, e["id"])
-        print(f"  {sport}: {len(evs)} matchs, {len(cands)} favoris aujourd'hui")
-    return {"events": events, "alternates": alternates}
+        print(f"  {sport}: {len(evs)} matchs aujourd'hui")
+    return {"events": events, "odds": odds}
 
 
 def load_or_fetch_raw() -> dict:
@@ -329,7 +248,7 @@ def load_or_fetch_raw() -> dict:
     if REPORT_TYPE == "evening" and not REFRESH_EVENING and cache.exists():
         with open(cache, encoding="utf-8") as f:
             raw = json.load(f)
-        if isinstance(raw, dict) and "alternates" in raw:
+        if isinstance(raw, dict) and "odds" in raw:
             print("  → Cache du matin utilisé (REFRESH_EVENING=False)")
             return raw
     print(f"  → Appel API ({REPORT_TYPE})")
@@ -339,55 +258,48 @@ def load_or_fetch_raw() -> dict:
     return raw
 
 
-# ── CONSTRUCTION DES PICKS ────────────────────────────────────────────────────
-def build_pick(event: dict, alt: dict) -> dict | None:
-    if not is_today_candidate(event):
+# ── CONSTRUCTION DES MATCHS ───────────────────────────────────────────────────
+def build_pick(event: dict, data: dict) -> dict | None:
+    kickoff = kickoff_fr(event)
+    if kickoff.strftime("%Y-%m-%d") != today_fr():
         return None
-    hour = kickoff_fr(event).hour
-    if REPORT_TYPE == "morning" and hour >= 18:
+    if REPORT_TYPE == "morning" and kickoff.hour >= 18:
         label = "🟡 À confirmer à 16h30"
-    elif REPORT_TYPE == "evening" and hour < 18:
+    elif REPORT_TYPE == "evening" and kickoff.hour < 18:
         return None  # déjà couvert par le rapport du matin
     else:
-        label = "🟢 Jouer maintenant"
+        label = "🟢 Bon"
 
-    main = choose_over(alt)
-    if main is None:
-        return None  # filtre sur le pari lui-même : pas d'Over dans la fenêtre
-    fav = favourite(event)
-    backup = choose_handicap(event, alt, fav["team"])
-    home, away = event["home_team"], event["away_team"]
-    fiab, pct = tier_for(main["cote"])
-
-    return {
-        "status": label, "heure": kickoff_fr(event).strftime("%Hh%M"),
+    bet = choose_bet(data)
+    pick = {
+        "sport": SPORT_LABEL, "status": label, "heure": kickoff.strftime("%Hh%M"),
         "championnat": event.get("sport_title", ""), "sport_key": event.get("sport_key", ""),
-        "favori": fav["team"], "adversaire": fav["opp"], "camp": fav["camp"],
-        "home_team": home, "away_team": away, "event_id": event.get("id", ""),
-        "handicap_consensus": fav["line"],
-        "pari": f"Over {main['line']:g} buts", "over_line": main["line"],
-        "cote": main["cote"], "bookmaker_ref": main["bookmaker"],
-        "proba": main["proba"], "proba_books": main["proba_books"],
-        "pct_victoire_historique": pct, "fiabilite": fiab,
-        "secours": None if backup is None else {
-            "pari": f"Handicap asiatique {fav['team']} {fmt_line(backup['line'])}",
-            "ah_line": backup["line"], "cote": backup["cote"],
-            "bookmaker": backup["bookmaker"], "dans_fenetre": backup["in_window"],
-            "proba": backup["proba"], "proba_books": backup["proba_books"],
-        },
+        "home_team": event["home_team"], "away_team": event["away_team"],
+        "event_id": event.get("id", ""),
+        "pari": None, "cote": None, "proba": None, "historique": "—",
     }
+    if bet:
+        pick.update({
+            "pari": f"Over {bet['line']:g} buts", "over_line": bet["line"],
+            "cote": bet["cote"], "bookmaker_ref": bet["bookmaker"],
+            "dans_fenetre": bet["in_window"],
+            "proba": bet["proba"], "proba_books": bet["proba_books"],
+            "historique": history_for(bet["cote"]),
+        })
+    return pick
 
 
 # ── RÉSULTATS DE LA VEILLE ────────────────────────────────────────────────────
 def load_yesterday_picks() -> list:
-    """Picks de la veille, un par match (la version du soir remplace celle du matin)."""
+    """Matchs de la veille, un par match (la version du soir remplace celle du matin)."""
     by_event = {}
     for suffix in ["morning", "evening"]:
         path = PICKS_DIR / f"{yesterday_fr()}_{suffix}.json"
         if path.exists():
             with open(path, encoding="utf-8") as f:
                 for p in json.load(f).get("picks", []):
-                    by_event[p.get("event_id") or id(p)] = p
+                    if p.get("pari"):
+                        by_event[p.get("event_id") or id(p)] = p
     return list(by_event.values())
 
 
@@ -395,51 +307,18 @@ def fetch_scores(sport_key: str) -> list:
     return api_get(f"/sports/{sport_key}/scores", {"daysFrom": 2}) or []
 
 
-SPORT_NAME_TO_KEY = {
-    "Premier League":              "soccer_epl",
-    "Championship":                "soccer_efl_champ",
-    "League One":                  "soccer_england_league1",
-    "League Two":                  "soccer_england_league2",
-    "Ligue 1 - France":            "soccer_france_ligue_one",
-    "Ligue 2 - France":            "soccer_france_ligue_two",
-    "Bundesliga - Germany":        "soccer_germany_bundesliga",
-    "Bundesliga 2 - Germany":      "soccer_germany_bundesliga2",
-    "Serie A - Italy":             "soccer_italy_serie_a",
-    "La Liga - Spain":             "soccer_spain_la_liga",
-    "La Liga 2 - Spain":           "soccer_spain_segunda_division",
-    "Dutch Eredivisie":            "soccer_netherlands_eredivisie",
-    "Belgium First Div":           "soccer_belgium_first_div",
-    "Primeira Liga - Portugal":    "soccer_portugal_primeira_liga",
-    "Turkey Super League":         "soccer_turkey_super_league",
-    "UEFA Champions League":       "soccer_uefa_champs_league",
-    "UEFA Europa League":          "soccer_uefa_europa_league",
-    "UEFA Europa Conference League": "soccer_uefa_europa_conference_league",
-}
-
-
-def settle(pick: dict, hs: int, as_: int) -> tuple:
-    """(résultat principal, résultat secours) : 'win' | 'push' | 'loss' | None."""
+def settle(pick: dict, hs: int, as_: int) -> str:
     if "over_line" in pick:
-        main = "win" if hs + as_ > pick["over_line"] else "loss"
-    else:  # anciens picks « Victoire favori » (avant la notice Over/Under)
-        fav_won = (hs > as_) if pick.get("camp") == "Domicile" else (as_ > hs)
-        main = "win" if fav_won else "loss"
-    backup = None
-    if pick.get("secours"):
-        margin = (hs - as_) if pick.get("camp", "Domicile") == "Domicile" else (as_ - hs)
-        res = margin + pick["secours"]["ah_line"]
-        backup = "win" if res > 0 else "push" if res == 0 else "loss"
-    return main, backup
-
-
-BACKUP_LABELS = {"win": "✅ gagné", "push": "↩️ remboursé", "loss": "❌ perdu"}
+        return "win" if hs + as_ > pick["over_line"] else "loss"
+    # anciens picks « Victoire favori »
+    fav_won = (hs > as_) if pick.get("camp", "Domicile") == "Domicile" else (as_ > hs)
+    return "win" if fav_won else "loss"
 
 
 def resolve_yesterday(picks: list) -> list:
     if not picks:
         return []
-    sports_needed = {p.get("sport_key") or SPORT_NAME_TO_KEY.get(p.get("championnat"))
-                     for p in picks} - {None, ""}
+    sports_needed = {p.get("sport_key") for p in picks} - {None, ""}
     scores_by_id, scores_by_teams = {}, {}
     for sk in sports_needed:
         for s in fetch_scores(sk):
@@ -458,13 +337,9 @@ def resolve_yesterday(picks: list) -> list:
             pick["result_label"] = "⏳ Résultat non disponible"
         else:
             score_str = f"{hs}–{as_}"
-            main, backup = settle(pick, hs, as_)
-            pick["result"] = main
-            pick["result_label"] = (f"✅ Validé ({score_str})" if main == "win"
+            pick["result"] = settle(pick, hs, as_)
+            pick["result_label"] = (f"✅ Validé ({score_str})" if pick["result"] == "win"
                                     else f"❌ Raté ({score_str})")
-            if backup:
-                pick["secours"]["result"] = backup
-                pick["secours_label"] = f"Secours : {BACKUP_LABELS[backup]}"
         resolved.append(pick)
     return resolved
 
@@ -472,18 +347,13 @@ def resolve_yesterday(picks: list) -> list:
 # ── MAIN ──────────────────────────────────────────────────────────────────────
 def main():
     print(f"Sharp-Edge | {today_fr()} | Rapport : {REPORT_TYPE}")
-    print(f"Filtres : favori {'domicile' if HOME_ONLY else 'domicile ou extérieur'} (handicap ≤ {FAV_MAX_LINE}) | "
-          f"Over ligne simple coté {MIN_ODDS}–{MAX_ODDS}")
 
     raw = load_or_fetch_raw()
-    alternates = raw.get("alternates", {})
-    picks = []
-    for event in raw.get("events", []):
-        pick = build_pick(event, alternates.get(event.get("id"), {}))
-        if pick:
-            picks.append(pick)
-    # du plus probable au moins probable (à défaut de probabilité : cote croissante)
-    picks.sort(key=lambda x: (-(x["proba"] or 0), x["cote"]))
+    odds = raw.get("odds", {})
+    picks = [p for e in raw.get("events", [])
+             if (p := build_pick(e, odds.get(e.get("id"), {})))]
+    # du plus probable au moins probable ; matchs sans cotes à la fin
+    picks.sort(key=lambda x: (x["proba"] is None, -(x["proba"] or 0)))
 
     yesterday_resolved = resolve_yesterday(load_yesterday_picks())
     wins   = sum(1 for p in yesterday_resolved if p.get("result") == "win")
@@ -502,13 +372,12 @@ def main():
             },
         }, f, ensure_ascii=False, indent=2)
 
-    print(f"\n✓ {len(picks)} picks → {out}")
+    print(f"\n✓ {len(picks)} matchs → {out}")
     print(f"  Veille : {wins}W / {losses}L sur {total} résolus")
     for p in picks:
-        s = p["secours"]
         print(f"  {p['status']} | {p['heure']} | {p['championnat']} | {p['home_team']} – "
-              f"{p['away_team']} | {p['pari']} @ {p['cote']} | secours : "
-              f"{s['pari'] + ' @ ' + str(s['cote']) if s else '—'}")
+              f"{p['away_team']} | {p['pari'] or 'cotes indisponibles'} @ {p['cote']} | "
+              f"{p['proba']}% | hist. {p['historique']}")
 
 
 if __name__ == "__main__":

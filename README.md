@@ -51,34 +51,29 @@ sharp-edge/
 └── requirements.txt
 ```
 
-## 🎯 Logique des filtres (Phase 1)
+## 🎯 Ce qu'affiche la page (Phase 1 — football)
 
-| Filtre | Valeur |
-|--------|--------|
-| Match | Favori à domicile ou à l'extérieur (handicap asiatique médian ≤ -0,75) |
-| Pari principal | Over buts, ligne simple (x.5) la plus haute cotée 1,20 – 1,50 |
-| Pari de secours | Handicap asiatique ligne entière (0, -1, -2…) pour le favori, toujours affiché |
-| Tri | Cote croissante (proxy Phase 1 du plus solide au moins fort) |
-| Rapport matin | Tous matchs du jour |
-| Rapport soir | Matchs après 18h uniquement (confirmation) |
+Tous les matchs du jour des 18 championnats suivis, sans filtre, triés du plus
+probable au moins probable. Pour chaque match :
 
-Crédits The Odds API : ~18/jour (handicaps des 18 sources) + ~2 par favori
-du jour (lignes alternatives) + scores de la veille, soit ~800–900/mois.
+| Élément | Contenu |
+|---------|---------|
+| Sport | ⚽ Football |
+| Statut | 🟢 Bon (avant 18h) · 🟡 À confirmer à 16h30 (18h et après) |
+| Heure · championnat | Heure de Paris |
+| Match | Domicile – Extérieur |
+| Pari | Over buts, ligne simple (x.5) la plus haute cotée 1,20 – 1,50 ; à défaut la plus proche (signalée) |
+| Cote | Meilleure cote du marché (bookmaker indiqué) |
+| Probabilité | Estimée par le marché : moyenne des bookmakers, marge retirée (Over vs Under sur la même ligne) |
+| Historique | Taux de réussite de l'Over aux cotes similaires dans le backtest |
 
-## 📈 Niveaux de fiabilité
+Le backtest hebdomadaire (`data/calibration.json`) porte sur les 5 dernières
+saisons complètes + la saison en cours (fenêtre qui avance seule chaque
+1er juillet). L'historique football-data.co.uk ne contient que la ligne 2.5 :
+le taux observé à une cote donnée sert de référence pour toute ligne Over.
 
-| Étoiles | Cote |
-|---------|------|
-| ★★★★★ Très solide | 1,20–1,25 |
-| ★★★★☆ Solide | 1,25–1,30 |
-| ★★★☆☆ Correct | 1,30–1,40 |
-| ★★☆☆☆ À surveiller | 1,40–1,50 |
-
-Le taux de réussite affiché sur chaque pick est calculé automatiquement par le
-backtest hebdomadaire (`data/calibration.json`) sur l'Over 2.5 — seule ligne
-Over/Under disponible dans l'historique football-data.co.uk — : 5 dernières
-saisons complètes + saison en cours, à la meilleure cote du marché. La fenêtre de saisons avance
-seule chaque 1er juillet.
+Crédits The Odds API : liste des matchs gratuite (/events) + 1 crédit par match
+(lignes Over/Under) + scores de la veille, soit ~800–1 000/mois.
 
 ## 🗺️ Feuille de route
 
