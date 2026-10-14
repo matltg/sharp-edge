@@ -9,24 +9,25 @@ NOTICE D'INTENTION
 OBJECTIF : 2 rapports quotidiens (4h30 et 16h30 heure France).
 
 PARIS (notice Phase 1 football) :
-  - Sélection : favori à domicile, repéré par le handicap asiatique médian des
-    bookmakers (domicile rend au moins HOME_FAV_MAX_LINE but).
+  - Sélection : favori (domicile ou extérieur), repéré par le handicap
+    asiatique médian des bookmakers (il rend au moins FAV_MAX_LINE but).
+    HOME_ONLY = True limite aux favoris à domicile.
   - Pari principal : Over buts, ligne simple (x.5, sans remboursement partiel).
     On prend la ligne la plus haute dont la meilleure cote est dans 1,20–1,50.
     Pas de ligne dans la fenêtre → pas de pick.
   - Pari de secours (toujours affiché) : handicap asiatique ligne entière
-    (0, -1, -2…) pour l'équipe à domicile, même règle de fenêtre ; à défaut,
+    (0, -1, -2…) pour le favori, même règle de fenêtre ; à défaut,
     la ligne entière la plus proche, signalée hors fenêtre.
   - Tri : du plus solide au moins fort — proxy Phase 1 : cote croissante.
 
 STRATÉGIE CRÉDITS (1 crédit = 1 marché × 1 région) :
   - Matin : handicap asiatique (spreads) pour les 18 sources = 18 crédits,
     puis lignes alternatives (alternate_totals + alternate_spreads) pour les
-    seuls favoris à domicile du jour = ~2 crédits/match.
+    seuls favoris du jour = ~2 crédits/match.
   - Tout est mis en cache dans docs/picks/YYYY-MM-DD_raw.json ; le rapport du
     soir relit ce cache sans rappeler l'API (sauf REFRESH_EVENING = True).
   - Résultats de la veille : endpoint scores, 2 crédits par source concernée.
-  - Estimation : ~700–750 crédits/mois → au-delà du plan gratuit (500).
+  - Estimation : ~800–900 crédits/mois → au-delà du plan gratuit (500).
 
 PASSAGE AU PLAN PAYANT :
   Activer REFRESH_EVENING = True ci-dessous pour rafraîchir les cotes à 16h30.
@@ -88,10 +89,10 @@ SPORTS = [
 # ── FILTRES ───────────────────────────────────────────────────────────────────
 MIN_ODDS  = 1.20
 MAX_ODDS  = 1.50
-HOME_ONLY = True  # notice Phase 1 : domicile uniquement (ne pas modifier avant 200 paris loggés)
-# Favori à domicile = handicap asiatique médian du domicile ≤ cette ligne.
-# -0.75 correspond à peu près à une cote 1X2 domicile ≤ 1,55.
-HOME_FAV_MAX_LINE = -0.75
+HOME_ONLY = False  # filtre domicile retiré (la notice Phase 1 prévoyait domicile uniquement)
+# Favori = équipe dont le handicap asiatique médian est ≤ cette ligne.
+# -0.75 correspond à peu près à une cote 1X2 ≤ 1,55.
+FAV_MAX_LINE = -0.75
 
 PICKS_DIR = Path(__file__).parent.parent / "docs" / "picks"
 PICKS_DIR.mkdir(parents=True, exist_ok=True)
@@ -186,15 +187,15 @@ def fetch_alternates(sport_key: str, event_id: str) -> dict:
 
 
 # ── LECTURE DES COTES ─────────────────────────────────────────────────────────
-def home_lines(event: dict, market_keys: tuple) -> dict:
-    """{ligne handicap domicile: (meilleure cote, bookmaker)}"""
+def team_lines(event: dict, team: str, market_keys: tuple) -> dict:
+    """{ligne handicap de l'équipe: (meilleure cote, bookmaker)}"""
     best = {}
     for bk in event.get("bookmakers", []):
         for m in bk.get("markets", []):
             if m["key"] not in market_keys:
                 continue
             for o in m.get("outcomes", []):
-                if o.get("name") != event["home_team"] or "point" not in o:
+                if o.get("name") != team or "point" not in o:
                     continue
                 pt = float(o["point"]) + 0.0  # normalise -0.0
                 if pt not in best or o["price"] > best[pt][0]:
@@ -213,6 +214,18 @@ def consensus_home_line(event: dict) -> float | None:
                 if o.get("name") == event["home_team"] and "point" in o:
                     pts.append(float(o["point"]))
     return statistics.median(pts) if pts else None
+
+
+def favourite(event: dict) -> dict | None:
+    """Favori du match d'après le handicap médian, ou None si pas assez net."""
+    h = consensus_home_line(event)
+    if h is None:
+        return None
+    if h <= FAV_MAX_LINE:
+        return {"team": event["home_team"], "opp": event["away_team"], "camp": "Domicile", "line": h}
+    if not HOME_ONLY and -h <= FAV_MAX_LINE:
+        return {"team": event["away_team"], "opp": event["home_team"], "camp": "Extérieur", "line": -h}
+    return None
 
 
 def over_lines(event: dict) -> dict:
@@ -241,11 +254,11 @@ def choose_over(alt: dict) -> dict | None:
     return {"line": pt, "cote": price, "bookmaker": book}
 
 
-def choose_handicap(event: dict, alt: dict) -> dict | None:
-    """Ligne entière (0, -1, -2…) pour le domicile : la plus forte dans la fenêtre,
+def choose_handicap(event: dict, alt: dict, team: str) -> dict | None:
+    """Ligne entière (0, -1, -2…) pour le favori : la plus forte dans la fenêtre,
     sinon la plus proche de la fenêtre (signalée hors fenêtre)."""
-    lines = home_lines(event, ("spreads",))
-    lines.update({pt: v for pt, v in home_lines(alt, ("spreads", "alternate_spreads")).items()
+    lines = team_lines(event, team, ("spreads",))
+    lines.update({pt: v for pt, v in team_lines(alt, team, ("spreads", "alternate_spreads")).items()
                   if pt not in lines or v[0] > lines[pt][0]})
     whole = [(pt, p, b) for pt, (p, b) in lines.items() if pt % 1 == 0 and pt <= 0]
     if not whole:
@@ -262,8 +275,7 @@ def choose_handicap(event: dict, alt: dict) -> dict | None:
 def is_today_candidate(event: dict) -> bool:
     if kickoff_fr(event).strftime("%Y-%m-%d") != today_fr():
         return False
-    line = consensus_home_line(event)
-    return line is not None and line <= HOME_FAV_MAX_LINE
+    return favourite(event) is not None
 
 
 def fetch_all() -> dict:
@@ -274,7 +286,7 @@ def fetch_all() -> dict:
         cands = [e for e in evs if is_today_candidate(e)]
         for e in cands:
             alternates[e["id"]] = fetch_alternates(sport, e["id"])
-        print(f"  {sport}: {len(evs)} matchs, {len(cands)} favoris domicile aujourd'hui")
+        print(f"  {sport}: {len(evs)} matchs, {len(cands)} favoris aujourd'hui")
     return {"events": events, "alternates": alternates}
 
 
@@ -312,21 +324,22 @@ def build_pick(event: dict, alt: dict) -> dict | None:
     main = choose_over(alt)
     if main is None:
         return None  # filtre sur le pari lui-même : pas d'Over dans la fenêtre
-    backup = choose_handicap(event, alt)
+    fav = favourite(event)
+    backup = choose_handicap(event, alt, fav["team"])
     home, away = event["home_team"], event["away_team"]
     fiab, pct = tier_for(main["cote"])
 
     return {
         "status": label, "heure": kickoff_fr(event).strftime("%Hh%M"),
         "championnat": event.get("sport_title", ""), "sport_key": event.get("sport_key", ""),
-        "favori": home, "adversaire": away, "camp": "Domicile",
+        "favori": fav["team"], "adversaire": fav["opp"], "camp": fav["camp"],
         "home_team": home, "away_team": away, "event_id": event.get("id", ""),
-        "handicap_consensus": consensus_home_line(event),
+        "handicap_consensus": fav["line"],
         "pari": f"Over {main['line']:g} buts", "over_line": main["line"],
         "cote": main["cote"], "bookmaker_ref": main["bookmaker"],
         "pct_victoire_historique": pct, "fiabilite": fiab,
         "secours": None if backup is None else {
-            "pari": f"Handicap asiatique {home} {fmt_line(backup['line'])}",
+            "pari": f"Handicap asiatique {fav['team']} {fmt_line(backup['line'])}",
             "ah_line": backup["line"], "cote": backup["cote"],
             "bookmaker": backup["bookmaker"], "dans_fenetre": backup["in_window"],
         },
@@ -381,7 +394,8 @@ def settle(pick: dict, hs: int, as_: int) -> tuple:
         main = "win" if fav_won else "loss"
     backup = None
     if pick.get("secours"):
-        res = hs - as_ + pick["secours"]["ah_line"]
+        margin = (hs - as_) if pick.get("camp", "Domicile") == "Domicile" else (as_ - hs)
+        res = margin + pick["secours"]["ah_line"]
         backup = "win" if res > 0 else "push" if res == 0 else "loss"
     return main, backup
 
@@ -426,7 +440,7 @@ def resolve_yesterday(picks: list) -> list:
 # ── MAIN ──────────────────────────────────────────────────────────────────────
 def main():
     print(f"Sharp-Edge | {today_fr()} | Rapport : {REPORT_TYPE}")
-    print(f"Filtres : favori domicile (handicap ≤ {HOME_FAV_MAX_LINE}) | "
+    print(f"Filtres : favori {'domicile' if HOME_ONLY else 'domicile ou extérieur'} (handicap ≤ {FAV_MAX_LINE}) | "
           f"Over ligne simple coté {MIN_ODDS}–{MAX_ODDS}")
 
     raw = load_or_fetch_raw()

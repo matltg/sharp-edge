@@ -1,20 +1,20 @@
-Championnat,Matchs (tous),Win% (tous),ROI% (tous),Matchs (favori domicile),Win% (favori domicile),ROI% (favori domicile)
-Ligue 2 (France),4,100.0,40.75,3,100.0,39.33
-League Two (Angleterre),12,83.3,22.75,6,83.3,24.33
-Super Lig (Turquie),148,76.4,8.34,93,82.8,16.73
+Championnat,Matchs (favori dom./ext.),Win% (favori dom./ext.),ROI% (favori dom./ext.),Matchs (favori domicile),Win% (favori domicile),ROI% (favori domicile)
+Ligue 2 (France),3,100.0,39.33,3,100.0,39.33
+League Two (Angleterre),6,83.3,24.33,6,83.3,24.33
+Super Lig (Turquie),129,79.1,11.97,93,82.8,16.73
 Super League (Grece),22,77.3,9.73,20,80.0,13.2
+League One (Angleterre),4,75.0,6.75,4,75.0,6.75
+2. Bundesliga (Allemagne),66,74.2,6.29,58,74.1,6.34
 Liga Portugal (Portugal),87,73.6,4.82,72,76.4,8.58
-League One (Angleterre),6,66.7,-4.0,4,75.0,6.75
-2. Bundesliga (Allemagne),129,68.2,-1.38,58,74.1,6.34
-Championship (Angleterre),16,68.8,0.37,14,71.4,4.0
-Ligue 1 (France),144,68.8,-2.42,96,71.9,1.68
-Premiership (Ecosse),127,70.1,-0.35,94,71.3,0.36
-Pro League (Belgique),91,70.3,1.84,74,68.9,-0.59
-Premier League (Angleterre),261,69.7,-1.42,166,70.5,-1.31
-Eredivisie (Pays-Bas),348,69.3,-3.73,217,71.4,-1.45
-Bundesliga (Allemagne),377,72.7,0.84,207,71.5,-1.92
-LaLiga (Espagne),119,68.1,-4.5,81,66.7,-7.36
+Pro League (Belgique),86,69.8,0.87,74,68.9,-0.59
+Premiership (Ecosse),125,70.4,0.04,94,71.3,0.36
+Ligue 1 (France),136,69.9,-1.01,96,71.9,1.68
+Bundesliga (Allemagne),303,71.6,-1.69,207,71.5,-1.92
+Eredivisie (Pays-Bas),319,70.5,-2.22,217,71.4,-1.45
+Championship (Angleterre),15,66.7,-2.93,14,71.4,4.0
+Premier League (Angleterre),212,68.9,-3.18,166,70.5,-1.31
+LaLiga (Espagne),106,66.0,-7.66,81,66.7,-7.36
+Serie A (Italie),42,54.8,-21.83,39,51.3,-27.31
 Serie B (Italie),3,33.3,-50.67,2,50.0,-26.0
-Serie A (Italie),43,55.8,-20.21,39,51.3,-27.31
 Division 1 (Ecosse),6,33.3,-51.5,6,33.3,-51.5
 Liga 2 (Espagne),5,20.0,-70.0,5,20.0,-70.0

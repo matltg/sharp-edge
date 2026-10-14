@@ -55,15 +55,15 @@ sharp-edge/
 
 | Filtre | Valeur |
 |--------|--------|
-| Match | Favori à domicile (handicap asiatique médian du domicile ≤ -0,75) |
+| Match | Favori à domicile ou à l'extérieur (handicap asiatique médian ≤ -0,75) |
 | Pari principal | Over buts, ligne simple (x.5) la plus haute cotée 1,20 – 1,50 |
-| Pari de secours | Handicap asiatique ligne entière (0, -1, -2…) pour le domicile, toujours affiché |
+| Pari de secours | Handicap asiatique ligne entière (0, -1, -2…) pour le favori, toujours affiché |
 | Tri | Cote croissante (proxy Phase 1 du plus solide au moins fort) |
 | Rapport matin | Tous matchs du jour |
 | Rapport soir | Matchs après 18h uniquement (confirmation) |
 
-Crédits The Odds API : ~18/jour (handicaps des 18 sources) + ~2 par favori à
-domicile du jour (lignes alternatives) + scores de la veille, soit ~700–750/mois.
+Crédits The Odds API : ~18/jour (handicaps des 18 sources) + ~2 par favori
+du jour (lignes alternatives) + scores de la veille, soit ~800–900/mois.
 
 ## 📈 Niveaux de fiabilité
 
