@@ -1,7 +1,40 @@
 {
   "date": "2026-10-14",
   "type": "morning",
-  "picks": [],
+  "picks": [
+    {
+      "status": "🟡 À confirmer à 16h30",
+      "heure": "21h00",
+      "championnat": "UEFA Champions League",
+      "favori": "VfB Stuttgart",
+      "adversaire": "ŠK Slovan Bratislava",
+      "camp": "Extérieur",
+      "cote": 1.32,
+      "pct_victoire_historique": "75.3% (n=1219)",
+      "fiabilite": "★★★☆☆ Correct",
+      "bookmaker_ref": "Betfair",
+      "pari": "Victoire VfB Stuttgart",
+      "home_team": "ŠK Slovan Bratislava",
+      "away_team": "VfB Stuttgart",
+      "event_id": "d7576351b8cb2396e32cc3de0446f3de"
+    },
+    {
+      "status": "🟡 À confirmer à 16h30",
+      "heure": "18h45",
+      "championnat": "UEFA Champions League",
+      "favori": "Liverpool",
+      "adversaire": "LASK",
+      "camp": "Extérieur",
+      "cote": 1.42,
+      "pct_victoire_historique": "69.9% (n=1543)",
+      "fiabilite": "★★☆☆☆ À surveiller",
+      "bookmaker_ref": "1xBet",
+      "pari": "Victoire Liverpool",
+      "home_team": "LASK",
+      "away_team": "Liverpool",
+      "event_id": "2903ee092f7e08c549b130a3d394ac3c"
+    }
+  ],
   "yesterday": {
     "date": "2026-10-13",
     "resolved": [],
