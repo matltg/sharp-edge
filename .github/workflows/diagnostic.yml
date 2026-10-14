@@ -1,0 +1,36 @@
+name: Sharp-Edge Diagnostic marchés (ponctuel)
+
+on:
+  workflow_dispatch:  # déclenchement manuel uniquement (~10 crédits API)
+
+jobs:
+  diagnostic:
+    runs-on: ubuntu-24.04  # version figée (évite les changements d image GitHub)
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v5
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Run diagnostic
+        env:
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+        run: python scripts/diag_markets.py
+
+      - name: Commit result
+        run: |
+          git config user.name "sharp-edge-bot"
+          git config user.email "bot@sharp-edge"
+          git add docs/diagnostic/
+          git diff --staged --quiet || git commit -m "🔎 Diagnostic marchés $(date -u +'%Y-%m-%d')"
+          git pull --rebase
+          git push
