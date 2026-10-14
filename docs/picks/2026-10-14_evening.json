@@ -5,52 +5,6 @@
     {
       "sport": "⚽ Football",
       "status": "🟢 Bon",
-      "heure": "21h00",
-      "championnat": "UEFA Champions League",
-      "sport_key": "soccer_uefa_champs_league",
-      "home_team": "Aston Villa",
-      "away_team": "Fenerbahce",
-      "event_id": "3f3cb74e560dfcc3e795b667ed9ebdef",
-      "pari": "Under 4.5 buts",
-      "cote": 1.21,
-      "proba": 80.6,
-      "historique": "84% (n=7654)",
-      "valeur": -2.5,
-      "score": 1.0,
-      "etoiles": 4,
-      "note": "Intéressant",
-      "ou_side": "Under",
-      "ou_line": 4.5,
-      "cote_source": "moyenne de 3 bookmakers",
-      "dans_fenetre": true,
-      "proba_source": "moyenne de 3 bookmakers"
-    },
-    {
-      "sport": "⚽ Football",
-      "status": "🟢 Bon",
-      "heure": "21h00",
-      "championnat": "UEFA Champions League",
-      "sport_key": "soccer_uefa_champs_league",
-      "home_team": "Real Betis",
-      "away_team": "Porto",
-      "event_id": "4c7f87780ae5ab8bec9e83d6d6ec9909",
-      "pari": "Over 1.5 buts",
-      "cote": 1.21,
-      "proba": 80.2,
-      "historique": "82% (n=5182)",
-      "valeur": -3.0,
-      "score": -0.3,
-      "etoiles": 3,
-      "note": "Correct",
-      "ou_side": "Over",
-      "ou_line": 1.5,
-      "cote_source": "moyenne de 4 bookmakers",
-      "dans_fenetre": true,
-      "proba_source": "moyenne de 4 bookmakers"
-    },
-    {
-      "sport": "⚽ Football",
-      "status": "🟢 Bon",
       "heure": "20h45",
       "championnat": "Championship",
       "sport_key": "soccer_efl_champ",
@@ -69,7 +23,8 @@
       "ou_line": 3.5,
       "cote_source": "moyenne de 3 bookmakers",
       "dans_fenetre": true,
-      "proba_source": "Pinnacle"
+      "proba_source": "Pinnacle",
+      "proba_modele": 70.5
     },
     {
       "sport": "⚽ Football",
@@ -92,7 +47,8 @@
       "ou_line": 4.5,
       "cote_source": "moyenne de 4 bookmakers",
       "dans_fenetre": true,
-      "proba_source": "Pinnacle"
+      "proba_source": "Pinnacle",
+      "proba_modele": 70.6
     },
     {
       "sport": "⚽ Football",
@@ -115,7 +71,8 @@
       "ou_line": 3.5,
       "cote_source": "moyenne de 4 bookmakers",
       "dans_fenetre": true,
-      "proba_source": "Pinnacle"
+      "proba_source": "Pinnacle",
+      "proba_modele": 70.9
     },
     {
       "sport": "⚽ Football",
@@ -138,7 +95,8 @@
       "ou_line": 4.5,
       "cote_source": "moyenne de 3 bookmakers",
       "dans_fenetre": true,
-      "proba_source": "moyenne de 3 bookmakers"
+      "proba_source": "moyenne de 3 bookmakers",
+      "proba_modele": 75.9
     },
     {
       "sport": "⚽ Football",
@@ -161,7 +119,8 @@
       "ou_line": 2.5,
       "cote_source": "moyenne de 5 bookmakers",
       "dans_fenetre": true,
-      "proba_source": "Pinnacle"
+      "proba_source": "Pinnacle",
+      "proba_modele": 66.9
     },
     {
       "sport": "⚽ Football",
@@ -184,7 +143,8 @@
       "ou_line": 2.5,
       "cote_source": "moyenne de 5 bookmakers",
       "dans_fenetre": true,
-      "proba_source": "Pinnacle"
+      "proba_source": "Pinnacle",
+      "proba_modele": 67.3
     },
     {
       "sport": "⚽ Football",
@@ -207,7 +167,32 @@
       "ou_line": 4.5,
       "cote_source": "moyenne de 3 bookmakers",
       "dans_fenetre": true,
-      "proba_source": "moyenne de 3 bookmakers"
+      "proba_source": "moyenne de 3 bookmakers",
+      "proba_modele": 75.9
+    },
+    {
+      "sport": "⚽ Football",
+      "status": "🟢 Bon",
+      "heure": "21h00",
+      "championnat": "UEFA Champions League",
+      "sport_key": "soccer_uefa_champs_league",
+      "home_team": "Real Betis",
+      "away_team": "Porto",
+      "event_id": "4c7f87780ae5ab8bec9e83d6d6ec9909",
+      "pari": "Under 3.5 buts",
+      "cote": 1.44,
+      "proba": 66.0,
+      "historique": "68% (n=6449)",
+      "valeur": -5.0,
+      "score": -2.3,
+      "etoiles": 2,
+      "note": "Faible",
+      "ou_side": "Under",
+      "ou_line": 3.5,
+      "cote_source": "moyenne de 4 bookmakers",
+      "dans_fenetre": true,
+      "proba_source": "Pinnacle",
+      "proba_modele": 65.9
     },
     {
       "sport": "⚽ Football",
@@ -230,7 +215,8 @@
       "ou_line": 4.5,
       "cote_source": "moyenne de 3 bookmakers",
       "dans_fenetre": true,
-      "proba_source": "Pinnacle"
+      "proba_source": "Pinnacle",
+      "proba_modele": 77.7
     },
     {
       "sport": "⚽ Football",
@@ -253,7 +239,8 @@
       "ou_line": 4.5,
       "cote_source": "moyenne de 4 bookmakers",
       "dans_fenetre": true,
-      "proba_source": "Pinnacle"
+      "proba_source": "Pinnacle",
+      "proba_modele": 65.9
     },
     {
       "sport": "⚽ Football",
@@ -276,7 +263,8 @@
       "ou_line": 1.5,
       "cote_source": "moyenne de 4 bookmakers",
       "dans_fenetre": true,
-      "proba_source": "Pinnacle"
+      "proba_source": "Pinnacle",
+      "proba_modele": 78.1
     },
     {
       "sport": "⚽ Football",
@@ -299,7 +287,32 @@
       "ou_line": 3.5,
       "cote_source": "moyenne de 3 bookmakers",
       "dans_fenetre": true,
-      "proba_source": "Pinnacle"
+      "proba_source": "Pinnacle",
+      "proba_modele": 74.3
+    },
+    {
+      "sport": "⚽ Football",
+      "status": "🟢 Bon",
+      "heure": "21h00",
+      "championnat": "UEFA Champions League",
+      "sport_key": "soccer_uefa_champs_league",
+      "home_team": "Aston Villa",
+      "away_team": "Fenerbahce",
+      "event_id": "3f3cb74e560dfcc3e795b667ed9ebdef",
+      "pari": "Under 4.5 buts",
+      "cote": 1.21,
+      "proba": 80.6,
+      "historique": "78% (n=3310)",
+      "valeur": -2.5,
+      "score": -4.9,
+      "etoiles": 2,
+      "note": "Faible",
+      "ou_side": "Under",
+      "ou_line": 4.5,
+      "cote_source": "moyenne de 3 bookmakers",
+      "dans_fenetre": true,
+      "proba_source": "moyenne de 3 bookmakers",
+      "proba_modele": 78.7
     }
   ],
   "yesterday": {
