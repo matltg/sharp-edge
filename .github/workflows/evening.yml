@@ -9,6 +9,9 @@ on:
     - cron: '7 17 * * *'
     - cron: '7 18 * * *'
   workflow_dispatch:        # déclenchement manuel : tourne toujours
+  push:                     # code modifié : la page est régénérée tout de suite
+    branches: [main]
+    paths: ['scripts/**', 'docs/update.js']
 
 # Un seul lancement à la fois : le suivant voit le marqueur posé par le précédent
 concurrency:
