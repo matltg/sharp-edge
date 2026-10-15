@@ -1,208 +1,8 @@
 {
   "date": "2026-10-15",
   "type": "evening",
-  "generated_at": "2026-10-15T07:46:46+02:00",
+  "generated_at": "2026-10-15T20:35:43+02:00",
   "picks": [
-    {
-      "sport": "⚽ Football",
-      "heure": "18h45",
-      "championnat": "UEFA Europa League",
-      "sport_key": "soccer_uefa_europa_league",
-      "home_team": "AZ Alkmaar",
-      "away_team": "Hapoel Be'er Sheva",
-      "event_id": "571499e2d0a5fccc92b7801aa4d6c124",
-      "paris": [
-        {
-          "side": "Over",
-          "line": 2.5,
-          "pari": "Over 2.5 buts",
-          "cote": 1.47,
-          "cote_source": "moyenne de 4 bookmakers",
-          "proba": 67.1,
-          "proba_source": "Pinnacle",
-          "proba_modele": 67.1,
-          "historique": "69% (n=1371)",
-          "valeur": -1.4,
-          "score": 0.6,
-          "etoiles": 4,
-          "note": "Intéressant"
-        },
-        {
-          "side": "Under",
-          "line": 4.5,
-          "pari": "Under 4.5 buts",
-          "cote": 1.29,
-          "cote_source": "moyenne de 3 bookmakers",
-          "proba": 76.0,
-          "proba_source": "Pinnacle",
-          "proba_modele": 73.4,
-          "historique": "75% (n=1425)",
-          "valeur": -2.0,
-          "score": -3.5,
-          "etoiles": 2,
-          "note": "Faible"
-        }
-      ],
-      "etoiles": 4,
-      "proba": 67.1
-    },
-    {
-      "sport": "⚽ Football",
-      "heure": "18h45",
-      "championnat": "UEFA Europa League",
-      "sport_key": "soccer_uefa_europa_league",
-      "home_team": "Union Saint-Gilloise",
-      "away_team": "Real Sociedad",
-      "event_id": "3809b92a425c41c325bafc8d8d598512",
-      "paris": [
-        {
-          "side": "Over",
-          "line": 1.5,
-          "pari": "Over 1.5 buts",
-          "cote": 1.2,
-          "cote_source": "moyenne de 4 bookmakers",
-          "proba": 82.0,
-          "proba_source": "Pinnacle",
-          "proba_modele": 81.2,
-          "historique": "82% (n=5892)",
-          "valeur": -1.6,
-          "score": -1.9,
-          "etoiles": 3,
-          "note": "Correct"
-        },
-        {
-          "side": "Under",
-          "line": 4.5,
-          "pari": "Under 4.5 buts",
-          "cote": 1.2,
-          "cote_source": "moyenne de 3 bookmakers",
-          "proba": 81.9,
-          "proba_source": "Pinnacle",
-          "proba_modele": 80.3,
-          "historique": "81% (n=5438)",
-          "valeur": -1.7,
-          "score": -2.9,
-          "etoiles": 2,
-          "note": "Faible"
-        }
-      ],
-      "etoiles": 3,
-      "proba": 82.0
-    },
-    {
-      "sport": "⚽ Football",
-      "heure": "18h45",
-      "championnat": "UEFA Europa Conference League",
-      "sport_key": "soccer_uefa_europa_conference_league",
-      "home_team": "Universitatea Craiova",
-      "away_team": "Getafe",
-      "event_id": "087edf97fcfd3956c71c17887680d382",
-      "paris": [
-        {
-          "side": "Over",
-          "line": 1.5,
-          "pari": "Over 1.5 buts",
-          "cote": 1.45,
-          "cote_source": "moyenne de 3 bookmakers",
-          "proba": 65.8,
-          "proba_source": "Pinnacle",
-          "proba_modele": 64.5,
-          "historique": "66% (n=3441)",
-          "valeur": -4.6,
-          "score": -4.3,
-          "etoiles": 2,
-          "note": "Faible"
-        },
-        {
-          "side": "Under",
-          "line": 3.5,
-          "pari": "Under 3.5 buts",
-          "cote": 1.2,
-          "cote_source": "moyenne de 2 bookmakers",
-          "proba": 81.7,
-          "proba_source": "Pinnacle",
-          "proba_modele": 82.0,
-          "historique": "82% (n=3739)",
-          "valeur": -2.0,
-          "score": -1.7,
-          "etoiles": 3,
-          "note": "Correct"
-        }
-      ],
-      "etoiles": 3,
-      "proba": 81.7
-    },
-    {
-      "sport": "⚽ Football",
-      "heure": "18h45",
-      "championnat": "UEFA Europa Conference League",
-      "sport_key": "soccer_uefa_europa_conference_league",
-      "home_team": "PFC CSKA Sofia",
-      "away_team": "AS Monaco",
-      "event_id": "1172b90edbecfce831c2c0356f67a84c",
-      "paris": [
-        {
-          "side": "Over",
-          "line": 1.5,
-          "pari": "Over 1.5 buts",
-          "cote": 1.21,
-          "cote_source": "moyenne de 3 bookmakers",
-          "proba": 81.0,
-          "proba_source": "Pinnacle",
-          "proba_modele": 80.5,
-          "historique": "81% (n=6445)",
-          "valeur": -2.0,
-          "score": -1.9,
-          "etoiles": 3,
-          "note": "Correct"
-        },
-        {
-          "side": "Under",
-          "line": 3.5,
-          "pari": "Under 3.5 buts",
-          "cote": 1.49,
-          "cote_source": "moyenne de 2 bookmakers",
-          "proba": 65.0,
-          "proba_source": "Pinnacle",
-          "proba_modele": 64.1,
-          "historique": "64% (n=4574)",
-          "valeur": -3.1,
-          "score": -4.1,
-          "etoiles": 2,
-          "note": "Faible"
-        }
-      ],
-      "etoiles": 3,
-      "proba": 81.0
-    },
-    {
-      "sport": "⚽ Football",
-      "heure": "18h45",
-      "championnat": "UEFA Europa Conference League",
-      "sport_key": "soccer_uefa_europa_conference_league",
-      "home_team": "Mjällby AIF",
-      "away_team": "Inter Club d'Escaldes",
-      "event_id": "0c950df0d2ff834deb1bc3a0130177dc",
-      "paris": [
-        {
-          "side": "Over",
-          "line": 1.5,
-          "pari": "Over 1.5 buts",
-          "cote": 1.21,
-          "cote_source": "moyenne de 3 bookmakers",
-          "proba": 81.0,
-          "proba_source": "Pinnacle",
-          "proba_modele": 80.7,
-          "historique": "81% (n=6287)",
-          "valeur": -2.0,
-          "score": -1.8,
-          "etoiles": 3,
-          "note": "Correct"
-        }
-      ],
-      "etoiles": 3,
-      "proba": 81.0
-    },
     {
       "sport": "⚽ Football",
       "heure": "21h00",
@@ -245,49 +45,6 @@
       ],
       "etoiles": 3,
       "proba": 77.3
-    },
-    {
-      "sport": "⚽ Football",
-      "heure": "18h45",
-      "championnat": "UEFA Europa Conference League",
-      "sport_key": "soccer_uefa_europa_conference_league",
-      "home_team": "Gent",
-      "away_team": "AGF Aarhus",
-      "event_id": "c88779b8088f864930fe423c5e0523ce",
-      "paris": [
-        {
-          "side": "Over",
-          "line": 1.5,
-          "pari": "Over 1.5 buts",
-          "cote": 1.27,
-          "cote_source": "moyenne de 3 bookmakers",
-          "proba": 76.3,
-          "proba_source": "Pinnacle",
-          "proba_modele": 75.7,
-          "historique": "76% (n=9391)",
-          "valeur": -3.1,
-          "score": -3.2,
-          "etoiles": 2,
-          "note": "Faible"
-        },
-        {
-          "side": "Under",
-          "line": 3.5,
-          "pari": "Under 3.5 buts",
-          "cote": 1.38,
-          "cote_source": "moyenne de 2 bookmakers",
-          "proba": 71.6,
-          "proba_source": "Pinnacle",
-          "proba_modele": 70.7,
-          "historique": "71% (n=7827)",
-          "valeur": -1.2,
-          "score": -1.7,
-          "etoiles": 3,
-          "note": "Correct"
-        }
-      ],
-      "etoiles": 3,
-      "proba": 71.6
     },
     {
       "sport": "⚽ Football",
@@ -334,49 +91,6 @@
     },
     {
       "sport": "⚽ Football",
-      "heure": "18h45",
-      "championnat": "UEFA Europa League",
-      "sport_key": "soccer_uefa_europa_league",
-      "home_team": "Lech Poznań",
-      "away_team": "Bayer Leverkusen",
-      "event_id": "c3923b733e33ae8ebd1f024cd5312d1e",
-      "paris": [
-        {
-          "side": "Over",
-          "line": 2.5,
-          "pari": "Over 2.5 buts",
-          "cote": 1.42,
-          "cote_source": "moyenne de 4 bookmakers",
-          "proba": 68.2,
-          "proba_source": "Pinnacle",
-          "proba_modele": 68.2,
-          "historique": "70% (n=1204)",
-          "valeur": -3.2,
-          "score": -1.7,
-          "etoiles": 3,
-          "note": "Correct"
-        },
-        {
-          "side": "Under",
-          "line": 4.5,
-          "pari": "Under 4.5 buts",
-          "cote": 1.31,
-          "cote_source": "moyenne de 3 bookmakers",
-          "proba": 74.7,
-          "proba_source": "Pinnacle",
-          "proba_modele": 72.3,
-          "historique": "74% (n=1139)",
-          "valeur": -2.1,
-          "score": -3.3,
-          "etoiles": 2,
-          "note": "Faible"
-        }
-      ],
-      "etoiles": 3,
-      "proba": 68.2
-    },
-    {
-      "sport": "⚽ Football",
       "heure": "21h00",
       "championnat": "UEFA Europa Conference League",
       "sport_key": "soccer_uefa_europa_conference_league",
@@ -420,49 +134,6 @@
     },
     {
       "sport": "⚽ Football",
-      "heure": "18h45",
-      "championnat": "UEFA Europa League",
-      "sport_key": "soccer_uefa_europa_league",
-      "home_team": "Sparta Prague",
-      "away_team": "Lillestrom",
-      "event_id": "fad99d69743794a14fe2961d8fb9e8f2",
-      "paris": [
-        {
-          "side": "Over",
-          "line": 2.5,
-          "pari": "Over 2.5 buts",
-          "cote": 1.48,
-          "cote_source": "moyenne de 4 bookmakers",
-          "proba": 66.1,
-          "proba_source": "Pinnacle",
-          "proba_modele": 66.1,
-          "historique": "68% (n=1670)",
-          "valeur": -2.2,
-          "score": -0.4,
-          "etoiles": 3,
-          "note": "Correct"
-        },
-        {
-          "side": "Under",
-          "line": 4.5,
-          "pari": "Under 4.5 buts",
-          "cote": 1.28,
-          "cote_source": "moyenne de 3 bookmakers",
-          "proba": 76.6,
-          "proba_source": "Pinnacle",
-          "proba_modele": 74.3,
-          "historique": "75% (n=1802)",
-          "valeur": -2.0,
-          "score": -3.3,
-          "etoiles": 2,
-          "note": "Faible"
-        }
-      ],
-      "etoiles": 3,
-      "proba": 66.1
-    },
-    {
-      "sport": "⚽ Football",
       "heure": "21h00",
       "championnat": "UEFA Europa League",
       "sport_key": "soccer_uefa_europa_league",
@@ -503,62 +174,6 @@
       ],
       "etoiles": 2,
       "proba": 81.8
-    },
-    {
-      "sport": "⚽ Football",
-      "heure": "18h45",
-      "championnat": "UEFA Europa League",
-      "sport_key": "soccer_uefa_europa_league",
-      "home_team": "Salzburg",
-      "away_team": "AC Milan",
-      "event_id": "431fc65e67cd737bceb5827118d3f7eb",
-      "paris": [
-        {
-          "side": "Under",
-          "line": 4.5,
-          "pari": "Under 4.5 buts",
-          "cote": 1.2,
-          "cote_source": "moyenne de 3 bookmakers",
-          "proba": 81.1,
-          "proba_source": "Pinnacle",
-          "proba_modele": 80.0,
-          "historique": "81% (n=5172)",
-          "valeur": -2.7,
-          "score": -3.2,
-          "etoiles": 2,
-          "note": "Faible"
-        }
-      ],
-      "etoiles": 2,
-      "proba": 81.1
-    },
-    {
-      "sport": "⚽ Football",
-      "heure": "18h45",
-      "championnat": "UEFA Europa League",
-      "sport_key": "soccer_uefa_europa_league",
-      "home_team": "Lyon",
-      "away_team": "Crystal Palace",
-      "event_id": "25ce4d73c9b993d26f00c1df2d0b820c",
-      "paris": [
-        {
-          "side": "Under",
-          "line": 4.5,
-          "pari": "Under 4.5 buts",
-          "cote": 1.2,
-          "cote_source": "moyenne de 3 bookmakers",
-          "proba": 81.1,
-          "proba_source": "Pinnacle",
-          "proba_modele": 79.7,
-          "historique": "80% (n=4906)",
-          "valeur": -2.7,
-          "score": -3.6,
-          "etoiles": 2,
-          "note": "Faible"
-        }
-      ],
-      "etoiles": 2,
-      "proba": 81.1
     },
     {
       "sport": "⚽ Football",
@@ -633,49 +248,6 @@
     },
     {
       "sport": "⚽ Football",
-      "heure": "18h45",
-      "championnat": "UEFA Europa Conference League",
-      "sport_key": "soccer_uefa_europa_conference_league",
-      "home_team": "FC Lugano",
-      "away_team": "Red Star Belgrade",
-      "event_id": "b1928bd6d9104b495c1bd82f628e70e8",
-      "paris": [
-        {
-          "side": "Over",
-          "line": 1.5,
-          "pari": "Over 1.5 buts",
-          "cote": 1.22,
-          "cote_source": "moyenne de 3 bookmakers",
-          "proba": 80.4,
-          "proba_source": "Pinnacle",
-          "proba_modele": 79.4,
-          "historique": "80% (n=7313)",
-          "valeur": -1.9,
-          "score": -2.3,
-          "etoiles": 2,
-          "note": "Faible"
-        },
-        {
-          "side": "Under",
-          "line": 3.5,
-          "pari": "Under 3.5 buts",
-          "cote": 1.43,
-          "cote_source": "moyenne de 2 bookmakers",
-          "proba": 66.5,
-          "proba_source": "Pinnacle",
-          "proba_modele": 65.7,
-          "historique": "66% (n=5407)",
-          "valeur": -4.9,
-          "score": -5.7,
-          "etoiles": 1,
-          "note": "À éviter"
-        }
-      ],
-      "etoiles": 2,
-      "proba": 80.4
-    },
-    {
-      "sport": "⚽ Football",
       "heure": "21h00",
       "championnat": "UEFA Europa Conference League",
       "sport_key": "soccer_uefa_europa_conference_league",
@@ -701,105 +273,6 @@
       ],
       "etoiles": 2,
       "proba": 80.3
-    },
-    {
-      "sport": "⚽ Football",
-      "heure": "18h45",
-      "championnat": "UEFA Europa Conference League",
-      "sport_key": "soccer_uefa_europa_conference_league",
-      "home_team": "Hajduk Split",
-      "away_team": "Ajax",
-      "event_id": "1fc1e9693b8b0af4ff26df5a394da1c1",
-      "paris": [
-        {
-          "side": "Under",
-          "line": 4.5,
-          "pari": "Under 4.5 buts",
-          "cote": 1.23,
-          "cote_source": "moyenne de 2 bookmakers",
-          "proba": 79.6,
-          "proba_source": "Pinnacle",
-          "proba_modele": 77.5,
-          "historique": "78% (n=3142)",
-          "valeur": -2.1,
-          "score": -3.8,
-          "etoiles": 2,
-          "note": "Faible"
-        }
-      ],
-      "etoiles": 2,
-      "proba": 79.6
-    },
-    {
-      "sport": "⚽ Football",
-      "heure": "18h45",
-      "championnat": "UEFA Europa Conference League",
-      "sport_key": "soccer_uefa_europa_conference_league",
-      "home_team": "Panathinaikos FC",
-      "away_team": "FK Borac Banja Luka",
-      "event_id": "1769158b7ef34227fc6d6822eaa918ba",
-      "paris": [
-        {
-          "side": "Under",
-          "line": 4.5,
-          "pari": "Under 4.5 buts",
-          "cote": 1.23,
-          "cote_source": "moyenne de 2 bookmakers",
-          "proba": 79.6,
-          "proba_source": "Pinnacle",
-          "proba_modele": 77.4,
-          "historique": "78% (n=3101)",
-          "valeur": -2.1,
-          "score": -3.9,
-          "etoiles": 2,
-          "note": "Faible"
-        }
-      ],
-      "etoiles": 2,
-      "proba": 79.6
-    },
-    {
-      "sport": "⚽ Football",
-      "heure": "18h45",
-      "championnat": "UEFA Europa Conference League",
-      "sport_key": "soccer_uefa_europa_conference_league",
-      "home_team": "KuPS Kuopio",
-      "away_team": "Trabzonspor",
-      "event_id": "9a6664f72b5892098311f3518ab1b084",
-      "paris": [
-        {
-          "side": "Over",
-          "line": 1.5,
-          "pari": "Over 1.5 buts",
-          "cote": 1.22,
-          "cote_source": "moyenne de 3 bookmakers",
-          "proba": 79.6,
-          "proba_source": "Pinnacle",
-          "proba_modele": 79.2,
-          "historique": "80% (n=7471)",
-          "valeur": -2.9,
-          "score": -2.5,
-          "etoiles": 2,
-          "note": "Faible"
-        },
-        {
-          "side": "Under",
-          "line": 3.5,
-          "pari": "Under 3.5 buts",
-          "cote": 1.47,
-          "cote_source": "moyenne de 2 bookmakers",
-          "proba": 67.0,
-          "proba_source": "Pinnacle",
-          "proba_modele": 66.1,
-          "historique": "66% (n=5616)",
-          "valeur": -1.5,
-          "score": -2.5,
-          "etoiles": 2,
-          "note": "Faible"
-        }
-      ],
-      "etoiles": 2,
-      "proba": 79.6
     },
     {
       "sport": "⚽ Football",
@@ -843,49 +316,6 @@
       ],
       "etoiles": 2,
       "proba": 79.2
-    },
-    {
-      "sport": "⚽ Football",
-      "heure": "18h45",
-      "championnat": "UEFA Europa Conference League",
-      "sport_key": "soccer_uefa_europa_conference_league",
-      "home_team": "KF Egnatia",
-      "away_team": "FC Midtjylland",
-      "event_id": "d5a65603dd17bf566ea1953054c8688b",
-      "paris": [
-        {
-          "side": "Over",
-          "line": 1.5,
-          "pari": "Over 1.5 buts",
-          "cote": 1.24,
-          "cote_source": "moyenne de 3 bookmakers",
-          "proba": 78.4,
-          "proba_source": "Pinnacle",
-          "proba_modele": 77.9,
-          "historique": "79% (n=8496)",
-          "valeur": -2.8,
-          "score": -2.4,
-          "etoiles": 2,
-          "note": "Faible"
-        },
-        {
-          "side": "Under",
-          "line": 3.5,
-          "pari": "Under 3.5 buts",
-          "cote": 1.4,
-          "cote_source": "moyenne de 2 bookmakers",
-          "proba": 68.4,
-          "proba_source": "Pinnacle",
-          "proba_modele": 67.8,
-          "historique": "68% (n=6495)",
-          "valeur": -4.2,
-          "score": -4.8,
-          "etoiles": 2,
-          "note": "Faible"
-        }
-      ],
-      "etoiles": 2,
-      "proba": 78.4
     },
     {
       "sport": "⚽ Football",
@@ -1089,49 +519,6 @@
     },
     {
       "sport": "⚽ Football",
-      "heure": "18h45",
-      "championnat": "UEFA Europa League",
-      "sport_key": "soccer_uefa_europa_league",
-      "home_team": "NK Celje",
-      "away_team": "Omonoia FC",
-      "event_id": "d3113d05007ddfba3077a7fafbef05c4",
-      "paris": [
-        {
-          "side": "Over",
-          "line": 1.5,
-          "pari": "Over 1.5 buts",
-          "cote": 1.27,
-          "cote_source": "moyenne de 4 bookmakers",
-          "proba": 76.5,
-          "proba_source": "Pinnacle",
-          "proba_modele": 75.2,
-          "historique": "76% (n=9538)",
-          "valeur": -2.8,
-          "score": -4.0,
-          "etoiles": 2,
-          "note": "Faible"
-        },
-        {
-          "side": "Under",
-          "line": 3.5,
-          "pari": "Under 3.5 buts",
-          "cote": 1.34,
-          "cote_source": "moyenne de 3 bookmakers",
-          "proba": 72.3,
-          "proba_source": "Pinnacle",
-          "proba_modele": 71.4,
-          "historique": "72% (n=8149)",
-          "valeur": -3.1,
-          "score": -3.5,
-          "etoiles": 2,
-          "note": "Faible"
-        }
-      ],
-      "etoiles": 2,
-      "proba": 76.5
-    },
-    {
-      "sport": "⚽ Football",
       "heure": "21h00",
       "championnat": "UEFA Europa Conference League",
       "sport_key": "soccer_uefa_europa_conference_league",
@@ -1172,49 +559,6 @@
       ],
       "etoiles": 2,
       "proba": 76.2
-    },
-    {
-      "sport": "⚽ Football",
-      "heure": "18h45",
-      "championnat": "UEFA Europa Conference League",
-      "sport_key": "soccer_uefa_europa_conference_league",
-      "home_team": "Riga FC",
-      "away_team": "FC Kairat",
-      "event_id": "921e7dc3692cc85772fc69fb8de17359",
-      "paris": [
-        {
-          "side": "Over",
-          "line": 1.5,
-          "pari": "Over 1.5 buts",
-          "cote": 1.34,
-          "cote_source": "moyenne de 3 bookmakers",
-          "proba": 72.8,
-          "proba_source": "Pinnacle",
-          "proba_modele": 71.8,
-          "historique": "72% (n=9681)",
-          "valeur": -2.4,
-          "score": -3.9,
-          "etoiles": 2,
-          "note": "Faible"
-        },
-        {
-          "side": "Under",
-          "line": 3.5,
-          "pari": "Under 3.5 buts",
-          "cote": 1.29,
-          "cote_source": "moyenne de 2 bookmakers",
-          "proba": 75.6,
-          "proba_source": "Pinnacle",
-          "proba_modele": 75.2,
-          "historique": "76% (n=8795)",
-          "valeur": -2.5,
-          "score": -2.5,
-          "etoiles": 2,
-          "note": "Faible"
-        }
-      ],
-      "etoiles": 2,
-      "proba": 75.6
     },
     {
       "sport": "⚽ Football",
@@ -1430,71 +774,43 @@
       ],
       "etoiles": 2,
       "proba": 71.5
-    },
-    {
-      "sport": "⚽ Football",
-      "heure": "18h45",
-      "championnat": "UEFA Europa League",
-      "sport_key": "soccer_uefa_europa_league",
-      "home_team": "Torreense",
-      "away_team": "Sunderland",
-      "event_id": "da3a8db9ad8d25b73789727f7dde009d",
-      "paris": [
-        {
-          "side": "Under",
-          "line": 3.5,
-          "pari": "Under 3.5 buts",
-          "cote": 1.5,
-          "cote_source": "moyenne de 3 bookmakers",
-          "proba": 64.4,
-          "proba_source": "Pinnacle",
-          "proba_modele": 64.0,
-          "historique": "64% (n=4522)",
-          "valeur": -3.4,
-          "score": -3.7,
-          "etoiles": 2,
-          "note": "Faible"
-        }
-      ],
-      "etoiles": 2,
-      "proba": 64.4
     }
   ],
   "grosses_cotes": {
     "combine": {
       "legs": [
         {
-          "event_id": "571499e2d0a5fccc92b7801aa4d6c124",
-          "heure": "18h45",
-          "championnat": "UEFA Europa League",
-          "match": "AZ Alkmaar – Hapoel Be'er Sheva",
+          "event_id": "b712f6ee1a8b3f7ea8c6cad4929a2728",
+          "heure": "21h00",
+          "championnat": "UEFA Europa Conference League",
+          "match": "Sint Truiden – FC Iberia 1999",
           "side": "Over",
           "line": 2.5,
           "pari": "Over 2.5 buts",
-          "cote": 1.47,
-          "proba": 67.1,
-          "score": 0.6,
-          "etoiles": 4
+          "cote": 1.46,
+          "proba": 66.6,
+          "score": -0.9,
+          "etoiles": 3
         },
         {
-          "event_id": "fad99d69743794a14fe2961d8fb9e8f2",
-          "heure": "18h45",
+          "event_id": "9b2bf9bed21283dcad774dd5be7ba1da",
+          "heure": "21h00",
           "championnat": "UEFA Europa League",
-          "match": "Sparta Prague – Lillestrom",
+          "match": "Rennes – OFI Crete",
           "side": "Over",
           "line": 2.5,
           "pari": "Over 2.5 buts",
-          "cote": 1.48,
-          "proba": 66.1,
-          "score": -0.4,
+          "cote": 1.4,
+          "proba": 69.4,
+          "score": -1.8,
           "etoiles": 3
         }
       ],
-      "cote": 2.18,
-      "proba": 44.4,
-      "score": 0.2,
-      "etoiles": 4,
-      "note": "Intéressant"
+      "cote": 2.04,
+      "proba": 46.2,
+      "score": -2.7,
+      "etoiles": 2,
+      "note": "Faible"
     },
     "simples": [
       {
@@ -1517,42 +833,42 @@
         "note": "Correct"
       },
       {
-        "event_id": "1fc1e9693b8b0af4ff26df5a394da1c1",
-        "heure": "18h45",
+        "event_id": "b541ed567a14bfe5addd1a9ec542708a",
+        "heure": "21h00",
         "championnat": "UEFA Europa Conference League",
-        "match": "Hajduk Split – Ajax",
+        "match": "Hearts – FC Nordsjaelland",
         "side": "Over",
         "line": 3.5,
         "pari": "Over 3.5 buts",
-        "cote": 2.43,
+        "cote": 2.33,
         "cote_source": "moyenne de 2 bookmakers",
-        "proba": 39.8,
+        "proba": 41.1,
         "proba_source": "Pinnacle",
-        "proba_modele": 40.5,
-        "historique": "41% (n=2544)",
-        "valeur": -3.3,
-        "score": -1.1,
-        "etoiles": 3,
-        "note": "Correct"
+        "proba_modele": 41.6,
+        "historique": "42% (n=2097)",
+        "valeur": -4.2,
+        "score": -2.2,
+        "etoiles": 2,
+        "note": "Faible"
       },
       {
-        "event_id": "571499e2d0a5fccc92b7801aa4d6c124",
-        "heure": "18h45",
-        "championnat": "UEFA Europa League",
-        "match": "AZ Alkmaar – Hapoel Be'er Sheva",
+        "event_id": "e2578ec1dbe113dc7d40bcd7e0fd1d9f",
+        "heure": "21h00",
+        "championnat": "UEFA Europa Conference League",
+        "match": "Atalanta BC – Pafos FC",
         "side": "Over",
         "line": 3.5,
         "pari": "Over 3.5 buts",
-        "cote": 2.16,
-        "cote_source": "moyenne de 3 bookmakers",
-        "proba": 43.7,
+        "cote": 2.38,
+        "cote_source": "moyenne de 2 bookmakers",
+        "proba": 39.5,
         "proba_source": "Pinnacle",
-        "proba_modele": 45.4,
-        "historique": "46% (n=1240)",
-        "valeur": -5.6,
-        "score": -1.8,
-        "etoiles": 3,
-        "note": "Correct"
+        "proba_modele": 40.7,
+        "historique": "41% (n=2463)",
+        "valeur": -6.0,
+        "score": -2.6,
+        "etoiles": 2,
+        "note": "Faible"
       }
     ]
   },
