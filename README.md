@@ -62,6 +62,11 @@ nombre d'étoiles, puis par probabilité. Pour chaque match :
 
 La page n'affiche qu'une liste : celle du matin jusqu'au rapport de 16h30, puis
 celle du soir (matchs pas encore commencés), qui la remplace.
+
+Le bouton « 🔄 Mettre à jour » de la page lance cette mise à jour à la demande
+(workflow Evening Report). À la première utilisation, il demande un jeton GitHub
+« fine-grained » limité à ce dépôt avec la seule permission *Actions : Read and
+write* ; le jeton reste dans le navigateur (localStorage), jamais dans la page.
 | Heure · championnat | Heure de Paris |
 | Match | Domicile – Extérieur |
 | Pari | Over ou Under buts, ligne simple (x.5) : parmi ceux cotés 1,20 – 1,50, la meilleure note ; à défaut le plus proche de la fenêtre (signalé) |

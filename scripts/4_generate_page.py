@@ -257,7 +257,7 @@ def generate_index(date_str: str, picks: dict):
     if picks.get("has_evening"):
         current = picks["evening"]
         day_sec = render_picks_section(
-            "🌆 Matchs du jour — mise à jour 16h30", current,
+            f"🌆 Matchs à venir — mise à jour de {datetime.now(TZ_FRANCE).strftime('%Hh%M')}", current,
             "Plus aucun match à venir aujourd'hui dans les championnats suivis.")
     else:
         current = picks["morning"]
@@ -333,6 +333,23 @@ def generate_index(date_str: str, picks: dict):
     .track th:first-child,.track td:first-child{{text-align:left}}
     .track th{{color:var(--muted);font-weight:600}}
     .track-note{{font-size:.75rem;color:var(--muted);margin-bottom:.75rem}}
+    /* Bouton de mise à jour */
+    .update-btn{{background:var(--surface);color:var(--text);border:1px solid var(--border);
+                 border-radius:999px;padding:.3rem .8rem;font-size:.78rem;cursor:pointer}}
+    .update-btn:disabled{{opacity:.5;cursor:wait}}
+    .update-status{{background:var(--surface);border:1px solid var(--border);border-radius:.5rem;
+                    padding:.6rem .8rem;margin-bottom:1rem;font-size:.85rem}}
+    .update-panel{{background:var(--surface);border:1px solid var(--accent);border-radius:.75rem;
+                   padding:1rem;margin-bottom:1.5rem;font-size:.85rem;line-height:1.5}}
+    .update-panel ol{{margin:.5rem 0 .75rem 1.25rem}}
+    .update-panel a{{color:var(--accent)}}
+    .token-row{{display:flex;gap:.5rem;flex-wrap:wrap}}
+    .token-row input{{flex:1;min-width:200px;padding:.45rem .6rem;border-radius:.4rem;
+                      border:1px solid var(--border);background:var(--bg);color:var(--text)}}
+    .token-row button{{padding:.45rem .8rem;border-radius:.4rem;border:0;background:var(--accent);
+                       color:#0f172a;font-weight:700;cursor:pointer}}
+    .token-help{{margin-top:.6rem;font-size:.75rem;color:var(--muted)}}
+    .link-btn{{background:none;border:0;color:var(--accent);cursor:pointer;font-size:.75rem;padding:0}}
     /* Misc */
     .empty{{color:var(--muted);font-style:italic;padding:1rem;background:var(--surface);
             border-radius:.5rem;border:1px solid var(--border)}}
@@ -352,9 +369,27 @@ def generate_index(date_str: str, picks: dict):
     <div style="display:flex;align-items:center;gap:.75rem">
       <span class="meta">{date_str} · MàJ {now_fr}</span>
       <span class="badge">{total} matchs</span>
+      <button id="update-btn" class="update-btn" type="button">🔄 Mettre à jour</button>
     </div>
   </header>
   <main>
+    <p id="update-status" class="update-status" hidden></p>
+    <div id="update-panel" class="update-panel" hidden>
+      <p><strong>Première utilisation</strong> : crée un jeton GitHub limité à ce dépôt
+        (il reste enregistré dans ce navigateur uniquement).</p>
+      <ol>
+        <li>Ouvre <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">GitHub → nouveau jeton « fine-grained »</a></li>
+        <li><em>Repository access</em> : <em>Only select repositories</em> → <strong>sharp-edge</strong></li>
+        <li><em>Permissions</em> → <em>Repository</em> → <strong>Actions : Read and write</strong> (rien d'autre)</li>
+        <li>Génère le jeton et colle-le ici :</li>
+      </ol>
+      <div class="token-row">
+        <input id="token-input" type="password" autocomplete="off" placeholder="github_pat_…">
+        <button id="token-save" type="button">Enregistrer et lancer</button>
+      </div>
+      <p class="token-help"><a id="actions-link" href="#" target="_blank" rel="noopener">Ou lancer depuis GitHub</a>
+        · <button id="token-forget" type="button" class="link-btn">Oublier le jeton</button></p>
+    </div>
     {yest_sec}
     {day_sec}
     {track_sec}
@@ -365,6 +400,7 @@ def generate_index(date_str: str, picks: dict):
     Sources : football-data.co.uk · The Odds API · 18 championnats/compétitions actifs<br>
     {calibration_note()}
   </footer>
+  <script src="update.js"></script>
 </body>
 </html>"""
 
