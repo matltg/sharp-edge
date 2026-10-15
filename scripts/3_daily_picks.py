@@ -524,6 +524,12 @@ def yesterday_from_morning() -> dict | None:
 
 # ── MAIN ──────────────────────────────────────────────────────────────────────
 def main():
+    global REPORT_TYPE
+    # Mise à jour demandée (bouton de la page) avant le rapport du matin : il
+    # n'y a pas encore de cotes du jour → on fait le rapport du matin complet.
+    if REPORT_TYPE == "evening" and not raw_cache_path().exists():
+        print("  Pas encore de cotes aujourd'hui : rapport du matin complet")
+        REPORT_TYPE = "morning"
     print(f"Sharp-Edge | {today_fr()} | Rapport : {REPORT_TYPE}")
 
     raw = load_or_fetch_raw()
@@ -546,13 +552,21 @@ def main():
     out = PICKS_DIR / f"{today_fr()}_{suffix}.json"
     with open(out, "w", encoding="utf-8") as f:
         json.dump({
-            "date": today_fr(), "type": REPORT_TYPE, "picks": picks,
+            "date": today_fr(), "type": REPORT_TYPE,
+            "generated_at": datetime.now(TZ_FRANCE).isoformat(timespec="seconds"),
+            "picks": picks,
             "yesterday": {
                 "date": yesterday_fr(), "resolved": yesterday_resolved,
                 "wins": wins, "losses": losses, "total": total,
                 "win_rate": round(wins / total * 100, 1) if total else None,
             },
         }, f, ensure_ascii=False, indent=2)
+
+    # Rapport du matin fait (même lancé par le bouton) : les créneaux programmés
+    # du matin ne repasseront pas derrière (mêmes règles que le workflow).
+    now = datetime.now(TZ_FRANCE)
+    if REPORT_TYPE == "morning" and now.strftime("%H%M") >= "0430":
+        (PICKS_DIR / f".done_{today_fr()}_morning").touch()
 
     print(f"\n✓ {len(picks)} matchs → {out}")
     print(f"  Veille : {wins}W / {losses}L sur {total} résolus")

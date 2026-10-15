@@ -27,16 +27,20 @@ def calibration_note() -> str:
 
 
 def load_picks(date_str: str) -> dict:
-    result = {"morning": [], "evening": [], "yesterday": None, "has_evening": False}
+    """Rapports du jour ; « latest » = le plus récent (généré le dernier)."""
+    result = {"morning": [], "evening": [], "yesterday": None, "latest": None, "latest_at": ""}
     for suffix in ["morning", "evening"]:
         path = PICKS_DIR / f"{date_str}_{suffix}.json"
         if path.exists():
             with open(path, encoding="utf-8") as f:
                 data = json.load(f)
-                result[suffix] = data.get("picks", [])
-                result["has_evening"] |= suffix == "evening"
-                if result["yesterday"] is None:
-                    result["yesterday"] = data.get("yesterday")
+            result[suffix] = data.get("picks", [])
+            if result["yesterday"] is None:
+                result["yesterday"] = data.get("yesterday")
+            # anciens fichiers sans horodatage : le soir l'emporte sur le matin
+            stamp = data.get("generated_at") or ("0" if suffix == "morning" else "1")
+            if result["latest"] is None or stamp >= result["latest_at"]:
+                result["latest"], result["latest_at"] = suffix, stamp
     return result
 
 
@@ -253,16 +257,18 @@ def get_history_links() -> str:
 def generate_index(date_str: str, picks: dict):
     now_fr   = datetime.now(TZ_FRANCE).strftime("%d/%m/%Y à %Hh%M")
     yest_sec = render_yesterday_section(picks.get("yesterday"))
-    # Une seule liste : celle du matin jusqu'au rapport de 16h30, puis celle du soir
-    if picks.get("has_evening"):
+    # Une seule liste : le rapport le plus récent (matin ou mise à jour)
+    stamp = picks.get("latest_at", "")
+    at = f"{stamp[11:13]}h{stamp[14:16]}" if len(stamp) >= 16 else ""
+    if picks.get("latest") == "evening":
         current = picks["evening"]
         day_sec = render_picks_section(
-            f"🌆 Matchs à venir — mise à jour de {datetime.now(TZ_FRANCE).strftime('%Hh%M')}", current,
+            f"🌆 Matchs à venir — mise à jour{' de ' + at if at else ''}", current,
             "Plus aucun match à venir aujourd'hui dans les championnats suivis.")
     else:
         current = picks["morning"]
         day_sec = render_picks_section(
-            "🌅 Matchs du jour — rapport 4h30", current,
+            f"🌅 Matchs du jour — rapport{' de ' + at if at else ' du matin'}", current,
             "Aucun match aujourd'hui dans les championnats suivis.")
     total    = len(current)
     history  = get_history_links()
