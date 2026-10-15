@@ -9,6 +9,10 @@ NOTICE D'INTENTION
 
 OBJECTIF : 2 rapports quotidiens (4h30 et 16h30 heure France).
 
+GROSSES COTES : un combiné de 2 à 5 paris (les mieux notés, matchs différents)
+  dont la cote totale est entre 2 et 3, et les 3 meilleurs paris simples cotés
+  entre 2 et 3 — classés par rapport bénéfice/risque (score).
+
 AFFICHAGE : tous les matchs du jour, sans filtre, triés par le nombre d'étoiles
   de leur meilleur pari puis, à étoiles égales, par probabilité.
   - Paris : pour chaque match, le meilleur Over et le meilleur Under en ligne
@@ -326,13 +330,13 @@ def match_lambda(data: dict) -> float | None:
     return None
 
 
-def candidates(data: dict) -> list:
-    """Tous les Over et Under en ligne simple (x.5) cotés dans 1,20–1,50, notés."""
+def candidates(data: dict, lo: float = MIN_ODDS, hi: float = MAX_ODDS) -> list:
+    """Tous les Over et Under en ligne simple (x.5) cotés dans [lo, hi], notés."""
     lam = match_lambda(data)
     out = []
     for side in ("Over", "Under"):
         for pt, (price, book) in ref_prices(data, side).items():
-            if pt % 1 != 0.5 or not in_window(price):
+            if pt % 1 != 0.5 or not lo <= price <= hi:
                 continue
             over_proba, proba_source = fair_prob(data, pt)
             proba = (None if over_proba is None
@@ -410,14 +414,19 @@ def load_or_fetch_raw() -> dict:
 
 
 # ── CONSTRUCTION DES MATCHS ───────────────────────────────────────────────────
-def build_pick(event: dict, data: dict) -> dict | None:
+def is_listed(event: dict) -> bool:
+    """Match du jour ; le soir, seulement s'il n'a pas encore commencé (le rapport
+    du soir remplace celui du matin sur la page)."""
     kickoff = kickoff_fr(event)
     if kickoff.strftime("%Y-%m-%d") != today_fr():
+        return False
+    return not (REPORT_TYPE == "evening" and kickoff <= datetime.now(TZ_FRANCE))
+
+
+def build_pick(event: dict, data: dict) -> dict | None:
+    if not is_listed(event):
         return None
-    # Le rapport du soir remplace celui du matin sur la page : il reprend
-    # tous les matchs pas encore commencés.
-    if REPORT_TYPE == "evening" and kickoff <= datetime.now(TZ_FRANCE):
-        return None
+    kickoff = kickoff_fr(event)
 
     best = best_by_side(data)
     paris = [bet_record(best[side]) for side in ("Over", "Under") if best[side]]
@@ -500,7 +509,7 @@ def resolve_yesterday(picks: list) -> list:
 TRACKING_PATH = PICKS_DIR / "suivi.json"
 
 
-def update_tracking(resolved: list, date: str) -> int:
+def update_tracking(resolved: list, date: str, extra: list | None = None) -> int:
     """Ajoute les picks résolus (gagnés/perdus) au journal cumulé, sans doublon."""
     try:
         with open(TRACKING_PATH, encoding="utf-8") as f:
@@ -524,6 +533,12 @@ def update_tracking(resolved: list, date: str) -> int:
                         "result": bet["result"]})
             seen.add(key)
             added += 1
+    for row in extra or []:  # grosses cotes : combiné, cotes 2–3
+        key = (date, row["event_id"], row["pari"])
+        if row.get("result") in ("win", "loss") and key not in seen:
+            log.append({"date": date, **row})
+            seen.add(key)
+            added += 1
     with open(TRACKING_PATH, "w", encoding="utf-8") as f:
         json.dump(log, f, ensure_ascii=False, indent=1)
     return added
@@ -538,6 +553,122 @@ def yesterday_from_morning() -> dict | None:
             return json.load(f).get("yesterday")
     except (OSError, ValueError):
         return None
+
+
+# ── GROSSES COTES ─────────────────────────────────────────────────────────────
+BIG_MIN, BIG_MAX = 2.0, 3.0   # cote visée (combiné et paris simples)
+COMBO_MAX_LEGS = 5
+COMBO_POOL = 12               # paris les mieux notés parmi lesquels on combine
+BIG_SINGLES = 3
+
+
+def stars_for(score: float | None) -> tuple:
+    if score is None:
+        return None, None
+    return next((s, l) for threshold, s, l in STARS if score >= threshold)
+
+
+def match_info(p: dict) -> dict:
+    return {"event_id": p.get("event_id", ""), "heure": p.get("heure"),
+            "championnat": p.get("championnat"),
+            "match": f"{p.get('home_team')} – {p.get('away_team')}"}
+
+
+def best_combo(picks: list) -> dict | None:
+    """Combiné de 2 à 5 paris (un par match, le mieux noté de chacun) dont la cote
+    totale est dans [BIG_MIN, BIG_MAX] : celui au meilleur score combiné."""
+    from itertools import combinations
+    legs = []
+    for p in picks:
+        bet = max(p.get("paris", []), key=rank, default=None)
+        if bet and bet.get("score") is not None and bet.get("proba") is not None:
+            legs.append({**match_info(p), **{k: bet[k] for k in
+                         ("side", "line", "pari", "cote", "proba", "score", "etoiles")}})
+    legs = sorted(legs, key=lambda l: l["score"], reverse=True)[:COMBO_POOL]
+    best = None
+    for n in range(2, COMBO_MAX_LEGS + 1):
+        for combo in combinations(legs, n):
+            cote, proba, value = 1.0, 1.0, 1.0
+            for l in combo:
+                cote *= l["cote"]; proba *= l["proba"] / 100; value *= 1 + l["score"] / 100
+            if not BIG_MIN <= cote <= BIG_MAX:
+                continue
+            key = ((value - 1) * 100, proba)
+            if best is None or key > best[0]:
+                best = (key, combo, cote, proba)
+    if best is None:
+        return None
+    (score, _), combo, cote, proba = best
+    stars, note = stars_for(score)
+    return {"legs": list(combo), "cote": round(cote, 2), "proba": round(proba * 100, 1),
+            "score": round(score, 1), "etoiles": stars, "note": note}
+
+
+def big_singles(raw: dict) -> list:
+    """Les meilleurs paris simples cotés entre BIG_MIN et BIG_MAX (un par match),
+    classés par rapport bénéfice/risque (score)."""
+    out = []
+    for e in raw.get("events", []):
+        if not is_listed(e):
+            continue
+        cands = [c for c in candidates(raw.get("odds", {}).get(e.get("id"), {}), BIG_MIN, BIG_MAX)
+                 if c.get("score") is not None]
+        if cands:
+            bet = bet_record(max(cands, key=lambda c: (c["score"], c["proba"] or 0)))
+            out.append({**match_info({**e, "event_id": e.get("id", ""), "championnat": e.get("sport_title", ""),
+                                      "heure": kickoff_fr(e).strftime("%Hh%M")}), **bet})
+    out.sort(key=lambda b: (b["score"], b["proba"] or 0), reverse=True)
+    return out[:BIG_SINGLES]
+
+
+def yesterday_big() -> dict | None:
+    """Grosses cotes du dernier rapport de la veille."""
+    latest, stamp = None, ""
+    for suffix, default in (("morning", "0"), ("evening", "1")):
+        path = PICKS_DIR / f"{yesterday_fr()}_{suffix}.json"
+        try:
+            with open(path, encoding="utf-8") as f:
+                data = json.load(f)
+        except (OSError, ValueError):
+            continue
+        at = data.get("generated_at") or default
+        if data.get("grosses_cotes") and at >= stamp:
+            latest, stamp = data["grosses_cotes"], at
+    return latest
+
+
+def settle_big(big: dict | None, resolved: list) -> tuple:
+    """Règle les grosses cotes de la veille avec les scores déjà récupérés.
+    Retourne (grosses cotes réglées, lignes pour le suivi)."""
+    if not big:
+        return None, []
+    scores = {}
+    for p in resolved:
+        if p.get("score_final"):
+            hs, as_ = p["score_final"].split("–")
+            scores[p.get("event_id")] = (int(hs), int(as_))
+    rows = []
+    for bet in big.get("simples", []):
+        sc = scores.get(bet.get("event_id"))
+        bet["result"] = settle(bet, *sc) if sc else "unknown"
+        rows.append({"event_id": bet["event_id"], "championnat": bet.get("championnat"),
+                     "match": bet.get("match"), "side": "Cote 2–3", "pari": bet["pari"],
+                     "cote": bet["cote"], "proba": bet["proba"], "etoiles": bet.get("etoiles"),
+                     "result": bet["result"]})
+    combo = big.get("combine")
+    if combo:
+        for leg in combo["legs"]:
+            sc = scores.get(leg.get("event_id"))
+            leg["result"] = settle(leg, *sc) if sc else "unknown"
+        results = [l["result"] for l in combo["legs"]]
+        combo["result"] = ("loss" if "loss" in results else
+                           "win" if all(r == "win" for r in results) else "unknown")
+        rows.append({"event_id": "combine", "championnat": "Combiné",
+                     "match": " + ".join(l["match"] for l in combo["legs"]), "side": "Combiné",
+                     "pari": " + ".join(l["pari"] for l in combo["legs"]),
+                     "cote": combo["cote"], "proba": combo["proba"],
+                     "etoiles": combo.get("etoiles"), "result": combo["result"]})
+    return big, rows
 
 
 # ── MAIN ──────────────────────────────────────────────────────────────────────
@@ -564,7 +695,11 @@ def main():
     wins   = sum(1 for b in bets_y if b.get("result") == "win")
     losses = sum(1 for b in bets_y if b.get("result") == "loss")
     total  = wins + losses
-    added = update_tracking(yesterday_resolved, yesterday_fr())
+    big_y = (cached or {}).get("grosses_cotes")
+    big_rows = []
+    if big_y is None:
+        big_y, big_rows = settle_big(yesterday_big(), yesterday_resolved)
+    added = update_tracking(yesterday_resolved, yesterday_fr(), big_rows)
     print(f"  Suivi : {added} pick(s) ajouté(s) à {TRACKING_PATH.name}")
 
     suffix = "morning" if REPORT_TYPE == "morning" else "evening"
@@ -574,8 +709,10 @@ def main():
             "date": today_fr(), "type": REPORT_TYPE,
             "generated_at": datetime.now(TZ_FRANCE).isoformat(timespec="seconds"),
             "picks": picks,
+            "grosses_cotes": {"combine": best_combo(picks), "simples": big_singles(raw)},
             "yesterday": {
                 "date": yesterday_fr(), "resolved": yesterday_resolved,
+                "grosses_cotes": big_y,
                 "wins": wins, "losses": losses, "total": total,
                 "win_rate": round(wins / total * 100, 1) if total else None,
             },

@@ -83,6 +83,13 @@ prédite pour chaque ligne (0.5 à 4.5), comparée au résultat réel. On obtien
 ainsi un historique réel de l'Over 1.5 sur ~34 000 matchs (prédit à ~1 point
 près).
 
+La section « 🎯 Grosses cotes du jour » propose :
+- **🧩 Combiné du jour** : 2 à 5 paris (le mieux noté de chaque match, parmi les
+  12 meilleurs) dont la cote totale est entre 2 et 3, choisis pour le meilleur
+  rapport bénéfice/risque ; probabilité de tout gagner = produit des probabilités.
+- **🎲 Cotes 2–3** : les 3 meilleurs paris simples Over/Under cotés entre 2 et 3.
+Ils sont réglés le lendemain et suivis à part dans le tableau de fiabilité.
+
 La section « Suivi de fiabilité » compare, cumulé depuis le début, la
 probabilité annoncée et le taux réalisé des paris (`docs/picks/suivi.json`),
 par tranche de probabilité, par note et par type (Over / Under).

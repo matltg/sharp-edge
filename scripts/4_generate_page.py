@@ -28,7 +28,8 @@ def calibration_note() -> str:
 
 def load_picks(date_str: str) -> dict:
     """Rapports du jour ; « latest » = le plus récent (généré le dernier)."""
-    result = {"morning": [], "evening": [], "yesterday": None, "latest": None, "latest_at": ""}
+    result = {"morning": [], "evening": [], "yesterday": None, "latest": None, "latest_at": "",
+              "grosses_cotes": None}
     for suffix in ["morning", "evening"]:
         path = PICKS_DIR / f"{date_str}_{suffix}.json"
         if path.exists():
@@ -41,6 +42,8 @@ def load_picks(date_str: str) -> dict:
             stamp = data.get("generated_at") or ("0" if suffix == "morning" else "1")
             if result["latest"] is None or stamp >= result["latest_at"]:
                 result["latest"], result["latest_at"] = suffix, stamp
+                result["grosses_cotes"] = data.get("grosses_cotes")
+                result["yesterday"] = data.get("yesterday") or result["yesterday"]
     return result
 
 
@@ -158,6 +161,72 @@ def render_yesterday_card(pick: dict) -> str:
     </div>"""
 
 
+RESULT_ICON = {"win": "✅", "loss": "❌"}
+
+
+def render_big_section(big: dict | None) -> str:
+    """Grosses cotes du jour : combiné (cote 2–3) et paris simples cotés 2–3."""
+    if not big or not (big.get("combine") or big.get("simples")):
+        return ""
+    combo, singles = big.get("combine"), big.get("simples") or []
+    blocks = []
+    if combo:
+        legs = "".join(
+            f'<div class="big-leg"><span>{l["match"]}</span>'
+            f'<span>{l["pari"].replace(" buts", "")} @ {l["cote"]} · {fmt_proba(l["proba"])}</span></div>'
+            for l in combo["legs"])
+        blocks.append(f"""
+      <div class="big-card">
+        <div class="big-title">🧩 Combiné du jour <span class="big-sub">{len(combo['legs'])} paris</span></div>
+        <div class="big-stats">
+          <div><span class="bet-label">Cote totale</span><span class="bet-value big-odds">{combo['cote']}</span></div>
+          <div><span class="bet-label">Tout gagner</span>
+               <span class="bet-value bet-proba" style="color:{proba_color(combo['proba'])}">{fmt_proba(combo['proba'])}</span></div>
+          <div><span class="bet-label">Note</span>{fmt_stars(combo.get('etoiles'), combo.get('note'))}</div>
+        </div>
+        {legs}
+      </div>""")
+    if singles:
+        rows = "".join(f"""
+        <div class="big-single">
+          <div class="big-match">{b['match']} <span class="big-sub">{b['heure']} · {b['championnat']}</span></div>
+          <div class="big-stats">
+            <div><span class="bet-label">Pari</span><span class="bet-value">{SIDE_ICON.get(b['side'], '')} {b['pari'].replace(' buts', '')}</span></div>
+            <div><span class="bet-label">Cote</span><span class="bet-value big-odds">{b['cote']}</span></div>
+            <div><span class="bet-label">Probabilité</span>
+                 <span class="bet-value bet-proba" style="color:{proba_color(b.get('proba'))}">{fmt_proba(b.get('proba'))}</span></div>
+            <div><span class="bet-label">Note</span>{fmt_stars(b.get('etoiles'), b.get('note'))}</div>
+          </div>
+        </div>""" for b in singles)
+        blocks.append(f"""
+      <div class="big-card">
+        <div class="big-title">🎲 Cotes 2–3 du jour <span class="big-sub">meilleur rapport bénéfice/risque</span></div>
+        {rows}
+      </div>""")
+    return f"""
+    <section class="section">
+      <h2>🎯 Grosses cotes du jour</h2>
+      <p class="track-note">Risque élevé : ces paris perdent plus souvent qu'ils ne gagnent.
+        La note indique si la cote compense ce risque.</p>
+      <div class="big-grid">{''.join(blocks)}</div>
+    </section>"""
+
+
+def render_big_yesterday(big: dict | None) -> str:
+    if not big:
+        return ""
+    lines = []
+    combo = big.get("combine")
+    if combo:
+        lines.append(f'{RESULT_ICON.get(combo.get("result"), "⏳")} Combiné @ {combo["cote"]} '
+                     f'({" + ".join(l["pari"].replace(" buts", "") for l in combo["legs"])})')
+    for b in big.get("simples") or []:
+        lines.append(f'{RESULT_ICON.get(b.get("result"), "⏳")} {b["match"]} — '
+                     f'{b["pari"].replace(" buts", "")} @ {b["cote"]}')
+    items = "".join(f"<li>{l}</li>" for l in lines)
+    return f'<div class="big-yesterday"><strong>🎯 Grosses cotes</strong><ul>{items}</ul></div>'
+
+
 def render_yesterday_section(yesterday: dict | None) -> str:
     if not yesterday or not yesterday.get("resolved"):
         return ""
@@ -195,6 +264,7 @@ def render_yesterday_section(yesterday: dict | None) -> str:
           <span class="yest-label">Résolus</span>
         </div>
       </div>
+      {render_big_yesterday(yesterday.get('grosses_cotes'))}
       <div class="yest-grid">{cards}</div>
     </section>"""
 
@@ -229,14 +299,15 @@ def render_tracking_section() -> str:
         return (f"<tr><td>{label}</td><td>{n}</td><td>{pred:.0f}%</td><td>{real:.0f}%</td>"
                 f"<td style='color:{gap_color}'>{gap:+d}</td><td>{gain:+.1f}%</td></tr>")
 
-    by_proba = "".join(row(label, [r for r in log if lo <= r["proba"] < hi])
-                       for lo, hi, label in PROBA_RANGES)
-    by_stars = "".join(row("★" * k + "☆" * (5 - k), [r for r in log if r.get("etoiles") == k])
-                       for k in range(5, 0, -1))
-    total_row = row("Total", log)
     side_of = lambda r: r.get("side") or str(r.get("pari", "")).split(" ")[0]
-    by_side = "".join(row(f"{SIDE_ICON[sd]} {sd}", [r for r in log if side_of(r) == sd])
-                      for sd in ("Over", "Under"))
+    simple = [r for r in log if side_of(r) in ("Over", "Under")]
+    by_proba = "".join(row(label, [r for r in simple if lo <= r["proba"] < hi])
+                       for lo, hi, label in PROBA_RANGES)
+    by_stars = "".join(row("★" * k + "☆" * (5 - k), [r for r in simple if r.get("etoiles") == k])
+                       for k in range(5, 0, -1))
+    total_row = row("Total", simple)
+    labels = {"Over": "⬆️ Over", "Under": "⬇️ Under", "Combiné": "🧩 Combiné", "Cote 2–3": "🎲 Cote 2–3"}
+    by_side = "".join(row(lab, [r for r in log if side_of(r) == sd]) for sd, lab in labels.items())
     first, last = min(r["date"] for r in log), max(r["date"] for r in log)
     return f"""
     <section class="section">
@@ -304,6 +375,7 @@ def generate_index(date_str: str, picks: dict):
             f"🌅 Matchs du jour — rapport{' de ' + at if at else ' du matin'}", current,
             "Aucun match aujourd'hui dans les championnats suivis.")
     total    = len(current)
+    big_sec  = render_big_section(picks.get("grosses_cotes"))
     history  = get_history_links()
     track_sec = render_tracking_section()
 
@@ -393,6 +465,22 @@ def generate_index(date_str: str, picks: dict):
                        color:#0f172a;font-weight:700;cursor:pointer}}
     .token-help{{margin-top:.6rem;font-size:.75rem;color:var(--muted)}}
     .link-btn{{background:none;border:0;color:var(--accent);cursor:pointer;font-size:.75rem;padding:0}}
+    /* Grosses cotes */
+    .big-grid{{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem}}
+    .big-card{{background:var(--surface);border:1px solid #a855f7;border-radius:.75rem;padding:1rem;
+               display:flex;flex-direction:column;gap:.6rem}}
+    .big-title{{font-weight:700;font-size:.95rem}}
+    .big-sub{{font-weight:400;font-size:.72rem;color:var(--muted);margin-left:.3rem}}
+    .big-stats{{display:grid;grid-template-columns:repeat(auto-fit,minmax(70px,1fr));gap:.4rem}}
+    .big-odds{{font-size:1.05rem;font-weight:800;color:#c084fc}}
+    .big-leg{{display:flex;justify-content:space-between;gap:.5rem;font-size:.78rem;
+              border-top:1px solid var(--border);padding-top:.35rem}}
+    .big-leg span:last-child{{color:var(--muted);white-space:nowrap}}
+    .big-single{{border-top:1px solid var(--border);padding-top:.5rem}}
+    .big-match{{font-weight:700;font-size:.85rem;margin-bottom:.3rem}}
+    .big-yesterday{{background:var(--surface);border:1px solid var(--border);border-radius:.6rem;
+                    padding:.6rem .8rem;margin-bottom:.8rem;font-size:.8rem}}
+    .big-yesterday ul{{margin:.3rem 0 0 1.1rem}}
     /* Misc */
     .empty{{color:var(--muted);font-style:italic;padding:1rem;background:var(--surface);
             border-radius:.5rem;border:1px solid var(--border)}}
@@ -434,6 +522,7 @@ def generate_index(date_str: str, picks: dict):
         · <button id="token-forget" type="button" class="link-btn">Oublier le jeton</button></p>
     </div>
     {yest_sec}
+    {big_sec}
     {day_sec}
     {track_sec}
     {history}
