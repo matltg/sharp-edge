@@ -36,13 +36,17 @@
     .pick-match{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
     .pick-team{font-weight:700;font-size:1rem}
     .pick-vs{color:var(--muted);font-size:.8rem}
-    .bet-name{font-weight:700;font-size:.95rem;border-top:1px solid var(--border);padding-top:.6rem}
-    .bet-grid{display:grid;grid-template-columns:.8fr 1fr 1.4fr;gap:.5rem}
-    .bet-stars{display:block;font-size:1.05rem;letter-spacing:.05em;line-height:1.4}
+    .bet-head,.bet-row{display:grid;grid-template-columns:1.6fr .6fr .9fr 1.1fr;gap:.4rem;align-items:center}
+    .bet-head{font-size:.68rem;color:var(--muted);border-top:1px solid var(--border);padding-top:.6rem}
+    .bet-row{padding:.15rem 0}
+    .bet-none{grid-template-columns:1.6fr 2.6fr}
+    .bet-name{font-weight:700;font-size:.88rem}
+    .bet-empty{font-size:.75rem;color:var(--muted)}
+    .bet-stars{display:block;font-size:.95rem;letter-spacing:.03em;line-height:1.3}
     .bet-n{display:block;font-size:.65rem;font-weight:400;color:var(--muted)}
     .bet-label{display:block;font-size:.68rem;color:var(--muted)}
     .bet-value{font-size:.9rem;font-weight:600}
-    .bet-proba{font-size:1.15rem;font-weight:800}
+    .bet-proba{font-size:1.05rem;font-weight:800}
     .bet-ref{font-size:.72rem;color:var(--muted)}
     /* Résultats veille */
     .yest-summary{display:flex;gap:1.5rem;margin-bottom:1rem;flex-wrap:wrap}
@@ -63,6 +67,39 @@
     .track th:first-child,.track td:first-child{text-align:left}
     .track th{color:var(--muted);font-weight:600}
     .track-note{font-size:.75rem;color:var(--muted);margin-bottom:.75rem}
+    /* Bouton de mise à jour */
+    .update-btn{background:var(--surface);color:var(--text);border:1px solid var(--border);
+                 border-radius:999px;padding:.3rem .8rem;font-size:.78rem;cursor:pointer}
+    .update-btn:disabled{opacity:.5;cursor:wait}
+    .update-status{background:var(--surface);border:1px solid var(--border);border-radius:.5rem;
+                    padding:.6rem .8rem;margin-bottom:1rem;font-size:.85rem}
+    .update-panel{background:var(--surface);border:1px solid var(--accent);border-radius:.75rem;
+                   padding:1rem;margin-bottom:1.5rem;font-size:.85rem;line-height:1.5}
+    .update-panel ol{margin:.5rem 0 .75rem 1.25rem}
+    .update-panel a{color:var(--accent)}
+    .token-row{display:flex;gap:.5rem;flex-wrap:wrap}
+    .token-row input{flex:1;min-width:200px;padding:.45rem .6rem;border-radius:.4rem;
+                      border:1px solid var(--border);background:var(--bg);color:var(--text)}
+    .token-row button{padding:.45rem .8rem;border-radius:.4rem;border:0;background:var(--accent);
+                       color:#0f172a;font-weight:700;cursor:pointer}
+    .token-help{margin-top:.6rem;font-size:.75rem;color:var(--muted)}
+    .link-btn{background:none;border:0;color:var(--accent);cursor:pointer;font-size:.75rem;padding:0}
+    /* Grosses cotes */
+    .big-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem}
+    .big-card{background:var(--surface);border:1px solid #a855f7;border-radius:.75rem;padding:1rem;
+               display:flex;flex-direction:column;gap:.6rem}
+    .big-title{font-weight:700;font-size:.95rem}
+    .big-sub{font-weight:400;font-size:.72rem;color:var(--muted);margin-left:.3rem}
+    .big-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(70px,1fr));gap:.4rem}
+    .big-odds{font-size:1.05rem;font-weight:800;color:#c084fc}
+    .big-leg{display:flex;justify-content:space-between;gap:.5rem;font-size:.78rem;
+              border-top:1px solid var(--border);padding-top:.35rem}
+    .big-leg span:last-child{color:var(--muted);white-space:nowrap}
+    .big-single{border-top:1px solid var(--border);padding-top:.5rem}
+    .big-match{font-weight:700;font-size:.85rem;margin-bottom:.3rem}
+    .big-yesterday{background:var(--surface);border:1px solid var(--border);border-radius:.6rem;
+                    padding:.6rem .8rem;margin-bottom:.8rem;font-size:.8rem}
+    .big-yesterday ul{margin:.3rem 0 0 1.1rem}
     /* Misc */
     .empty{color:var(--muted);font-style:italic;padding:1rem;background:var(--surface);
             border-radius:.5rem;border:1px solid var(--border)}
@@ -80,11 +117,29 @@
       <div class="meta">Probabilités Over/Under — matchs du jour</div>
     </div>
     <div style="display:flex;align-items:center;gap:.75rem">
-      <span class="meta">2026-10-15 · MàJ 15/10/2026 à 07h23</span>
+      <span class="meta">2026-10-15 · MàJ 15/10/2026 à 07h46</span>
       <span class="badge">37 matchs</span>
+      <button id="update-btn" class="update-btn" type="button">🔄 Mettre à jour</button>
     </div>
   </header>
   <main>
+    <p id="update-status" class="update-status" hidden></p>
+    <div id="update-panel" class="update-panel" hidden>
+      <p><strong>Première utilisation</strong> : crée un jeton GitHub limité à ce dépôt
+        (il reste enregistré dans ce navigateur uniquement).</p>
+      <ol>
+        <li>Ouvre <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">GitHub → nouveau jeton « fine-grained »</a></li>
+        <li><em>Repository access</em> : <em>Only select repositories</em> → <strong>sharp-edge</strong></li>
+        <li><em>Permissions</em> → <em>Repository</em> → <strong>Actions : Read and write</strong> (rien d'autre)</li>
+        <li>Génère le jeton et colle-le ici :</li>
+      </ol>
+      <div class="token-row">
+        <input id="token-input" type="password" autocomplete="off" placeholder="github_pat_…">
+        <button id="token-save" type="button">Enregistrer et lancer</button>
+      </div>
+      <p class="token-help"><a id="actions-link" href="#" target="_blank" rel="noopener">Ou lancer depuis GitHub</a>
+        · <button id="token-forget" type="button" class="link-btn">Oublier le jeton</button></p>
+    </div>
     
     <section class="section">
       <h2>📋 Résultats de la veille <span class="date-badge">2026-10-14</span></h2>
@@ -106,657 +161,810 @@
           <span class="yest-label">Résolus</span>
         </div>
       </div>
+      
       <div class="yest-grid">
     <div class="yest-card" style="border-color:#22c55e;background:#14532d">
       <div class="yest-result">✅ Validé (3–4)</div>
-      <div class="yest-match">
-        <span class="pick-team">AS Roma</span><span class="pick-vs">–</span><span class="pick-team">Real Madrid</span>
-      </div>
-      <div class="yest-meta">
-        Over 2.5 buts @ 1.44 · UEFA Champions League · 21h00
-      </div>
+      <div class="yest-match"><span class="pick-team">AS Roma</span><span class="pick-vs">–</span><span class="pick-team">Real Madrid</span></div>
+      <div class="yest-meta">✅ Over 2.5 buts @ 1.44 · 67%</div>
+      <div class="yest-meta">UEFA Champions League · 21h00</div>
     </div>
 
     <div class="yest-card" style="border-color:#ef4444;background:#7f1d1d">
       <div class="yest-result">❌ Raté (2–4)</div>
-      <div class="yest-match">
-        <span class="pick-team">Manchester City</span><span class="pick-vs">–</span><span class="pick-team">Paris Saint Germain</span>
-      </div>
-      <div class="yest-meta">
-        Under 4.5 buts @ 1.31 · UEFA Champions League · 21h00
-      </div>
+      <div class="yest-match"><span class="pick-team">Manchester City</span><span class="pick-vs">–</span><span class="pick-team">Paris Saint Germain</span></div>
+      <div class="yest-meta">❌ Under 4.5 buts @ 1.31 · 74%</div>
+      <div class="yest-meta">UEFA Champions League · 21h00</div>
     </div>
 
     <div class="yest-card" style="border-color:#ef4444;background:#7f1d1d">
       <div class="yest-result">❌ Raté (1–0)</div>
-      <div class="yest-match">
-        <span class="pick-team">Bodø/Glimt</span><span class="pick-vs">–</span><span class="pick-team">Borussia Dortmund</span>
-      </div>
-      <div class="yest-meta">
-        Over 2.5 buts @ 1.38 · UEFA Champions League · 21h00
-      </div>
+      <div class="yest-match"><span class="pick-team">Bodø/Glimt</span><span class="pick-vs">–</span><span class="pick-team">Borussia Dortmund</span></div>
+      <div class="yest-meta">❌ Over 2.5 buts @ 1.38 · 70%</div>
+      <div class="yest-meta">UEFA Champions League · 21h00</div>
     </div>
 
     <div class="yest-card" style="border-color:#ef4444;background:#7f1d1d">
       <div class="yest-result">❌ Raté (6–0)</div>
-      <div class="yest-match">
-        <span class="pick-team">Aston Villa</span><span class="pick-vs">–</span><span class="pick-team">Fenerbahce</span>
-      </div>
-      <div class="yest-meta">
-        Under 4.5 buts @ 1.2 · UEFA Champions League · 21h00
-      </div>
+      <div class="yest-match"><span class="pick-team">Aston Villa</span><span class="pick-vs">–</span><span class="pick-team">Fenerbahce</span></div>
+      <div class="yest-meta">❌ Under 4.5 buts @ 1.2 · 81%</div>
+      <div class="yest-meta">UEFA Champions League · 21h00</div>
     </div>
 
     <div class="yest-card" style="border-color:#22c55e;background:#14532d">
       <div class="yest-result">✅ Validé (0–1)</div>
-      <div class="yest-match">
-        <span class="pick-team">Norwich City</span><span class="pick-vs">–</span><span class="pick-team">Southampton</span>
-      </div>
-      <div class="yest-meta">
-        Under 4.5 buts @ 1.22 · Championship · 20h45
-      </div>
+      <div class="yest-match"><span class="pick-team">Norwich City</span><span class="pick-vs">–</span><span class="pick-team">Southampton</span></div>
+      <div class="yest-meta">✅ Under 4.5 buts @ 1.22 · 79%</div>
+      <div class="yest-meta">Championship · 20h45</div>
     </div>
 
     <div class="yest-card" style="border-color:#ef4444;background:#7f1d1d">
       <div class="yest-result">❌ Raté (3–1)</div>
-      <div class="yest-match">
-        <span class="pick-team">Shakhtar Donetsk</span><span class="pick-vs">–</span><span class="pick-team">AEK Athens</span>
-      </div>
-      <div class="yest-meta">
-        Under 3.5 buts @ 1.36 · UEFA Champions League · 21h00
-      </div>
+      <div class="yest-match"><span class="pick-team">Shakhtar Donetsk</span><span class="pick-vs">–</span><span class="pick-team">AEK Athens</span></div>
+      <div class="yest-meta">❌ Under 3.5 buts @ 1.36 · 71%</div>
+      <div class="yest-meta">UEFA Champions League · 21h00</div>
     </div>
 
     <div class="yest-card" style="border-color:#ef4444;background:#7f1d1d">
       <div class="yest-result">❌ Raté (3–2)</div>
-      <div class="yest-match">
-        <span class="pick-team">Feyenoord</span><span class="pick-vs">–</span><span class="pick-team">Como</span>
-      </div>
-      <div class="yest-meta">
-        Under 4.5 buts @ 1.25 · UEFA Champions League · 18h45
-      </div>
+      <div class="yest-match"><span class="pick-team">Feyenoord</span><span class="pick-vs">–</span><span class="pick-team">Como</span></div>
+      <div class="yest-meta">❌ Under 4.5 buts @ 1.25 · 78%</div>
+      <div class="yest-meta">UEFA Champions League · 18h45</div>
     </div>
 
     <div class="yest-card" style="border-color:#22c55e;background:#14532d">
       <div class="yest-result">✅ Validé (3–2)</div>
-      <div class="yest-match">
-        <span class="pick-team">Real Betis</span><span class="pick-vs">–</span><span class="pick-team">Porto</span>
-      </div>
-      <div class="yest-meta">
-        Over 1.5 buts @ 1.21 · UEFA Champions League · 21h00
-      </div>
+      <div class="yest-match"><span class="pick-team">Real Betis</span><span class="pick-vs">–</span><span class="pick-team">Porto</span></div>
+      <div class="yest-meta">✅ Over 1.5 buts @ 1.21 · 81%</div>
+      <div class="yest-meta">UEFA Champions League · 21h00</div>
     </div>
 
     <div class="yest-card" style="border-color:#ef4444;background:#7f1d1d">
       <div class="yest-result">❌ Raté (3–2)</div>
-      <div class="yest-match">
-        <span class="pick-team">Portsmouth</span><span class="pick-vs">–</span><span class="pick-team">Sheffield United</span>
-      </div>
-      <div class="yest-meta">
-        Under 3.5 buts @ 1.3 · Championship · 20h45
-      </div>
+      <div class="yest-match"><span class="pick-team">Portsmouth</span><span class="pick-vs">–</span><span class="pick-team">Sheffield United</span></div>
+      <div class="yest-meta">❌ Under 3.5 buts @ 1.3 · 74%</div>
+      <div class="yest-meta">Championship · 20h45</div>
     </div>
 
     <div class="yest-card" style="border-color:#ef4444;background:#7f1d1d">
       <div class="yest-result">❌ Raté (4–1)</div>
-      <div class="yest-match">
-        <span class="pick-team">Queens Park Rangers</span><span class="pick-vs">–</span><span class="pick-team">Derby County</span>
-      </div>
-      <div class="yest-meta">
-        Under 3.5 buts @ 1.36 · Championship · 20h45
-      </div>
+      <div class="yest-match"><span class="pick-team">Queens Park Rangers</span><span class="pick-vs">–</span><span class="pick-team">Derby County</span></div>
+      <div class="yest-meta">❌ Under 3.5 buts @ 1.36 · 71%</div>
+      <div class="yest-meta">Championship · 20h45</div>
     </div>
 
     <div class="yest-card" style="border-color:#ef4444;background:#7f1d1d">
       <div class="yest-result">❌ Raté (3–6)</div>
-      <div class="yest-match">
-        <span class="pick-team">LASK</span><span class="pick-vs">–</span><span class="pick-team">Liverpool</span>
-      </div>
-      <div class="yest-meta">
-        Under 4.5 buts @ 1.24 · UEFA Champions League · 18h45
-      </div>
+      <div class="yest-match"><span class="pick-team">LASK</span><span class="pick-vs">–</span><span class="pick-team">Liverpool</span></div>
+      <div class="yest-meta">❌ Under 4.5 buts @ 1.24 · 79%</div>
+      <div class="yest-meta">UEFA Champions League · 18h45</div>
     </div>
 
     <div class="yest-card" style="border-color:#22c55e;background:#14532d">
       <div class="yest-result">✅ Validé (0–3)</div>
-      <div class="yest-match">
-        <span class="pick-team">ŠK Slovan Bratislava</span><span class="pick-vs">–</span><span class="pick-team">VfB Stuttgart</span>
-      </div>
-      <div class="yest-meta">
-        Under 4.5 buts @ 1.41 · UEFA Champions League · 21h00
-      </div>
+      <div class="yest-match"><span class="pick-team">ŠK Slovan Bratislava</span><span class="pick-vs">–</span><span class="pick-team">VfB Stuttgart</span></div>
+      <div class="yest-meta">✅ Under 4.5 buts @ 1.41 · 69%</div>
+      <div class="yest-meta">UEFA Champions League · 21h00</div>
     </div>
 
     <div class="yest-card" style="border-color:#ef4444;background:#7f1d1d">
       <div class="yest-result">❌ Raté (0–6)</div>
-      <div class="yest-match">
-        <span class="pick-team">Lincoln City</span><span class="pick-vs">–</span><span class="pick-team">West Ham United</span>
-      </div>
-      <div class="yest-meta">
-        Under 3.5 buts @ 1.34 · Championship · 21h00
-      </div>
+      <div class="yest-match"><span class="pick-team">Lincoln City</span><span class="pick-vs">–</span><span class="pick-team">West Ham United</span></div>
+      <div class="yest-meta">❌ Under 3.5 buts @ 1.34 · 71%</div>
+      <div class="yest-meta">Championship · 21h00</div>
     </div></div>
     </section>
     
     <section class="section">
-      <h2>🌅 Matchs du jour — rapport 4h30 <span class="count">37 matchs</span></h2>
+      <h2>🎯 Grosses cotes du jour</h2>
+      <p class="track-note">Risque élevé : ces paris perdent plus souvent qu'ils ne gagnent.
+        La note indique si la cote compense ce risque.</p>
+      <div class="big-grid">
+      <div class="big-card">
+        <div class="big-title">🧩 Combiné du jour <span class="big-sub">2 paris</span></div>
+        <div class="big-stats">
+          <div><span class="bet-label">Cote totale</span><span class="bet-value big-odds">2.18</span></div>
+          <div><span class="bet-label">Tout gagner</span>
+               <span class="bet-value bet-proba" style="color:#f97316">44%</span></div>
+          <div><span class="bet-label">Note</span><span class="bet-stars" style="color:#84cc16">★★★★☆</span><span class="bet-n">Intéressant</span></div>
+        </div>
+        <div class="big-leg"><span>AZ Alkmaar – Hapoel Be'er Sheva</span><span>Over 2.5 @ 1.47 · 67%</span></div><div class="big-leg"><span>Sparta Prague – Lillestrom</span><span>Over 2.5 @ 1.48 · 66%</span></div>
+      </div>
+      <div class="big-card">
+        <div class="big-title">🎲 Cotes 2–3 du jour <span class="big-sub">meilleur rapport bénéfice/risque</span></div>
+        
+        <div class="big-single">
+          <div class="big-match">Sint Truiden – FC Iberia 1999 <span class="big-sub">21h00 · UEFA Europa Conference League</span></div>
+          <div class="big-stats">
+            <div><span class="bet-label">Pari</span><span class="bet-value">⬆️ Over 3.5</span></div>
+            <div><span class="bet-label">Cote</span><span class="bet-value big-odds">2.21</span></div>
+            <div><span class="bet-label">Probabilité</span>
+                 <span class="bet-value bet-proba" style="color:#f97316">44%</span></div>
+            <div><span class="bet-label">Note</span><span class="bet-stars" style="color:#eab308">★★★☆☆</span><span class="bet-n">Correct</span></div>
+          </div>
+        </div>
+        <div class="big-single">
+          <div class="big-match">Hajduk Split – Ajax <span class="big-sub">18h45 · UEFA Europa Conference League</span></div>
+          <div class="big-stats">
+            <div><span class="bet-label">Pari</span><span class="bet-value">⬆️ Over 3.5</span></div>
+            <div><span class="bet-label">Cote</span><span class="bet-value big-odds">2.43</span></div>
+            <div><span class="bet-label">Probabilité</span>
+                 <span class="bet-value bet-proba" style="color:#f97316">40%</span></div>
+            <div><span class="bet-label">Note</span><span class="bet-stars" style="color:#eab308">★★★☆☆</span><span class="bet-n">Correct</span></div>
+          </div>
+        </div>
+        <div class="big-single">
+          <div class="big-match">AZ Alkmaar – Hapoel Be'er Sheva <span class="big-sub">18h45 · UEFA Europa League</span></div>
+          <div class="big-stats">
+            <div><span class="bet-label">Pari</span><span class="bet-value">⬆️ Over 3.5</span></div>
+            <div><span class="bet-label">Cote</span><span class="bet-value big-odds">2.16</span></div>
+            <div><span class="bet-label">Probabilité</span>
+                 <span class="bet-value bet-proba" style="color:#f97316">44%</span></div>
+            <div><span class="bet-label">Note</span><span class="bet-stars" style="color:#eab308">★★★☆☆</span><span class="bet-n">Correct</span></div>
+          </div>
+        </div>
+      </div></div>
+    </section>
+    
+    <section class="section">
+      <h2>🌆 Matchs à venir — mise à jour de 07h46 <span class="count">37 matchs</span></h2>
       <div class="picks-grid">
     <div class="pick-card">
       <div class="pick-sport">⚽ Football</div>
       <div class="pick-header">18h45 · UEFA Europa League</div>
       <div class="pick-match"><span class="pick-team">AZ Alkmaar</span><span class="pick-vs">–</span><span class="pick-team">Hapoel Be'er Sheva</span></div>
-      <div class="bet-name">Over 2.5 buts</div>
-      <div class="bet-grid">
-        <div><span class="bet-label">Cote</span><span class="bet-value">1.47</span></div>
-        <div><span class="bet-label">Probabilité</span>
-             <span class="bet-value bet-proba" style="color:#84cc16">67%</span></div>
-        <div><span class="bet-label">Note</span><span class="bet-stars" style="color:#84cc16">★★★★☆</span><span class="bet-n">Intéressant</span></div>
+      <div class="bet-head"><span>Pari (buts)</span><span>Cote</span><span>Probabilité</span><span>Note</span></div>
+      <div class="bet-row">
+        <span class="bet-name">⬆️ Over 2.5</span>
+        <span class="bet-value">1.47</span>
+        <span class="bet-value bet-proba" style="color:#84cc16">67%</span>
+        <span><span class="bet-stars" style="color:#84cc16">★★★★☆</span><span class="bet-n">Intéressant</span></span>
+      </div><div class="bet-row">
+        <span class="bet-name">⬇️ Under 4.5</span>
+        <span class="bet-value">1.29</span>
+        <span class="bet-value bet-proba" style="color:#22c55e">76%</span>
+        <span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></span>
       </div>
-      <div class="bet-ref">Cote : moyenne de 4 bookmakers</div>
+      <div class="bet-ref">Cotes : moyenne de 4 bookmakers</div>
     </div>
 
     <div class="pick-card">
       <div class="pick-sport">⚽ Football</div>
       <div class="pick-header">18h45 · UEFA Europa League</div>
       <div class="pick-match"><span class="pick-team">Union Saint-Gilloise</span><span class="pick-vs">–</span><span class="pick-team">Real Sociedad</span></div>
-      <div class="bet-name">Over 1.5 buts</div>
-      <div class="bet-grid">
-        <div><span class="bet-label">Cote</span><span class="bet-value">1.2</span></div>
-        <div><span class="bet-label">Probabilité</span>
-             <span class="bet-value bet-proba" style="color:#22c55e">82%</span></div>
-        <div><span class="bet-label">Note</span><span class="bet-stars" style="color:#eab308">★★★☆☆</span><span class="bet-n">Correct</span></div>
+      <div class="bet-head"><span>Pari (buts)</span><span>Cote</span><span>Probabilité</span><span>Note</span></div>
+      <div class="bet-row">
+        <span class="bet-name">⬆️ Over 1.5</span>
+        <span class="bet-value">1.2</span>
+        <span class="bet-value bet-proba" style="color:#22c55e">82%</span>
+        <span><span class="bet-stars" style="color:#eab308">★★★☆☆</span><span class="bet-n">Correct</span></span>
+      </div><div class="bet-row">
+        <span class="bet-name">⬇️ Under 4.5</span>
+        <span class="bet-value">1.2</span>
+        <span class="bet-value bet-proba" style="color:#22c55e">82%</span>
+        <span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></span>
       </div>
-      <div class="bet-ref">Cote : moyenne de 4 bookmakers</div>
+      <div class="bet-ref">Cotes : moyenne de 4 bookmakers</div>
     </div>
 
     <div class="pick-card">
       <div class="pick-sport">⚽ Football</div>
       <div class="pick-header">18h45 · UEFA Europa Conference League</div>
       <div class="pick-match"><span class="pick-team">Universitatea Craiova</span><span class="pick-vs">–</span><span class="pick-team">Getafe</span></div>
-      <div class="bet-name">Under 3.5 buts</div>
-      <div class="bet-grid">
-        <div><span class="bet-label">Cote</span><span class="bet-value">1.2</span></div>
-        <div><span class="bet-label">Probabilité</span>
-             <span class="bet-value bet-proba" style="color:#22c55e">82%</span></div>
-        <div><span class="bet-label">Note</span><span class="bet-stars" style="color:#eab308">★★★☆☆</span><span class="bet-n">Correct</span></div>
+      <div class="bet-head"><span>Pari (buts)</span><span>Cote</span><span>Probabilité</span><span>Note</span></div>
+      <div class="bet-row">
+        <span class="bet-name">⬆️ Over 1.5</span>
+        <span class="bet-value">1.45</span>
+        <span class="bet-value bet-proba" style="color:#84cc16">66%</span>
+        <span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></span>
+      </div><div class="bet-row">
+        <span class="bet-name">⬇️ Under 3.5</span>
+        <span class="bet-value">1.2</span>
+        <span class="bet-value bet-proba" style="color:#22c55e">82%</span>
+        <span><span class="bet-stars" style="color:#eab308">★★★☆☆</span><span class="bet-n">Correct</span></span>
       </div>
-      <div class="bet-ref">Cote : moyenne de 2 bookmakers</div>
+      <div class="bet-ref">Cotes : moyenne de 3 bookmakers</div>
     </div>
 
     <div class="pick-card">
       <div class="pick-sport">⚽ Football</div>
       <div class="pick-header">18h45 · UEFA Europa Conference League</div>
       <div class="pick-match"><span class="pick-team">PFC CSKA Sofia</span><span class="pick-vs">–</span><span class="pick-team">AS Monaco</span></div>
-      <div class="bet-name">Over 1.5 buts</div>
-      <div class="bet-grid">
-        <div><span class="bet-label">Cote</span><span class="bet-value">1.21</span></div>
-        <div><span class="bet-label">Probabilité</span>
-             <span class="bet-value bet-proba" style="color:#22c55e">81%</span></div>
-        <div><span class="bet-label">Note</span><span class="bet-stars" style="color:#eab308">★★★☆☆</span><span class="bet-n">Correct</span></div>
+      <div class="bet-head"><span>Pari (buts)</span><span>Cote</span><span>Probabilité</span><span>Note</span></div>
+      <div class="bet-row">
+        <span class="bet-name">⬆️ Over 1.5</span>
+        <span class="bet-value">1.21</span>
+        <span class="bet-value bet-proba" style="color:#22c55e">81%</span>
+        <span><span class="bet-stars" style="color:#eab308">★★★☆☆</span><span class="bet-n">Correct</span></span>
+      </div><div class="bet-row">
+        <span class="bet-name">⬇️ Under 3.5</span>
+        <span class="bet-value">1.49</span>
+        <span class="bet-value bet-proba" style="color:#84cc16">65%</span>
+        <span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></span>
       </div>
-      <div class="bet-ref">Cote : moyenne de 3 bookmakers</div>
+      <div class="bet-ref">Cotes : moyenne de 3 bookmakers</div>
     </div>
 
     <div class="pick-card">
       <div class="pick-sport">⚽ Football</div>
       <div class="pick-header">18h45 · UEFA Europa Conference League</div>
       <div class="pick-match"><span class="pick-team">Mjällby AIF</span><span class="pick-vs">–</span><span class="pick-team">Inter Club d'Escaldes</span></div>
-      <div class="bet-name">Over 1.5 buts</div>
-      <div class="bet-grid">
-        <div><span class="bet-label">Cote</span><span class="bet-value">1.21</span></div>
-        <div><span class="bet-label">Probabilité</span>
-             <span class="bet-value bet-proba" style="color:#22c55e">81%</span></div>
-        <div><span class="bet-label">Note</span><span class="bet-stars" style="color:#eab308">★★★☆☆</span><span class="bet-n">Correct</span></div>
-      </div>
-      <div class="bet-ref">Cote : moyenne de 3 bookmakers</div>
+      <div class="bet-head"><span>Pari (buts)</span><span>Cote</span><span>Probabilité</span><span>Note</span></div>
+      <div class="bet-row">
+        <span class="bet-name">⬆️ Over 1.5</span>
+        <span class="bet-value">1.21</span>
+        <span class="bet-value bet-proba" style="color:#22c55e">81%</span>
+        <span><span class="bet-stars" style="color:#eab308">★★★☆☆</span><span class="bet-n">Correct</span></span>
+      </div><div class="bet-row bet-none"><span class="bet-name">⬇️ Under</span><span class="bet-empty">— pas de ligne entre 1,20 et 1,50</span></div>
+      <div class="bet-ref">Cotes : moyenne de 3 bookmakers</div>
     </div>
 
     <div class="pick-card">
       <div class="pick-sport">⚽ Football</div>
       <div class="pick-header">21h00 · UEFA Europa League</div>
       <div class="pick-match"><span class="pick-team">Celta Vigo</span><span class="pick-vs">–</span><span class="pick-team">Juventus</span></div>
-      <div class="bet-name">Under 3.5 buts</div>
-      <div class="bet-grid">
-        <div><span class="bet-label">Cote</span><span class="bet-value">1.26</span></div>
-        <div><span class="bet-label">Probabilité</span>
-             <span class="bet-value bet-proba" style="color:#22c55e">77%</span></div>
-        <div><span class="bet-label">Note</span><span class="bet-stars" style="color:#eab308">★★★☆☆</span><span class="bet-n">Correct</span></div>
+      <div class="bet-head"><span>Pari (buts)</span><span>Cote</span><span>Probabilité</span><span>Note</span></div>
+      <div class="bet-row">
+        <span class="bet-name">⬆️ Over 1.5</span>
+        <span class="bet-value">1.37</span>
+        <span class="bet-value bet-proba" style="color:#84cc16">71%</span>
+        <span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></span>
+      </div><div class="bet-row">
+        <span class="bet-name">⬇️ Under 3.5</span>
+        <span class="bet-value">1.26</span>
+        <span class="bet-value bet-proba" style="color:#22c55e">77%</span>
+        <span><span class="bet-stars" style="color:#eab308">★★★☆☆</span><span class="bet-n">Correct</span></span>
       </div>
-      <div class="bet-ref">Cote : moyenne de 3 bookmakers</div>
+      <div class="bet-ref">Cotes : moyenne de 4 bookmakers</div>
     </div>
 
     <div class="pick-card">
       <div class="pick-sport">⚽ Football</div>
       <div class="pick-header">18h45 · UEFA Europa Conference League</div>
       <div class="pick-match"><span class="pick-team">Gent</span><span class="pick-vs">–</span><span class="pick-team">AGF Aarhus</span></div>
-      <div class="bet-name">Under 3.5 buts</div>
-      <div class="bet-grid">
-        <div><span class="bet-label">Cote</span><span class="bet-value">1.38</span></div>
-        <div><span class="bet-label">Probabilité</span>
-             <span class="bet-value bet-proba" style="color:#84cc16">72%</span></div>
-        <div><span class="bet-label">Note</span><span class="bet-stars" style="color:#eab308">★★★☆☆</span><span class="bet-n">Correct</span></div>
+      <div class="bet-head"><span>Pari (buts)</span><span>Cote</span><span>Probabilité</span><span>Note</span></div>
+      <div class="bet-row">
+        <span class="bet-name">⬆️ Over 1.5</span>
+        <span class="bet-value">1.27</span>
+        <span class="bet-value bet-proba" style="color:#22c55e">76%</span>
+        <span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></span>
+      </div><div class="bet-row">
+        <span class="bet-name">⬇️ Under 3.5</span>
+        <span class="bet-value">1.38</span>
+        <span class="bet-value bet-proba" style="color:#84cc16">72%</span>
+        <span><span class="bet-stars" style="color:#eab308">★★★☆☆</span><span class="bet-n">Correct</span></span>
       </div>
-      <div class="bet-ref">Cote : moyenne de 2 bookmakers</div>
+      <div class="bet-ref">Cotes : moyenne de 3 bookmakers</div>
     </div>
 
     <div class="pick-card">
       <div class="pick-sport">⚽ Football</div>
       <div class="pick-header">21h00 · UEFA Europa League</div>
       <div class="pick-match"><span class="pick-team">Rennes</span><span class="pick-vs">–</span><span class="pick-team">OFI Crete</span></div>
-      <div class="bet-name">Over 2.5 buts</div>
-      <div class="bet-grid">
-        <div><span class="bet-label">Cote</span><span class="bet-value">1.4</span></div>
-        <div><span class="bet-label">Probabilité</span>
-             <span class="bet-value bet-proba" style="color:#84cc16">69%</span></div>
-        <div><span class="bet-label">Note</span><span class="bet-stars" style="color:#eab308">★★★☆☆</span><span class="bet-n">Correct</span></div>
+      <div class="bet-head"><span>Pari (buts)</span><span>Cote</span><span>Probabilité</span><span>Note</span></div>
+      <div class="bet-row">
+        <span class="bet-name">⬆️ Over 2.5</span>
+        <span class="bet-value">1.4</span>
+        <span class="bet-value bet-proba" style="color:#84cc16">69%</span>
+        <span><span class="bet-stars" style="color:#eab308">★★★☆☆</span><span class="bet-n">Correct</span></span>
+      </div><div class="bet-row">
+        <span class="bet-name">⬇️ Under 4.5</span>
+        <span class="bet-value">1.3</span>
+        <span class="bet-value bet-proba" style="color:#84cc16">74%</span>
+        <span><span class="bet-stars" style="color:#ef4444">★☆☆☆☆</span><span class="bet-n">À éviter</span></span>
       </div>
-      <div class="bet-ref">Cote : moyenne de 4 bookmakers</div>
+      <div class="bet-ref">Cotes : moyenne de 4 bookmakers</div>
     </div>
 
     <div class="pick-card">
       <div class="pick-sport">⚽ Football</div>
       <div class="pick-header">18h45 · UEFA Europa League</div>
       <div class="pick-match"><span class="pick-team">Lech Poznań</span><span class="pick-vs">–</span><span class="pick-team">Bayer Leverkusen</span></div>
-      <div class="bet-name">Over 2.5 buts</div>
-      <div class="bet-grid">
-        <div><span class="bet-label">Cote</span><span class="bet-value">1.42</span></div>
-        <div><span class="bet-label">Probabilité</span>
-             <span class="bet-value bet-proba" style="color:#84cc16">68%</span></div>
-        <div><span class="bet-label">Note</span><span class="bet-stars" style="color:#eab308">★★★☆☆</span><span class="bet-n">Correct</span></div>
+      <div class="bet-head"><span>Pari (buts)</span><span>Cote</span><span>Probabilité</span><span>Note</span></div>
+      <div class="bet-row">
+        <span class="bet-name">⬆️ Over 2.5</span>
+        <span class="bet-value">1.42</span>
+        <span class="bet-value bet-proba" style="color:#84cc16">68%</span>
+        <span><span class="bet-stars" style="color:#eab308">★★★☆☆</span><span class="bet-n">Correct</span></span>
+      </div><div class="bet-row">
+        <span class="bet-name">⬇️ Under 4.5</span>
+        <span class="bet-value">1.31</span>
+        <span class="bet-value bet-proba" style="color:#84cc16">75%</span>
+        <span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></span>
       </div>
-      <div class="bet-ref">Cote : moyenne de 4 bookmakers</div>
+      <div class="bet-ref">Cotes : moyenne de 4 bookmakers</div>
     </div>
 
     <div class="pick-card">
       <div class="pick-sport">⚽ Football</div>
       <div class="pick-header">21h00 · UEFA Europa Conference League</div>
       <div class="pick-match"><span class="pick-team">Sint Truiden</span><span class="pick-vs">–</span><span class="pick-team">FC Iberia 1999</span></div>
-      <div class="bet-name">Over 2.5 buts</div>
-      <div class="bet-grid">
-        <div><span class="bet-label">Cote</span><span class="bet-value">1.46</span></div>
-        <div><span class="bet-label">Probabilité</span>
-             <span class="bet-value bet-proba" style="color:#84cc16">67%</span></div>
-        <div><span class="bet-label">Note</span><span class="bet-stars" style="color:#eab308">★★★☆☆</span><span class="bet-n">Correct</span></div>
+      <div class="bet-head"><span>Pari (buts)</span><span>Cote</span><span>Probabilité</span><span>Note</span></div>
+      <div class="bet-row">
+        <span class="bet-name">⬆️ Over 2.5</span>
+        <span class="bet-value">1.46</span>
+        <span class="bet-value bet-proba" style="color:#84cc16">67%</span>
+        <span><span class="bet-stars" style="color:#eab308">★★★☆☆</span><span class="bet-n">Correct</span></span>
+      </div><div class="bet-row">
+        <span class="bet-name">⬇️ Under 4.5</span>
+        <span class="bet-value">1.25</span>
+        <span class="bet-value bet-proba" style="color:#22c55e">77%</span>
+        <span><span class="bet-stars" style="color:#ef4444">★☆☆☆☆</span><span class="bet-n">À éviter</span></span>
       </div>
-      <div class="bet-ref">Cote : moyenne de 3 bookmakers</div>
+      <div class="bet-ref">Cotes : moyenne de 3 bookmakers</div>
     </div>
 
     <div class="pick-card">
       <div class="pick-sport">⚽ Football</div>
       <div class="pick-header">18h45 · UEFA Europa League</div>
       <div class="pick-match"><span class="pick-team">Sparta Prague</span><span class="pick-vs">–</span><span class="pick-team">Lillestrom</span></div>
-      <div class="bet-name">Over 2.5 buts</div>
-      <div class="bet-grid">
-        <div><span class="bet-label">Cote</span><span class="bet-value">1.48</span></div>
-        <div><span class="bet-label">Probabilité</span>
-             <span class="bet-value bet-proba" style="color:#84cc16">66%</span></div>
-        <div><span class="bet-label">Note</span><span class="bet-stars" style="color:#eab308">★★★☆☆</span><span class="bet-n">Correct</span></div>
+      <div class="bet-head"><span>Pari (buts)</span><span>Cote</span><span>Probabilité</span><span>Note</span></div>
+      <div class="bet-row">
+        <span class="bet-name">⬆️ Over 2.5</span>
+        <span class="bet-value">1.48</span>
+        <span class="bet-value bet-proba" style="color:#84cc16">66%</span>
+        <span><span class="bet-stars" style="color:#eab308">★★★☆☆</span><span class="bet-n">Correct</span></span>
+      </div><div class="bet-row">
+        <span class="bet-name">⬇️ Under 4.5</span>
+        <span class="bet-value">1.28</span>
+        <span class="bet-value bet-proba" style="color:#22c55e">77%</span>
+        <span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></span>
       </div>
-      <div class="bet-ref">Cote : moyenne de 4 bookmakers</div>
+      <div class="bet-ref">Cotes : moyenne de 4 bookmakers</div>
     </div>
 
     <div class="pick-card">
       <div class="pick-sport">⚽ Football</div>
       <div class="pick-header">21h00 · UEFA Europa League</div>
       <div class="pick-match"><span class="pick-team">Ferencváros TC</span><span class="pick-vs">–</span><span class="pick-team">Viktoria Plzeň</span></div>
-      <div class="bet-name">Over 1.5 buts</div>
-      <div class="bet-grid">
-        <div><span class="bet-label">Cote</span><span class="bet-value">1.2</span></div>
-        <div><span class="bet-label">Probabilité</span>
-             <span class="bet-value bet-proba" style="color:#22c55e">82%</span></div>
-        <div><span class="bet-label">Note</span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></div>
+      <div class="bet-head"><span>Pari (buts)</span><span>Cote</span><span>Probabilité</span><span>Note</span></div>
+      <div class="bet-row">
+        <span class="bet-name">⬆️ Over 1.5</span>
+        <span class="bet-value">1.2</span>
+        <span class="bet-value bet-proba" style="color:#22c55e">82%</span>
+        <span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></span>
+      </div><div class="bet-row">
+        <span class="bet-name">⬇️ Under 3.5</span>
+        <span class="bet-value">1.48</span>
+        <span class="bet-value bet-proba" style="color:#eab308">64%</span>
+        <span><span class="bet-stars" style="color:#ef4444">★☆☆☆☆</span><span class="bet-n">À éviter</span></span>
       </div>
-      <div class="bet-ref">Cote : moyenne de 4 bookmakers</div>
+      <div class="bet-ref">Cotes : moyenne de 4 bookmakers</div>
     </div>
 
     <div class="pick-card">
       <div class="pick-sport">⚽ Football</div>
       <div class="pick-header">18h45 · UEFA Europa League</div>
       <div class="pick-match"><span class="pick-team">Salzburg</span><span class="pick-vs">–</span><span class="pick-team">AC Milan</span></div>
-      <div class="bet-name">Under 4.5 buts</div>
-      <div class="bet-grid">
-        <div><span class="bet-label">Cote</span><span class="bet-value">1.2</span></div>
-        <div><span class="bet-label">Probabilité</span>
-             <span class="bet-value bet-proba" style="color:#22c55e">81%</span></div>
-        <div><span class="bet-label">Note</span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></div>
+      <div class="bet-head"><span>Pari (buts)</span><span>Cote</span><span>Probabilité</span><span>Note</span></div>
+      <div class="bet-row bet-none"><span class="bet-name">⬆️ Over</span><span class="bet-empty">— pas de ligne entre 1,20 et 1,50</span></div><div class="bet-row">
+        <span class="bet-name">⬇️ Under 4.5</span>
+        <span class="bet-value">1.2</span>
+        <span class="bet-value bet-proba" style="color:#22c55e">81%</span>
+        <span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></span>
       </div>
-      <div class="bet-ref">Cote : moyenne de 3 bookmakers</div>
+      <div class="bet-ref">Cotes : moyenne de 3 bookmakers</div>
     </div>
 
     <div class="pick-card">
       <div class="pick-sport">⚽ Football</div>
       <div class="pick-header">18h45 · UEFA Europa League</div>
       <div class="pick-match"><span class="pick-team">Lyon</span><span class="pick-vs">–</span><span class="pick-team">Crystal Palace</span></div>
-      <div class="bet-name">Under 4.5 buts</div>
-      <div class="bet-grid">
-        <div><span class="bet-label">Cote</span><span class="bet-value">1.2</span></div>
-        <div><span class="bet-label">Probabilité</span>
-             <span class="bet-value bet-proba" style="color:#22c55e">81%</span></div>
-        <div><span class="bet-label">Note</span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></div>
+      <div class="bet-head"><span>Pari (buts)</span><span>Cote</span><span>Probabilité</span><span>Note</span></div>
+      <div class="bet-row bet-none"><span class="bet-name">⬆️ Over</span><span class="bet-empty">— pas de ligne entre 1,20 et 1,50</span></div><div class="bet-row">
+        <span class="bet-name">⬇️ Under 4.5</span>
+        <span class="bet-value">1.2</span>
+        <span class="bet-value bet-proba" style="color:#22c55e">81%</span>
+        <span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></span>
       </div>
-      <div class="bet-ref">Cote : moyenne de 3 bookmakers</div>
+      <div class="bet-ref">Cotes : moyenne de 3 bookmakers</div>
     </div>
 
     <div class="pick-card">
       <div class="pick-sport">⚽ Football</div>
       <div class="pick-header">21h00 · UEFA Europa League</div>
       <div class="pick-match"><span class="pick-team">Jagiellonia Białystok</span><span class="pick-vs">–</span><span class="pick-team">FC Ararat-Armenia</span></div>
-      <div class="bet-name">Under 4.5 buts</div>
-      <div class="bet-grid">
-        <div><span class="bet-label">Cote</span><span class="bet-value">1.2</span></div>
-        <div><span class="bet-label">Probabilité</span>
-             <span class="bet-value bet-proba" style="color:#22c55e">81%</span></div>
-        <div><span class="bet-label">Note</span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></div>
+      <div class="bet-head"><span>Pari (buts)</span><span>Cote</span><span>Probabilité</span><span>Note</span></div>
+      <div class="bet-row bet-none"><span class="bet-name">⬆️ Over</span><span class="bet-empty">— pas de ligne entre 1,20 et 1,50</span></div><div class="bet-row">
+        <span class="bet-name">⬇️ Under 4.5</span>
+        <span class="bet-value">1.2</span>
+        <span class="bet-value bet-proba" style="color:#22c55e">81%</span>
+        <span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></span>
       </div>
-      <div class="bet-ref">Cote : moyenne de 3 bookmakers</div>
+      <div class="bet-ref">Cotes : moyenne de 3 bookmakers</div>
     </div>
 
     <div class="pick-card">
       <div class="pick-sport">⚽ Football</div>
       <div class="pick-header">21h00 · UEFA Europa League</div>
       <div class="pick-match"><span class="pick-team">Dinamo Zagreb</span><span class="pick-vs">–</span><span class="pick-team">Anderlecht</span></div>
-      <div class="bet-name">Over 1.5 buts</div>
-      <div class="bet-grid">
-        <div><span class="bet-label">Cote</span><span class="bet-value">1.22</span></div>
-        <div><span class="bet-label">Probabilité</span>
-             <span class="bet-value bet-proba" style="color:#22c55e">80%</span></div>
-        <div><span class="bet-label">Note</span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></div>
+      <div class="bet-head"><span>Pari (buts)</span><span>Cote</span><span>Probabilité</span><span>Note</span></div>
+      <div class="bet-row">
+        <span class="bet-name">⬆️ Over 1.5</span>
+        <span class="bet-value">1.22</span>
+        <span class="bet-value bet-proba" style="color:#22c55e">80%</span>
+        <span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></span>
+      </div><div class="bet-row">
+        <span class="bet-name">⬇️ Under 3.5</span>
+        <span class="bet-value">1.42</span>
+        <span class="bet-value bet-proba" style="color:#84cc16">67%</span>
+        <span><span class="bet-stars" style="color:#ef4444">★☆☆☆☆</span><span class="bet-n">À éviter</span></span>
       </div>
-      <div class="bet-ref">Cote : moyenne de 4 bookmakers</div>
+      <div class="bet-ref">Cotes : moyenne de 4 bookmakers</div>
     </div>
 
     <div class="pick-card">
       <div class="pick-sport">⚽ Football</div>
       <div class="pick-header">18h45 · UEFA Europa Conference League</div>
       <div class="pick-match"><span class="pick-team">FC Lugano</span><span class="pick-vs">–</span><span class="pick-team">Red Star Belgrade</span></div>
-      <div class="bet-name">Over 1.5 buts</div>
-      <div class="bet-grid">
-        <div><span class="bet-label">Cote</span><span class="bet-value">1.22</span></div>
-        <div><span class="bet-label">Probabilité</span>
-             <span class="bet-value bet-proba" style="color:#22c55e">80%</span></div>
-        <div><span class="bet-label">Note</span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></div>
+      <div class="bet-head"><span>Pari (buts)</span><span>Cote</span><span>Probabilité</span><span>Note</span></div>
+      <div class="bet-row">
+        <span class="bet-name">⬆️ Over 1.5</span>
+        <span class="bet-value">1.22</span>
+        <span class="bet-value bet-proba" style="color:#22c55e">80%</span>
+        <span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></span>
+      </div><div class="bet-row">
+        <span class="bet-name">⬇️ Under 3.5</span>
+        <span class="bet-value">1.43</span>
+        <span class="bet-value bet-proba" style="color:#84cc16">66%</span>
+        <span><span class="bet-stars" style="color:#ef4444">★☆☆☆☆</span><span class="bet-n">À éviter</span></span>
       </div>
-      <div class="bet-ref">Cote : moyenne de 3 bookmakers</div>
+      <div class="bet-ref">Cotes : moyenne de 3 bookmakers</div>
     </div>
 
     <div class="pick-card">
       <div class="pick-sport">⚽ Football</div>
       <div class="pick-header">21h00 · UEFA Europa Conference League</div>
       <div class="pick-match"><span class="pick-team">Atalanta BC</span><span class="pick-vs">–</span><span class="pick-team">Pafos FC</span></div>
-      <div class="bet-name">Under 4.5 buts</div>
-      <div class="bet-grid">
-        <div><span class="bet-label">Cote</span><span class="bet-value">1.23</span></div>
-        <div><span class="bet-label">Probabilité</span>
-             <span class="bet-value bet-proba" style="color:#22c55e">80%</span></div>
-        <div><span class="bet-label">Note</span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></div>
+      <div class="bet-head"><span>Pari (buts)</span><span>Cote</span><span>Probabilité</span><span>Note</span></div>
+      <div class="bet-row bet-none"><span class="bet-name">⬆️ Over</span><span class="bet-empty">— pas de ligne entre 1,20 et 1,50</span></div><div class="bet-row">
+        <span class="bet-name">⬇️ Under 4.5</span>
+        <span class="bet-value">1.23</span>
+        <span class="bet-value bet-proba" style="color:#22c55e">80%</span>
+        <span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></span>
       </div>
-      <div class="bet-ref">Cote : moyenne de 2 bookmakers</div>
+      <div class="bet-ref">Cotes : moyenne de 2 bookmakers</div>
     </div>
 
     <div class="pick-card">
       <div class="pick-sport">⚽ Football</div>
       <div class="pick-header">18h45 · UEFA Europa Conference League</div>
       <div class="pick-match"><span class="pick-team">Hajduk Split</span><span class="pick-vs">–</span><span class="pick-team">Ajax</span></div>
-      <div class="bet-name">Under 4.5 buts</div>
-      <div class="bet-grid">
-        <div><span class="bet-label">Cote</span><span class="bet-value">1.23</span></div>
-        <div><span class="bet-label">Probabilité</span>
-             <span class="bet-value bet-proba" style="color:#22c55e">80%</span></div>
-        <div><span class="bet-label">Note</span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></div>
+      <div class="bet-head"><span>Pari (buts)</span><span>Cote</span><span>Probabilité</span><span>Note</span></div>
+      <div class="bet-row bet-none"><span class="bet-name">⬆️ Over</span><span class="bet-empty">— pas de ligne entre 1,20 et 1,50</span></div><div class="bet-row">
+        <span class="bet-name">⬇️ Under 4.5</span>
+        <span class="bet-value">1.23</span>
+        <span class="bet-value bet-proba" style="color:#22c55e">80%</span>
+        <span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></span>
       </div>
-      <div class="bet-ref">Cote : moyenne de 2 bookmakers</div>
+      <div class="bet-ref">Cotes : moyenne de 2 bookmakers</div>
     </div>
 
     <div class="pick-card">
       <div class="pick-sport">⚽ Football</div>
       <div class="pick-header">18h45 · UEFA Europa Conference League</div>
       <div class="pick-match"><span class="pick-team">Panathinaikos FC</span><span class="pick-vs">–</span><span class="pick-team">FK Borac Banja Luka</span></div>
-      <div class="bet-name">Under 4.5 buts</div>
-      <div class="bet-grid">
-        <div><span class="bet-label">Cote</span><span class="bet-value">1.23</span></div>
-        <div><span class="bet-label">Probabilité</span>
-             <span class="bet-value bet-proba" style="color:#22c55e">80%</span></div>
-        <div><span class="bet-label">Note</span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></div>
+      <div class="bet-head"><span>Pari (buts)</span><span>Cote</span><span>Probabilité</span><span>Note</span></div>
+      <div class="bet-row bet-none"><span class="bet-name">⬆️ Over</span><span class="bet-empty">— pas de ligne entre 1,20 et 1,50</span></div><div class="bet-row">
+        <span class="bet-name">⬇️ Under 4.5</span>
+        <span class="bet-value">1.23</span>
+        <span class="bet-value bet-proba" style="color:#22c55e">80%</span>
+        <span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></span>
       </div>
-      <div class="bet-ref">Cote : moyenne de 2 bookmakers</div>
+      <div class="bet-ref">Cotes : moyenne de 2 bookmakers</div>
     </div>
 
     <div class="pick-card">
       <div class="pick-sport">⚽ Football</div>
       <div class="pick-header">18h45 · UEFA Europa Conference League</div>
       <div class="pick-match"><span class="pick-team">KuPS Kuopio</span><span class="pick-vs">–</span><span class="pick-team">Trabzonspor</span></div>
-      <div class="bet-name">Over 1.5 buts</div>
-      <div class="bet-grid">
-        <div><span class="bet-label">Cote</span><span class="bet-value">1.22</span></div>
-        <div><span class="bet-label">Probabilité</span>
-             <span class="bet-value bet-proba" style="color:#22c55e">80%</span></div>
-        <div><span class="bet-label">Note</span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></div>
+      <div class="bet-head"><span>Pari (buts)</span><span>Cote</span><span>Probabilité</span><span>Note</span></div>
+      <div class="bet-row">
+        <span class="bet-name">⬆️ Over 1.5</span>
+        <span class="bet-value">1.22</span>
+        <span class="bet-value bet-proba" style="color:#22c55e">80%</span>
+        <span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></span>
+      </div><div class="bet-row">
+        <span class="bet-name">⬇️ Under 3.5</span>
+        <span class="bet-value">1.47</span>
+        <span class="bet-value bet-proba" style="color:#84cc16">67%</span>
+        <span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></span>
       </div>
-      <div class="bet-ref">Cote : moyenne de 3 bookmakers</div>
-    </div>
-
-    <div class="pick-card">
-      <div class="pick-sport">⚽ Football</div>
-      <div class="pick-header">18h45 · UEFA Europa Conference League</div>
-      <div class="pick-match"><span class="pick-team">KF Egnatia</span><span class="pick-vs">–</span><span class="pick-team">FC Midtjylland</span></div>
-      <div class="bet-name">Over 1.5 buts</div>
-      <div class="bet-grid">
-        <div><span class="bet-label">Cote</span><span class="bet-value">1.24</span></div>
-        <div><span class="bet-label">Probabilité</span>
-             <span class="bet-value bet-proba" style="color:#22c55e">78%</span></div>
-        <div><span class="bet-label">Note</span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></div>
-      </div>
-      <div class="bet-ref">Cote : moyenne de 3 bookmakers</div>
-    </div>
-
-    <div class="pick-card">
-      <div class="pick-sport">⚽ Football</div>
-      <div class="pick-header">21h00 · League 1</div>
-      <div class="pick-match"><span class="pick-team">Mansfield Town</span><span class="pick-vs">–</span><span class="pick-team">Oxford United</span></div>
-      <div class="bet-name">Over 1.5 buts</div>
-      <div class="bet-grid">
-        <div><span class="bet-label">Cote</span><span class="bet-value">1.23</span></div>
-        <div><span class="bet-label">Probabilité</span>
-             <span class="bet-value bet-proba" style="color:#22c55e">78%</span></div>
-        <div><span class="bet-label">Note</span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></div>
-      </div>
-      <div class="bet-ref">Cote : moyenne de 4 bookmakers</div>
-    </div>
-
-    <div class="pick-card">
-      <div class="pick-sport">⚽ Football</div>
-      <div class="pick-header">21h00 · UEFA Europa League</div>
-      <div class="pick-match"><span class="pick-team">Marseille</span><span class="pick-vs">–</span><span class="pick-team">Olympiakos Piraeus</span></div>
-      <div class="bet-name">Over 1.5 buts</div>
-      <div class="bet-grid">
-        <div><span class="bet-label">Cote</span><span class="bet-value">1.25</span></div>
-        <div><span class="bet-label">Probabilité</span>
-             <span class="bet-value bet-proba" style="color:#22c55e">78%</span></div>
-        <div><span class="bet-label">Note</span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></div>
-      </div>
-      <div class="bet-ref">Cote : moyenne de 4 bookmakers</div>
-    </div>
-
-    <div class="pick-card">
-      <div class="pick-sport">⚽ Football</div>
-      <div class="pick-header">21h00 · UEFA Europa Conference League</div>
-      <div class="pick-match"><span class="pick-team">Hearts</span><span class="pick-vs">–</span><span class="pick-team">FC Nordsjaelland</span></div>
-      <div class="bet-name">Under 4.5 buts</div>
-      <div class="bet-grid">
-        <div><span class="bet-label">Cote</span><span class="bet-value">1.25</span></div>
-        <div><span class="bet-label">Probabilité</span>
-             <span class="bet-value bet-proba" style="color:#22c55e">78%</span></div>
-        <div><span class="bet-label">Note</span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></div>
-      </div>
-      <div class="bet-ref">Cote : moyenne de 2 bookmakers</div>
-    </div>
-
-    <div class="pick-card">
-      <div class="pick-sport">⚽ Football</div>
-      <div class="pick-header">21h00 · UEFA Europa League</div>
-      <div class="pick-match"><span class="pick-team">TSG Hoffenheim</span><span class="pick-vs">–</span><span class="pick-team">Besiktas JK</span></div>
-      <div class="bet-name">Under 4.5 buts</div>
-      <div class="bet-grid">
-        <div><span class="bet-label">Cote</span><span class="bet-value">1.26</span></div>
-        <div><span class="bet-label">Probabilité</span>
-             <span class="bet-value bet-proba" style="color:#22c55e">77%</span></div>
-        <div><span class="bet-label">Note</span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></div>
-      </div>
-      <div class="bet-ref">Cote : moyenne de 3 bookmakers</div>
-    </div>
-
-    <div class="pick-card">
-      <div class="pick-sport">⚽ Football</div>
-      <div class="pick-header">21h00 · UEFA Europa Conference League</div>
-      <div class="pick-match"><span class="pick-team">FC Copenhagen</span><span class="pick-vs">–</span><span class="pick-team">SC Braga</span></div>
-      <div class="bet-name">Under 3.5 buts</div>
-      <div class="bet-grid">
-        <div><span class="bet-label">Cote</span><span class="bet-value">1.27</span></div>
-        <div><span class="bet-label">Probabilité</span>
-             <span class="bet-value bet-proba" style="color:#22c55e">76%</span></div>
-        <div><span class="bet-label">Note</span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></div>
-      </div>
-      <div class="bet-ref">Cote : moyenne de 2 bookmakers</div>
-    </div>
-
-    <div class="pick-card">
-      <div class="pick-sport">⚽ Football</div>
-      <div class="pick-header">18h45 · UEFA Europa Conference League</div>
-      <div class="pick-match"><span class="pick-team">Riga FC</span><span class="pick-vs">–</span><span class="pick-team">FC Kairat</span></div>
-      <div class="bet-name">Under 3.5 buts</div>
-      <div class="bet-grid">
-        <div><span class="bet-label">Cote</span><span class="bet-value">1.29</span></div>
-        <div><span class="bet-label">Probabilité</span>
-             <span class="bet-value bet-proba" style="color:#22c55e">76%</span></div>
-        <div><span class="bet-label">Note</span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></div>
-      </div>
-      <div class="bet-ref">Cote : moyenne de 2 bookmakers</div>
-    </div>
-
-    <div class="pick-card">
-      <div class="pick-sport">⚽ Football</div>
-      <div class="pick-header">21h00 · UEFA Europa Conference League</div>
-      <div class="pick-match"><span class="pick-team">FC Twente Enschede</span><span class="pick-vs">–</span><span class="pick-team">FC Thun</span></div>
-      <div class="bet-name">Over 2.5 buts</div>
-      <div class="bet-grid">
-        <div><span class="bet-label">Cote</span><span class="bet-value">1.31</span></div>
-        <div><span class="bet-label">Probabilité</span>
-             <span class="bet-value bet-proba" style="color:#84cc16">74%</span></div>
-        <div><span class="bet-label">Note</span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></div>
-      </div>
-      <div class="bet-ref">Cote : moyenne de 3 bookmakers</div>
-    </div>
-
-    <div class="pick-card">
-      <div class="pick-sport">⚽ Football</div>
-      <div class="pick-header">21h00 · UEFA Europa League</div>
-      <div class="pick-match"><span class="pick-team">Bournemouth</span><span class="pick-vs">–</span><span class="pick-team">SK Sturm Graz</span></div>
-      <div class="bet-name">Over 2.5 buts</div>
-      <div class="bet-grid">
-        <div><span class="bet-label">Cote</span><span class="bet-value">1.33</span></div>
-        <div><span class="bet-label">Probabilité</span>
-             <span class="bet-value bet-proba" style="color:#84cc16">73%</span></div>
-        <div><span class="bet-label">Note</span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></div>
-      </div>
-      <div class="bet-ref">Cote : moyenne de 4 bookmakers</div>
-    </div>
-
-    <div class="pick-card">
-      <div class="pick-sport">⚽ Football</div>
-      <div class="pick-header">21h00 · UEFA Europa League</div>
-      <div class="pick-match"><span class="pick-team">Benfica</span><span class="pick-vs">–</span><span class="pick-team">Celtic</span></div>
-      <div class="bet-name">Over 2.5 buts</div>
-      <div class="bet-grid">
-        <div><span class="bet-label">Cote</span><span class="bet-value">1.34</span></div>
-        <div><span class="bet-label">Probabilité</span>
-             <span class="bet-value bet-proba" style="color:#84cc16">73%</span></div>
-        <div><span class="bet-label">Note</span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></div>
-      </div>
-      <div class="bet-ref">Cote : moyenne de 4 bookmakers</div>
-    </div>
-
-    <div class="pick-card">
-      <div class="pick-sport">⚽ Football</div>
-      <div class="pick-header">18h45 · UEFA Europa League</div>
-      <div class="pick-match"><span class="pick-team">NK Celje</span><span class="pick-vs">–</span><span class="pick-team">Omonoia FC</span></div>
-      <div class="bet-name">Under 3.5 buts</div>
-      <div class="bet-grid">
-        <div><span class="bet-label">Cote</span><span class="bet-value">1.34</span></div>
-        <div><span class="bet-label">Probabilité</span>
-             <span class="bet-value bet-proba" style="color:#84cc16">72%</span></div>
-        <div><span class="bet-label">Note</span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></div>
-      </div>
-      <div class="bet-ref">Cote : moyenne de 3 bookmakers</div>
-    </div>
-
-    <div class="pick-card">
-      <div class="pick-sport">⚽ Football</div>
-      <div class="pick-header">21h00 · UEFA Europa Conference League</div>
-      <div class="pick-match"><span class="pick-team">SK Brann</span><span class="pick-vs">–</span><span class="pick-team">Lincoln Red Imps FC</span></div>
-      <div class="bet-name">Under 4.5 buts</div>
-      <div class="bet-grid">
-        <div><span class="bet-label">Cote</span><span class="bet-value">1.37</span></div>
-        <div><span class="bet-label">Probabilité</span>
-             <span class="bet-value bet-proba" style="color:#84cc16">72%</span></div>
-        <div><span class="bet-label">Note</span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></div>
-      </div>
-      <div class="bet-ref">Cote : moyenne de 2 bookmakers</div>
-    </div>
-
-    <div class="pick-card">
-      <div class="pick-sport">⚽ Football</div>
-      <div class="pick-header">21h00 · UEFA Europa Conference League</div>
-      <div class="pick-match"><span class="pick-team">Brighton and Hove Albion</span><span class="pick-vs">–</span><span class="pick-team">FK Kauno Žalgiris</span></div>
-      <div class="bet-name">Under 5.5 buts</div>
-      <div class="bet-grid">
-        <div><span class="bet-label">Cote</span><span class="bet-value">1.37</span></div>
-        <div><span class="bet-label">Probabilité</span>
-             <span class="bet-value bet-proba" style="color:#84cc16">72%</span></div>
-        <div><span class="bet-label">Note</span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></div>
-      </div>
-      <div class="bet-ref">Cote : moyenne de 1 bookmaker</div>
-    </div>
-
-    <div class="pick-card">
-      <div class="pick-sport">⚽ Football</div>
-      <div class="pick-header">21h00 · UEFA Europa League</div>
-      <div class="pick-match"><span class="pick-team">NEC Nijmegen</span><span class="pick-vs">–</span><span class="pick-team">PFC Levski Sofia</span></div>
-      <div class="bet-name">Under 3.5 buts</div>
-      <div class="bet-grid">
-        <div><span class="bet-label">Cote</span><span class="bet-value">1.39</span></div>
-        <div><span class="bet-label">Probabilité</span>
-             <span class="bet-value bet-proba" style="color:#84cc16">70%</span></div>
-        <div><span class="bet-label">Note</span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></div>
-      </div>
-      <div class="bet-ref">Cote : moyenne de 3 bookmakers</div>
-    </div>
-
-    <div class="pick-card">
-      <div class="pick-sport">⚽ Football</div>
-      <div class="pick-header">18h45 · UEFA Europa League</div>
-      <div class="pick-match"><span class="pick-team">Torreense</span><span class="pick-vs">–</span><span class="pick-team">Sunderland</span></div>
-      <div class="bet-name">Under 3.5 buts</div>
-      <div class="bet-grid">
-        <div><span class="bet-label">Cote</span><span class="bet-value">1.5</span></div>
-        <div><span class="bet-label">Probabilité</span>
-             <span class="bet-value bet-proba" style="color:#eab308">64%</span></div>
-        <div><span class="bet-label">Note</span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></div>
-      </div>
-      <div class="bet-ref">Cote : moyenne de 3 bookmakers</div>
+      <div class="bet-ref">Cotes : moyenne de 3 bookmakers</div>
     </div>
 
     <div class="pick-card">
       <div class="pick-sport">⚽ Football</div>
       <div class="pick-header">21h00 · UEFA Europa Conference League</div>
       <div class="pick-match"><span class="pick-team">SC Freiburg</span><span class="pick-vs">–</span><span class="pick-team">FK Jablonec</span></div>
-      <div class="bet-name">Over 2.5 buts</div>
-      <div class="bet-grid">
-        <div><span class="bet-label">Cote</span><span class="bet-value">1.49</span></div>
-        <div><span class="bet-label">Probabilité</span>
-             <span class="bet-value bet-proba" style="color:#eab308">64%</span></div>
-        <div><span class="bet-label">Note</span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></div>
+      <div class="bet-head"><span>Pari (buts)</span><span>Cote</span><span>Probabilité</span><span>Note</span></div>
+      <div class="bet-row">
+        <span class="bet-name">⬆️ Over 2.5</span>
+        <span class="bet-value">1.49</span>
+        <span class="bet-value bet-proba" style="color:#eab308">64%</span>
+        <span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></span>
+      </div><div class="bet-row">
+        <span class="bet-name">⬇️ Under 4.5</span>
+        <span class="bet-value">1.23</span>
+        <span class="bet-value bet-proba" style="color:#22c55e">79%</span>
+        <span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></span>
       </div>
-      <div class="bet-ref">Cote : moyenne de 3 bookmakers</div>
+      <div class="bet-ref">Cotes : moyenne de 3 bookmakers</div>
+    </div>
+
+    <div class="pick-card">
+      <div class="pick-sport">⚽ Football</div>
+      <div class="pick-header">18h45 · UEFA Europa Conference League</div>
+      <div class="pick-match"><span class="pick-team">KF Egnatia</span><span class="pick-vs">–</span><span class="pick-team">FC Midtjylland</span></div>
+      <div class="bet-head"><span>Pari (buts)</span><span>Cote</span><span>Probabilité</span><span>Note</span></div>
+      <div class="bet-row">
+        <span class="bet-name">⬆️ Over 1.5</span>
+        <span class="bet-value">1.24</span>
+        <span class="bet-value bet-proba" style="color:#22c55e">78%</span>
+        <span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></span>
+      </div><div class="bet-row">
+        <span class="bet-name">⬇️ Under 3.5</span>
+        <span class="bet-value">1.4</span>
+        <span class="bet-value bet-proba" style="color:#84cc16">68%</span>
+        <span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></span>
+      </div>
+      <div class="bet-ref">Cotes : moyenne de 3 bookmakers</div>
+    </div>
+
+    <div class="pick-card">
+      <div class="pick-sport">⚽ Football</div>
+      <div class="pick-header">21h00 · League 1</div>
+      <div class="pick-match"><span class="pick-team">Mansfield Town</span><span class="pick-vs">–</span><span class="pick-team">Oxford United</span></div>
+      <div class="bet-head"><span>Pari (buts)</span><span>Cote</span><span>Probabilité</span><span>Note</span></div>
+      <div class="bet-row">
+        <span class="bet-name">⬆️ Over 1.5</span>
+        <span class="bet-value">1.23</span>
+        <span class="bet-value bet-proba" style="color:#22c55e">78%</span>
+        <span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></span>
+      </div><div class="bet-row">
+        <span class="bet-name">⬇️ Under 3.5</span>
+        <span class="bet-value">1.39</span>
+        <span class="bet-value bet-proba" style="color:#84cc16">69%</span>
+        <span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></span>
+      </div>
+      <div class="bet-ref">Cotes : moyenne de 4 bookmakers</div>
+    </div>
+
+    <div class="pick-card">
+      <div class="pick-sport">⚽ Football</div>
+      <div class="pick-header">21h00 · UEFA Europa League</div>
+      <div class="pick-match"><span class="pick-team">Marseille</span><span class="pick-vs">–</span><span class="pick-team">Olympiakos Piraeus</span></div>
+      <div class="bet-head"><span>Pari (buts)</span><span>Cote</span><span>Probabilité</span><span>Note</span></div>
+      <div class="bet-row">
+        <span class="bet-name">⬆️ Over 1.5</span>
+        <span class="bet-value">1.25</span>
+        <span class="bet-value bet-proba" style="color:#22c55e">78%</span>
+        <span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></span>
+      </div><div class="bet-row">
+        <span class="bet-name">⬇️ Under 3.5</span>
+        <span class="bet-value">1.38</span>
+        <span class="bet-value bet-proba" style="color:#84cc16">70%</span>
+        <span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></span>
+      </div>
+      <div class="bet-ref">Cotes : moyenne de 4 bookmakers</div>
+    </div>
+
+    <div class="pick-card">
+      <div class="pick-sport">⚽ Football</div>
+      <div class="pick-header">21h00 · UEFA Europa League</div>
+      <div class="pick-match"><span class="pick-team">NEC Nijmegen</span><span class="pick-vs">–</span><span class="pick-team">PFC Levski Sofia</span></div>
+      <div class="bet-head"><span>Pari (buts)</span><span>Cote</span><span>Probabilité</span><span>Note</span></div>
+      <div class="bet-row">
+        <span class="bet-name">⬆️ Over 1.5</span>
+        <span class="bet-value">1.25</span>
+        <span class="bet-value bet-proba" style="color:#22c55e">78%</span>
+        <span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></span>
+      </div><div class="bet-row">
+        <span class="bet-name">⬇️ Under 3.5</span>
+        <span class="bet-value">1.39</span>
+        <span class="bet-value bet-proba" style="color:#84cc16">70%</span>
+        <span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></span>
+      </div>
+      <div class="bet-ref">Cotes : moyenne de 4 bookmakers</div>
+    </div>
+
+    <div class="pick-card">
+      <div class="pick-sport">⚽ Football</div>
+      <div class="pick-header">21h00 · UEFA Europa Conference League</div>
+      <div class="pick-match"><span class="pick-team">Hearts</span><span class="pick-vs">–</span><span class="pick-team">FC Nordsjaelland</span></div>
+      <div class="bet-head"><span>Pari (buts)</span><span>Cote</span><span>Probabilité</span><span>Note</span></div>
+      <div class="bet-row bet-none"><span class="bet-name">⬆️ Over</span><span class="bet-empty">— pas de ligne entre 1,20 et 1,50</span></div><div class="bet-row">
+        <span class="bet-name">⬇️ Under 4.5</span>
+        <span class="bet-value">1.25</span>
+        <span class="bet-value bet-proba" style="color:#22c55e">78%</span>
+        <span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></span>
+      </div>
+      <div class="bet-ref">Cotes : moyenne de 2 bookmakers</div>
+    </div>
+
+    <div class="pick-card">
+      <div class="pick-sport">⚽ Football</div>
+      <div class="pick-header">21h00 · UEFA Europa League</div>
+      <div class="pick-match"><span class="pick-team">TSG Hoffenheim</span><span class="pick-vs">–</span><span class="pick-team">Besiktas JK</span></div>
+      <div class="bet-head"><span>Pari (buts)</span><span>Cote</span><span>Probabilité</span><span>Note</span></div>
+      <div class="bet-row">
+        <span class="bet-name">⬆️ Over 2.5</span>
+        <span class="bet-value">1.48</span>
+        <span class="bet-value bet-proba" style="color:#eab308">63%</span>
+        <span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></span>
+      </div><div class="bet-row">
+        <span class="bet-name">⬇️ Under 4.5</span>
+        <span class="bet-value">1.26</span>
+        <span class="bet-value bet-proba" style="color:#22c55e">77%</span>
+        <span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></span>
+      </div>
+      <div class="bet-ref">Cotes : moyenne de 4 bookmakers</div>
+    </div>
+
+    <div class="pick-card">
+      <div class="pick-sport">⚽ Football</div>
+      <div class="pick-header">18h45 · UEFA Europa League</div>
+      <div class="pick-match"><span class="pick-team">NK Celje</span><span class="pick-vs">–</span><span class="pick-team">Omonoia FC</span></div>
+      <div class="bet-head"><span>Pari (buts)</span><span>Cote</span><span>Probabilité</span><span>Note</span></div>
+      <div class="bet-row">
+        <span class="bet-name">⬆️ Over 1.5</span>
+        <span class="bet-value">1.27</span>
+        <span class="bet-value bet-proba" style="color:#22c55e">76%</span>
+        <span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></span>
+      </div><div class="bet-row">
+        <span class="bet-name">⬇️ Under 3.5</span>
+        <span class="bet-value">1.34</span>
+        <span class="bet-value bet-proba" style="color:#84cc16">72%</span>
+        <span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></span>
+      </div>
+      <div class="bet-ref">Cotes : moyenne de 4 bookmakers</div>
+    </div>
+
+    <div class="pick-card">
+      <div class="pick-sport">⚽ Football</div>
+      <div class="pick-header">21h00 · UEFA Europa Conference League</div>
+      <div class="pick-match"><span class="pick-team">FC Copenhagen</span><span class="pick-vs">–</span><span class="pick-team">SC Braga</span></div>
+      <div class="bet-head"><span>Pari (buts)</span><span>Cote</span><span>Probabilité</span><span>Note</span></div>
+      <div class="bet-row">
+        <span class="bet-name">⬆️ Over 1.5</span>
+        <span class="bet-value">1.36</span>
+        <span class="bet-value bet-proba" style="color:#84cc16">73%</span>
+        <span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></span>
+      </div><div class="bet-row">
+        <span class="bet-name">⬇️ Under 3.5</span>
+        <span class="bet-value">1.27</span>
+        <span class="bet-value bet-proba" style="color:#22c55e">76%</span>
+        <span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></span>
+      </div>
+      <div class="bet-ref">Cotes : moyenne de 3 bookmakers</div>
+    </div>
+
+    <div class="pick-card">
+      <div class="pick-sport">⚽ Football</div>
+      <div class="pick-header">18h45 · UEFA Europa Conference League</div>
+      <div class="pick-match"><span class="pick-team">Riga FC</span><span class="pick-vs">–</span><span class="pick-team">FC Kairat</span></div>
+      <div class="bet-head"><span>Pari (buts)</span><span>Cote</span><span>Probabilité</span><span>Note</span></div>
+      <div class="bet-row">
+        <span class="bet-name">⬆️ Over 1.5</span>
+        <span class="bet-value">1.34</span>
+        <span class="bet-value bet-proba" style="color:#84cc16">73%</span>
+        <span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></span>
+      </div><div class="bet-row">
+        <span class="bet-name">⬇️ Under 3.5</span>
+        <span class="bet-value">1.29</span>
+        <span class="bet-value bet-proba" style="color:#22c55e">76%</span>
+        <span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></span>
+      </div>
+      <div class="bet-ref">Cotes : moyenne de 3 bookmakers</div>
+    </div>
+
+    <div class="pick-card">
+      <div class="pick-sport">⚽ Football</div>
+      <div class="pick-header">21h00 · UEFA Europa Conference League</div>
+      <div class="pick-match"><span class="pick-team">FC Twente Enschede</span><span class="pick-vs">–</span><span class="pick-team">FC Thun</span></div>
+      <div class="bet-head"><span>Pari (buts)</span><span>Cote</span><span>Probabilité</span><span>Note</span></div>
+      <div class="bet-row">
+        <span class="bet-name">⬆️ Over 2.5</span>
+        <span class="bet-value">1.31</span>
+        <span class="bet-value bet-proba" style="color:#84cc16">74%</span>
+        <span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></span>
+      </div><div class="bet-row">
+        <span class="bet-name">⬇️ Under 4.5</span>
+        <span class="bet-value">1.4</span>
+        <span class="bet-value bet-proba" style="color:#84cc16">69%</span>
+        <span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></span>
+      </div>
+      <div class="bet-ref">Cotes : moyenne de 3 bookmakers</div>
+    </div>
+
+    <div class="pick-card">
+      <div class="pick-sport">⚽ Football</div>
+      <div class="pick-header">21h00 · UEFA Europa League</div>
+      <div class="pick-match"><span class="pick-team">Bournemouth</span><span class="pick-vs">–</span><span class="pick-team">SK Sturm Graz</span></div>
+      <div class="bet-head"><span>Pari (buts)</span><span>Cote</span><span>Probabilité</span><span>Note</span></div>
+      <div class="bet-row">
+        <span class="bet-name">⬆️ Over 2.5</span>
+        <span class="bet-value">1.33</span>
+        <span class="bet-value bet-proba" style="color:#84cc16">73%</span>
+        <span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></span>
+      </div><div class="bet-row">
+        <span class="bet-name">⬇️ Under 4.5</span>
+        <span class="bet-value">1.38</span>
+        <span class="bet-value bet-proba" style="color:#84cc16">70%</span>
+        <span><span class="bet-stars" style="color:#ef4444">★☆☆☆☆</span><span class="bet-n">À éviter</span></span>
+      </div>
+      <div class="bet-ref">Cotes : moyenne de 4 bookmakers</div>
+    </div>
+
+    <div class="pick-card">
+      <div class="pick-sport">⚽ Football</div>
+      <div class="pick-header">21h00 · UEFA Europa League</div>
+      <div class="pick-match"><span class="pick-team">Benfica</span><span class="pick-vs">–</span><span class="pick-team">Celtic</span></div>
+      <div class="bet-head"><span>Pari (buts)</span><span>Cote</span><span>Probabilité</span><span>Note</span></div>
+      <div class="bet-row">
+        <span class="bet-name">⬆️ Over 2.5</span>
+        <span class="bet-value">1.34</span>
+        <span class="bet-value bet-proba" style="color:#84cc16">73%</span>
+        <span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></span>
+      </div><div class="bet-row">
+        <span class="bet-name">⬇️ Under 4.5</span>
+        <span class="bet-value">1.37</span>
+        <span class="bet-value bet-proba" style="color:#84cc16">70%</span>
+        <span><span class="bet-stars" style="color:#ef4444">★☆☆☆☆</span><span class="bet-n">À éviter</span></span>
+      </div>
+      <div class="bet-ref">Cotes : moyenne de 4 bookmakers</div>
+    </div>
+
+    <div class="pick-card">
+      <div class="pick-sport">⚽ Football</div>
+      <div class="pick-header">21h00 · UEFA Europa Conference League</div>
+      <div class="pick-match"><span class="pick-team">SK Brann</span><span class="pick-vs">–</span><span class="pick-team">Lincoln Red Imps FC</span></div>
+      <div class="bet-head"><span>Pari (buts)</span><span>Cote</span><span>Probabilité</span><span>Note</span></div>
+      <div class="bet-row">
+        <span class="bet-name">⬆️ Over 2.5</span>
+        <span class="bet-value">1.37</span>
+        <span class="bet-value bet-proba" style="color:#84cc16">71%</span>
+        <span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></span>
+      </div><div class="bet-row">
+        <span class="bet-name">⬇️ Under 4.5</span>
+        <span class="bet-value">1.37</span>
+        <span class="bet-value bet-proba" style="color:#84cc16">72%</span>
+        <span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></span>
+      </div>
+      <div class="bet-ref">Cotes : moyenne de 3 bookmakers</div>
+    </div>
+
+    <div class="pick-card">
+      <div class="pick-sport">⚽ Football</div>
+      <div class="pick-header">21h00 · UEFA Europa Conference League</div>
+      <div class="pick-match"><span class="pick-team">Brighton and Hove Albion</span><span class="pick-vs">–</span><span class="pick-team">FK Kauno Žalgiris</span></div>
+      <div class="bet-head"><span>Pari (buts)</span><span>Cote</span><span>Probabilité</span><span>Note</span></div>
+      <div class="bet-row">
+        <span class="bet-name">⬆️ Over 3.5</span>
+        <span class="bet-value">1.48</span>
+        <span class="bet-value bet-proba" style="color:#84cc16">66%</span>
+        <span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></span>
+      </div><div class="bet-row">
+        <span class="bet-name">⬇️ Under 5.5</span>
+        <span class="bet-value">1.37</span>
+        <span class="bet-value bet-proba" style="color:#84cc16">72%</span>
+        <span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></span>
+      </div>
+      <div class="bet-ref">Cotes : moyenne de 1 bookmaker</div>
+    </div>
+
+    <div class="pick-card">
+      <div class="pick-sport">⚽ Football</div>
+      <div class="pick-header">18h45 · UEFA Europa League</div>
+      <div class="pick-match"><span class="pick-team">Torreense</span><span class="pick-vs">–</span><span class="pick-team">Sunderland</span></div>
+      <div class="bet-head"><span>Pari (buts)</span><span>Cote</span><span>Probabilité</span><span>Note</span></div>
+      <div class="bet-row bet-none"><span class="bet-name">⬆️ Over</span><span class="bet-empty">— pas de ligne entre 1,20 et 1,50</span></div><div class="bet-row">
+        <span class="bet-name">⬇️ Under 3.5</span>
+        <span class="bet-value">1.5</span>
+        <span class="bet-value bet-proba" style="color:#eab308">64%</span>
+        <span><span class="bet-stars" style="color:#f97316">★★☆☆☆</span><span class="bet-n">Faible</span></span>
+      </div>
+      <div class="bet-ref">Cotes : moyenne de 3 bookmakers</div>
     </div></div>
     </section>
     
@@ -776,6 +984,11 @@
             <th>Écart</th><th>Gain</th></tr>
         <tr><td>★★★☆☆</td><td>1</td><td>67%</td><td>100%</td><td style='color:#22c55e'>+33</td><td>+44.0%</td></tr><tr><td>★★☆☆☆</td><td>12</td><td>75%</td><td>25%</td><td style='color:#f97316'>-50</td><td>-68.0%</td></tr>
       </table>
+      <table class="track">
+        <tr><th>Type</th><th>Paris</th><th>Annoncé</th><th>Réalisé</th>
+            <th>Écart</th><th>Gain</th></tr>
+        <tr><td>⬆️ Over</td><td>3</td><td>72%</td><td>67%</td><td style='color:#f97316'>-6</td><td>-11.7%</td></tr><tr><td>⬇️ Under</td><td>10</td><td>75%</td><td>20%</td><td style='color:#f97316'>-55</td><td>-73.7%</td></tr>
+      </table>
     </section>
     <div class='history'><strong>Historique :</strong> <a href="picks/2026-10-15_morning.json">2026-10-15</a> · <a href="picks/2026-10-14_morning.json">2026-10-14</a></div>
   </main>
@@ -784,5 +997,6 @@
     Sources : football-data.co.uk · The Odds API · 18 championnats/compétitions actifs<br>
     Taux historiques : backtest du 2026-10-14 sur 35558 matchs (2021-22 → 2026-27, Over/Under 2.5 Pinnacle → toutes lignes (Poisson), comparé aux scores réels)
   </footer>
+  <script src="update.js"></script>
 </body>
 </html>
