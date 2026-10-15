@@ -69,7 +69,7 @@ Le bouton « 🔄 Mettre à jour » de la page lance cette mise à jour à la de
 write* ; le jeton reste dans le navigateur (localStorage), jamais dans la page.
 | Heure · championnat | Heure de Paris |
 | Match | Domicile – Extérieur |
-| Pari | Over ou Under buts, ligne simple (x.5) : parmi ceux cotés 1,20 – 1,50, la meilleure note ; à défaut le plus proche de la fenêtre (signalé) |
+| Paris | Le meilleur Over **et** le meilleur Under en ligne simple (x.5) cotés 1,20 – 1,50 (meilleure note, puis probabilité) ; « — » si aucune ligne dans la fenêtre. Le tri des matchs se fait sur le meilleur des deux |
 | Cote | Betclic si disponible, sinon moyenne des bookmakers (source indiquée) |
 | Probabilité | Pinnacle (à défaut moyenne des bookmakers), Over vs Under sur la même ligne, marge retirée par la méthode « puissance » |
 | Note | ★ à ★★★★★ : combine (sans les afficher) la valeur marché (probabilité × cote − 1) et la valeur historique (taux historique aux cotes similaires × cote − 1), l'historique pesant selon la taille de son échantillon. ★★★★★ ≥ +2 %, ★★★★ ≥ 0 %, ★★★ ≥ −2 %, ★★ ≥ −5 %, ★ en dessous |
@@ -84,7 +84,8 @@ ainsi un historique réel de l'Over 1.5 sur ~34 000 matchs (prédit à ~1 point
 près).
 
 La section « Suivi de fiabilité » compare, cumulé depuis le début, la
-probabilité annoncée et le taux réalisé des picks (`docs/picks/suivi.json`).
+probabilité annoncée et le taux réalisé des paris (`docs/picks/suivi.json`),
+par tranche de probabilité, par note et par type (Over / Under).
 
 Crédits The Odds API : liste des matchs gratuite (/events) + 1 crédit par match
 (lignes Over/Under) + scores de la veille, soit ~800–1 000/mois.

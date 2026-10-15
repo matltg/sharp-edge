@@ -9,12 +9,11 @@ NOTICE D'INTENTION
 
 OBJECTIF : 2 rapports quotidiens (4h30 et 16h30 heure France).
 
-AFFICHAGE : tous les matchs du jour, sans filtre, triés par nombre d'étoiles
-  puis, à étoiles égales, par probabilité.
-  - Pari : Over ou Under buts, ligne simple (x.5, sans remboursement partiel).
-    Parmi tous ceux cotés dans 1,20–1,50, on prend la meilleure note (puis la
-    meilleure probabilité) ; à défaut, celui dont la cote est la plus proche
-    de cette fenêtre (signalé).
+AFFICHAGE : tous les matchs du jour, sans filtre, triés par le nombre d'étoiles
+  de leur meilleur pari puis, à étoiles égales, par probabilité.
+  - Paris : pour chaque match, le meilleur Over et le meilleur Under en ligne
+    simple (x.5, sans remboursement partiel) cotés dans 1,20–1,50 — meilleure
+    note, puis meilleure probabilité. Pas de ligne dans la fenêtre : « — ».
   - Cote : celle de Betclic si disponible, sinon la moyenne des bookmakers.
   - Probabilité : cotes Over et Under de Pinnacle (bookmaker de référence, le
     moins margé) sur la même ligne, marge retirée par la méthode « puissance » ;
@@ -327,15 +326,13 @@ def match_lambda(data: dict) -> float | None:
     return None
 
 
-def choose_bet(data: dict) -> dict | None:
-    """Parmi tous les Over et Under en ligne simple (x.5) cotés dans 1,20–1,50 :
-    celui qui a la meilleure note, puis la meilleure probabilité. Sans candidat
-    dans la fenêtre : celui dont la cote en est la plus proche."""
+def candidates(data: dict) -> list:
+    """Tous les Over et Under en ligne simple (x.5) cotés dans 1,20–1,50, notés."""
     lam = match_lambda(data)
-    candidates = []
+    out = []
     for side in ("Over", "Under"):
         for pt, (price, book) in ref_prices(data, side).items():
-            if pt % 1 != 0.5:
+            if pt % 1 != 0.5 or not in_window(price):
                 continue
             over_proba, proba_source = fair_prob(data, pt)
             proba = (None if over_proba is None
@@ -343,18 +340,42 @@ def choose_bet(data: dict) -> dict | None:
             model_over = None if lam is None else p_over_poisson(lam, pt) * 100
             model = (None if model_over is None
                      else round(model_over if side == "Over" else 100 - model_over, 1))
-            candidates.append({"side": side, "line": pt, "cote": price, "source": book,
-                               "in_window": in_window(price), "proba": proba,
-                               "proba_source": proba_source, "proba_modele": model,
-                               **rating(proba, price, side, pt, model)})
-    if not candidates:
-        return None
-    inside = [c for c in candidates if c["in_window"]]
-    if inside:
-        return max(inside, key=lambda c: (c["score"] if c["score"] is not None else -1e9,
-                                          c["proba"] or 0))
-    distance = lambda c: min(abs(c["cote"] - MIN_ODDS), abs(c["cote"] - MAX_ODDS))
-    return min(candidates, key=lambda c: (distance(c), -(c["proba"] or 0)))
+            out.append({"side": side, "line": pt, "cote": price, "source": book,
+                        "proba": proba, "proba_source": proba_source, "proba_modele": model,
+                        **rating(proba, price, side, pt, model)})
+    return out
+
+
+def rank(bet: dict) -> tuple:
+    """Ordre d'affichage : plus d'étoiles, puis meilleure probabilité."""
+    return (bet.get("etoiles") or 0, bet.get("proba") or 0)
+
+
+def best_by_side(data: dict) -> dict:
+    """{'Over': meilleur Over ou None, 'Under': meilleur Under ou None}."""
+    cands = candidates(data)
+    return {side: max((c for c in cands if c["side"] == side), key=rank, default=None)
+            for side in ("Over", "Under")}
+
+
+def bet_record(bet: dict) -> dict:
+    return {
+        "side": bet["side"], "line": bet["line"], "pari": f"{bet['side']} {bet['line']:g} buts",
+        "cote": bet["cote"], "cote_source": bet["source"],
+        "proba": bet["proba"], "proba_source": bet["proba_source"],
+        "proba_modele": bet["proba_modele"],
+        "historique": history_for(bet["side"], bet["line"], bet["proba_modele"]),
+        "valeur": (None if bet["proba"] is None
+                   else round((bet["proba"] / 100 * bet["cote"] - 1) * 100, 1)),
+        "score": bet["score"], "etoiles": bet["etoiles"], "note": bet["note"],
+    }
+
+
+def pick_bets(pick: dict) -> list:
+    """Paris d'un match : liste « paris » (format actuel) ou ancien pari unique."""
+    if "paris" in pick:
+        return pick["paris"]
+    return [pick] if pick.get("pari") else []
 
 
 # ── COLLECTE (matin) / CACHE (soir) ───────────────────────────────────────────
@@ -398,29 +419,18 @@ def build_pick(event: dict, data: dict) -> dict | None:
     if REPORT_TYPE == "evening" and kickoff <= datetime.now(TZ_FRANCE):
         return None
 
-    bet = choose_bet(data)
-    pick = {
+    best = best_by_side(data)
+    paris = [bet_record(best[side]) for side in ("Over", "Under") if best[side]]
+    top = max(paris, key=rank, default={})
+    return {
         "sport": SPORT_LABEL, "heure": kickoff.strftime("%Hh%M"),
         "championnat": event.get("sport_title", ""), "sport_key": event.get("sport_key", ""),
         "home_team": event["home_team"], "away_team": event["away_team"],
         "event_id": event.get("id", ""),
-        "pari": None, "cote": None, "proba": None, "historique": "—", "valeur": None,
-        "score": None, "etoiles": None, "note": None,
+        "paris": paris,
+        # meilleur des deux : sert au tri de la page
+        "etoiles": top.get("etoiles"), "proba": top.get("proba"),
     }
-    if bet:
-        pick.update({
-            "pari": f"{bet['side']} {bet['line']:g} buts",
-            "ou_side": bet["side"], "ou_line": bet["line"],
-            "cote": bet["cote"], "cote_source": bet["source"],
-            "dans_fenetre": bet["in_window"],
-            "proba": bet["proba"], "proba_source": bet["proba_source"],
-            "proba_modele": bet["proba_modele"],
-            "historique": history_for(bet["side"], bet["line"], bet["proba_modele"]),
-            "valeur": (None if bet["proba"] is None
-                       else round((bet["proba"] / 100 * bet["cote"] - 1) * 100, 1)),
-            "score": bet["score"], "etoiles": bet["etoiles"], "note": bet["note"],
-        })
-    return pick
 
 
 # ── RÉSULTATS DE LA VEILLE ────────────────────────────────────────────────────
@@ -432,7 +442,7 @@ def load_yesterday_picks() -> list:
         if path.exists():
             with open(path, encoding="utf-8") as f:
                 for p in json.load(f).get("picks", []):
-                    if p.get("pari"):
+                    if pick_bets(p):
                         by_event[p.get("event_id") or id(p)] = p
     return list(by_event.values())
 
@@ -442,7 +452,10 @@ def fetch_scores(sport_key: str) -> list:
 
 
 def settle(pick: dict, hs: int, as_: int) -> str:
-    if "ou_line" in pick:
+    if "line" in pick and "side" in pick:
+        over_won = hs + as_ > pick["line"]
+        return "win" if over_won == (pick["side"] == "Over") else "loss"
+    if "ou_line" in pick:  # picks à pari unique (avant l'affichage Over + Under)
         over_won = hs + as_ > pick["ou_line"]
         return "win" if over_won == (pick["ou_side"] == "Over") else "loss"
     if "over_line" in pick:  # picks antérieurs à l'ajout des Unders
@@ -473,10 +486,12 @@ def resolve_yesterday(picks: list) -> list:
             pick["result"] = "unknown"
             pick["result_label"] = "⏳ Résultat non disponible"
         else:
-            score_str = f"{hs}–{as_}"
-            pick["result"] = settle(pick, hs, as_)
-            pick["result_label"] = (f"✅ Validé ({score_str})" if pick["result"] == "win"
-                                    else f"❌ Raté ({score_str})")
+            pick["score_final"] = f"{hs}–{as_}"
+            for bet in pick_bets(pick):
+                bet["result"] = settle(bet, hs, as_)
+            results = [b["result"] for b in pick_bets(pick)]
+            pick["result"] = "win" if "win" in results else "loss"
+            pick["result_label"] = f"Score {hs}–{as_}"
         resolved.append(pick)
     return resolved
 
@@ -492,20 +507,23 @@ def update_tracking(resolved: list, date: str) -> int:
             log = json.load(f)
     except (OSError, ValueError):
         log = []
-    seen = {(r["date"], r["event_id"]) for r in log}
+    seen = {(r["date"], r["event_id"], r.get("pari")) for r in log}
     added = 0
     for p in resolved:
-        if p.get("result") not in ("win", "loss") or p.get("proba") is None:
-            continue
-        key = (date, p.get("event_id", ""))
-        if key in seen:
-            continue
-        log.append({"date": date, "event_id": key[1], "championnat": p.get("championnat"),
-                    "match": f"{p.get('home_team')} – {p.get('away_team')}",
-                    "pari": p.get("pari"), "cote": p.get("cote"), "proba": p.get("proba"),
-                    "etoiles": p.get("etoiles"), "result": p["result"]})
-        seen.add(key)
-        added += 1
+        for bet in pick_bets(p):
+            if bet.get("result") not in ("win", "loss") or bet.get("proba") is None:
+                continue
+            key = (date, p.get("event_id", ""), bet.get("pari"))
+            if key in seen:
+                continue
+            side = bet.get("side") or bet.get("ou_side") or str(bet.get("pari", "")).split(" ")[0]
+            log.append({"date": date, "event_id": key[1], "championnat": p.get("championnat"),
+                        "match": f"{p.get('home_team')} – {p.get('away_team')}",
+                        "side": side, "pari": bet.get("pari"), "cote": bet.get("cote"),
+                        "proba": bet.get("proba"), "etoiles": bet.get("etoiles"),
+                        "result": bet["result"]})
+            seen.add(key)
+            added += 1
     with open(TRACKING_PATH, "w", encoding="utf-8") as f:
         json.dump(log, f, ensure_ascii=False, indent=1)
     return added
@@ -542,8 +560,9 @@ def main():
 
     cached = yesterday_from_morning() if REPORT_TYPE == "evening" else None
     yesterday_resolved = (cached or {}).get("resolved") or resolve_yesterday(load_yesterday_picks())
-    wins   = sum(1 for p in yesterday_resolved if p.get("result") == "win")
-    losses = sum(1 for p in yesterday_resolved if p.get("result") == "loss")
+    bets_y = [b for p in yesterday_resolved for b in pick_bets(p)]
+    wins   = sum(1 for b in bets_y if b.get("result") == "win")
+    losses = sum(1 for b in bets_y if b.get("result") == "loss")
     total  = wins + losses
     added = update_tracking(yesterday_resolved, yesterday_fr())
     print(f"  Suivi : {added} pick(s) ajouté(s) à {TRACKING_PATH.name}")
@@ -571,11 +590,9 @@ def main():
     print(f"\n✓ {len(picks)} matchs → {out}")
     print(f"  Veille : {wins}W / {losses}L sur {total} résolus")
     for p in picks:
-        print(f"  {p['heure']} | {p['championnat']} | {p['home_team']} – "
-              f"{p['away_team']} | {p['pari'] or 'cotes indisponibles'} @ {p['cote']} | "
-              f"{p['proba']}% | hist. {p['historique']} | valeur {p['valeur']}% | "
-              f"{p['etoiles']}★ {p['note']} (score {p['score']})")
-
+        bets = " | ".join(f"{b['pari']} @{b['cote']} {b['proba']}% {b['etoiles']}★"
+                          for b in p["paris"]) or "pas de ligne entre 1,20 et 1,50"
+        print(f"  {p['heure']} | {p['championnat']} | {p['home_team']} – {p['away_team']} | {bets}")
 
 if __name__ == "__main__":
     main()

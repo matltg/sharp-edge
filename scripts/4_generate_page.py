@@ -89,47 +89,72 @@ def match_line(pick: dict) -> str:
     return f'<span class="pick-team">{home}</span><span class="pick-vs">–</span><span class="pick-team">{away}</span>'
 
 
+SIDE_ICON = {"Over": "⬆️", "Under": "⬇️"}
+
+
+def pick_bets(pick: dict) -> list:
+    """Paris d'un match : liste « paris » (format actuel) ou ancien pari unique."""
+    if "paris" in pick:
+        return pick["paris"]
+    return [pick] if pick.get("pari") else []
+
+
+def bet_side(bet: dict) -> str:
+    return bet.get("side") or bet.get("ou_side") or str(bet.get("pari", "Over")).split(" ")[0]
+
+
+def render_bet_row(side: str, bet: dict | None) -> str:
+    icon = SIDE_ICON.get(side, "")
+    if not bet:
+        return (f'<div class="bet-row bet-none"><span class="bet-name">{icon} {side}</span>'
+                f'<span class="bet-empty">— pas de ligne entre 1,20 et 1,50</span></div>')
+    return f"""<div class="bet-row">
+        <span class="bet-name">{icon} {bet['pari'].replace(' buts', '')}</span>
+        <span class="bet-value">{bet['cote']}</span>
+        <span class="bet-value bet-proba" style="color:{proba_color(bet.get('proba'))}">{fmt_proba(bet.get('proba'))}</span>
+        <span>{fmt_stars(bet.get('etoiles'), bet.get('note'))}</span>
+      </div>"""
+
+
 def render_pick_card(pick: dict) -> str:
-    if pick.get("pari"):
-        note = "" if pick.get("dans_fenetre", True) else " · hors fenêtre 1,20–1,50"
-        bet = f"""
-      <div class="bet-name">{pick['pari']}</div>
-      <div class="bet-grid">
-        <div><span class="bet-label">Cote</span><span class="bet-value">{pick['cote']}</span></div>
-        <div><span class="bet-label">Probabilité</span>
-             <span class="bet-value bet-proba" style="color:{proba_color(pick.get('proba'))}">{fmt_proba(pick.get('proba'))}</span></div>
-        <div><span class="bet-label">Note</span>{fmt_stars(pick.get('etoiles'), pick.get('note'))}</div>
-      </div>
-      <div class="bet-ref">Cote : {pick.get('cote_source') or pick.get('bookmaker_ref', '—')}{note}</div>"""
+    bets = {bet_side(b): b for b in pick_bets(pick)}
+    if bets:
+        rows = "".join(render_bet_row(side, bets.get(side)) for side in ("Over", "Under"))
+        source = next((b.get("cote_source") for b in bets.values() if b.get("cote_source")), None)
+        body = f"""
+      <div class="bet-head"><span>Pari (buts)</span><span>Cote</span><span>Probabilité</span><span>Note</span></div>
+      {rows}
+      <div class="bet-ref">Cotes : {source or '—'}</div>"""
     else:
-        bet = '<div class="bet-ref">Cotes Over/Under indisponibles pour ce match</div>'
+        body = '<div class="bet-ref">Cotes Over/Under indisponibles pour ce match</div>'
     return f"""
     <div class="pick-card">
       <div class="pick-sport">{pick.get('sport', '⚽ Football')}</div>
       <div class="pick-header">{pick['heure']} · {pick['championnat']}</div>
-      <div class="pick-match">{match_line(pick)}</div>{bet}
+      <div class="pick-match">{match_line(pick)}</div>{body}
     </div>"""
 
 
 def render_yesterday_card(pick: dict) -> str:
-    result = pick.get("result", "unknown")
-    label  = pick.get("result_label", "⏳ Inconnu")
-    if result == "win":
-        border = "#22c55e"; bg = "#14532d"
-    elif result == "loss":
-        border = "#ef4444"; bg = "#7f1d1d"
+    bets = pick_bets(pick)
+    results = [b.get("result", pick.get("result")) for b in bets]
+    if results and all(r == "win" for r in results):
+        border, bg = "#22c55e", "#14532d"
+    elif results and all(r == "loss" for r in results):
+        border, bg = "#ef4444", "#7f1d1d"
     else:
-        border = "#475569"; bg = "#1e293b"
-
+        border, bg = "#475569", "#1e293b"
+    icon = {"win": "✅", "loss": "❌"}
+    lines = "".join(
+        f'<div class="yest-meta">{icon.get(b.get("result", pick.get("result")), "⏳")} '
+        f'{b.get("pari", "?")} @ {b.get("cote", "?")} · {fmt_proba(b.get("proba"))}</div>'
+        for b in bets)
     return f"""
     <div class="yest-card" style="border-color:{border};background:{bg}">
-      <div class="yest-result">{label}</div>
-      <div class="yest-match">
-        {match_line(pick)}
-      </div>
-      <div class="yest-meta">
-        {pick.get('pari','?')} @ {pick.get('cote','?')} · {pick.get('championnat','?')} · {pick.get('heure','?')}
-      </div>
+      <div class="yest-result">{pick.get('result_label', '⏳ Inconnu')}</div>
+      <div class="yest-match">{match_line(pick)}</div>
+      {lines}
+      <div class="yest-meta">{pick.get('championnat', '?')} · {pick.get('heure', '?')}</div>
     </div>"""
 
 
@@ -209,6 +234,9 @@ def render_tracking_section() -> str:
     by_stars = "".join(row("★" * k + "☆" * (5 - k), [r for r in log if r.get("etoiles") == k])
                        for k in range(5, 0, -1))
     total_row = row("Total", log)
+    side_of = lambda r: r.get("side") or str(r.get("pari", "")).split(" ")[0]
+    by_side = "".join(row(f"{SIDE_ICON[sd]} {sd}", [r for r in log if side_of(r) == sd])
+                      for sd in ("Over", "Under"))
     first, last = min(r["date"] for r in log), max(r["date"] for r in log)
     return f"""
     <section class="section">
@@ -226,6 +254,11 @@ def render_tracking_section() -> str:
         <tr><th>Note</th><th>Paris</th><th>Annoncé</th><th>Réalisé</th>
             <th>Écart</th><th>Gain</th></tr>
         {by_stars}
+      </table>
+      <table class="track">
+        <tr><th>Type</th><th>Paris</th><th>Annoncé</th><th>Réalisé</th>
+            <th>Écart</th><th>Gain</th></tr>
+        {by_side}
       </table>
     </section>"""
 
@@ -312,13 +345,17 @@ def generate_index(date_str: str, picks: dict):
     .pick-match{{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}}
     .pick-team{{font-weight:700;font-size:1rem}}
     .pick-vs{{color:var(--muted);font-size:.8rem}}
-    .bet-name{{font-weight:700;font-size:.95rem;border-top:1px solid var(--border);padding-top:.6rem}}
-    .bet-grid{{display:grid;grid-template-columns:.8fr 1fr 1.4fr;gap:.5rem}}
-    .bet-stars{{display:block;font-size:1.05rem;letter-spacing:.05em;line-height:1.4}}
+    .bet-head,.bet-row{{display:grid;grid-template-columns:1.6fr .6fr .9fr 1.1fr;gap:.4rem;align-items:center}}
+    .bet-head{{font-size:.68rem;color:var(--muted);border-top:1px solid var(--border);padding-top:.6rem}}
+    .bet-row{{padding:.15rem 0}}
+    .bet-none{{grid-template-columns:1.6fr 2.6fr}}
+    .bet-name{{font-weight:700;font-size:.88rem}}
+    .bet-empty{{font-size:.75rem;color:var(--muted)}}
+    .bet-stars{{display:block;font-size:.95rem;letter-spacing:.03em;line-height:1.3}}
     .bet-n{{display:block;font-size:.65rem;font-weight:400;color:var(--muted)}}
     .bet-label{{display:block;font-size:.68rem;color:var(--muted)}}
     .bet-value{{font-size:.9rem;font-weight:600}}
-    .bet-proba{{font-size:1.15rem;font-weight:800}}
+    .bet-proba{{font-size:1.05rem;font-weight:800}}
     .bet-ref{{font-size:.72rem;color:var(--muted)}}
     /* Résultats veille */
     .yest-summary{{display:flex;gap:1.5rem;margin-bottom:1rem;flex-wrap:wrap}}
