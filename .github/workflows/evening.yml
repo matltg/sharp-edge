@@ -2,9 +2,18 @@ name: Sharp-Edge Evening Report (16h30 France)
 
 on:
   schedule:
-    - cron: '30 14 * * *'  # UTC+2 (heure été) → 16h30 France
-    - cron: '30 15 * * *'  # UTC+1 (heure hiver) → 16h30 France
-  workflow_dispatch:        # déclenchement manuel possible
+    # GitHub peut retarder ou ignorer une tâche programmée : plusieurs créneaux,
+    # hors des heures rondes. Le rapport ne tourne qu'une fois par jour (marqueur).
+    - cron: '37 14 * * *'
+    - cron: '37 15 * * *'
+    - cron: '7 17 * * *'
+    - cron: '7 18 * * *'
+  workflow_dispatch:        # déclenchement manuel : tourne toujours
+
+# Un seul lancement à la fois : le suivant voit le marqueur posé par le précédent
+concurrency:
+  group: sharp-edge-evening
+  cancel-in-progress: false
 
 jobs:
   evening-picks:
@@ -13,25 +22,25 @@ jobs:
       contents: write
 
     steps:
-      # Les deux crons tournent chaque jour : on ne garde que celui qui
-      # correspond à l'heure légale actuelle de Paris (évite le double appel API).
-      - name: Check DST slot
+      - name: Checkout repo
+        uses: actions/checkout@v5
+
+      # Lancement programmé : seulement à partir de 16h30 (heure de Paris, été comme
+      # hiver) et si le rapport du jour n'a pas déjà été fait.
+      - name: Check time slot
         id: gate
         run: |
-          OFFSET=$(TZ=Europe/Paris date +%z)
+          NOW=$(TZ=Europe/Paris date +%H%M)
+          DAY=$(TZ=Europe/Paris date +%F)
+          MARKER="docs/picks/.done_${DAY}_evening"
           RUN=true
           if [ "${{ github.event_name }}" = "schedule" ]; then
-            case "${{ github.event.schedule }}" in
-              "30 14 * * *") [ "$OFFSET" = "+0200" ] || RUN=false ;;
-              "30 15 * * *") [ "$OFFSET" = "+0100" ] || RUN=false ;;
-            esac
+            if [ "$NOW" -lt 1630 ] || [ -f "$MARKER" ]; then RUN=false; fi
           fi
-          echo "Paris UTC offset: $OFFSET → run=$RUN"
+          echo "Paris $NOW, marqueur $MARKER → run=$RUN"
           echo "run=$RUN" >> "$GITHUB_OUTPUT"
-
-      - name: Checkout repo
-        if: steps.gate.outputs.run == 'true'
-        uses: actions/checkout@v5
+          echo "marker=$MARKER" >> "$GITHUB_OUTPUT"
+          echo "late=$([ "$NOW" -ge 1630 ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
 
       - name: Setup Python
         if: steps.gate.outputs.run == 'true'
@@ -54,12 +63,18 @@ jobs:
         if: steps.gate.outputs.run == 'true'
         run: python scripts/4_generate_page.py
 
+      # Le marqueur n'est posé qu'à partir de 16h30 : un lancement manuel plus tôt
+      # n'empêche pas le rapport programmé.
+      - name: Mark report as done
+        if: steps.gate.outputs.run == 'true' && steps.gate.outputs.late == 'true'
+        run: touch "${{ steps.gate.outputs.marker }}"
+
       - name: Commit and push
         if: steps.gate.outputs.run == 'true'
         run: |
           git config user.name "sharp-edge-bot"
           git config user.email "bot@sharp-edge"
-          git add docs/
+          git add -f docs/
           git diff --staged --quiet || git commit -m "🌆 Evening picks $(date -u +'%Y-%m-%d')"
           git pull --rebase
           git push
