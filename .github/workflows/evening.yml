@@ -11,7 +11,7 @@ on:
   workflow_dispatch:        # déclenchement manuel : tourne toujours
   push:                     # code modifié : la page est régénérée tout de suite
     branches: [main]
-    paths: ['scripts/**', 'docs/update.js']
+    paths: ['scripts/**', 'docs/update.js', '.github/workflows/evening.yml']
 
 # Un seul lancement à la fois : le suivant voit le marqueur posé par le précédent
 concurrency:
