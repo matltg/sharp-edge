@@ -1,0 +1,239 @@
+{
+  "date": "2026-10-23",
+  "type": "morning",
+  "generated_at": "2026-10-23T09:54:55+02:00",
+  "picks": [
+    {
+      "sport": "⚽ Football",
+      "heure": "21h00",
+      "championnat": "EPL",
+      "sport_key": "soccer_epl",
+      "home_team": "Ipswich Town",
+      "away_team": "Nottingham Forest",
+      "event_id": "d0202960708a442401d7fc7bd74a0183",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "21h00",
+      "championnat": "Championship",
+      "sport_key": "soccer_efl_champ",
+      "home_team": "Bolton Wanderers",
+      "away_team": "Middlesbrough",
+      "event_id": "44e63d75b74e0b1470954e2d93b00dde",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "20h45",
+      "championnat": "Ligue 1 - France",
+      "sport_key": "soccer_france_ligue_one",
+      "home_team": "Brest",
+      "away_team": "Nice",
+      "event_id": "8aa36b30d655d6c81ed98bf9ec1b4039",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "20h00",
+      "championnat": "Ligue 2 - France",
+      "sport_key": "soccer_france_ligue_two",
+      "home_team": "Sochaux",
+      "away_team": "Annecy FC",
+      "event_id": "e999dbef3f9ee95f3928190d9a626f8c",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "20h00",
+      "championnat": "Ligue 2 - France",
+      "sport_key": "soccer_france_ligue_two",
+      "home_team": "Clermont",
+      "away_team": "Guingamp",
+      "event_id": "578db8ea1f9670476e225a41a007b0b8",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "20h00",
+      "championnat": "Ligue 2 - France",
+      "sport_key": "soccer_france_ligue_two",
+      "home_team": "Pau FC",
+      "away_team": "Grenoble",
+      "event_id": "732473e3a3b9f0e3c0b41e809c03f19b",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "20h00",
+      "championnat": "Ligue 2 - France",
+      "sport_key": "soccer_france_ligue_two",
+      "home_team": "USL Dunkerque",
+      "away_team": "Metz",
+      "event_id": "403cbd7b75159c7d75a0988bd6d602b0",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "20h00",
+      "championnat": "Ligue 2 - France",
+      "sport_key": "soccer_france_ligue_two",
+      "home_team": "Nancy",
+      "away_team": "Stade Lavallois",
+      "event_id": "790e760a4515927d83bc6fa36890b1ce",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "20h30",
+      "championnat": "Bundesliga - Germany",
+      "sport_key": "soccer_germany_bundesliga",
+      "home_team": "VfB Stuttgart",
+      "away_team": "Borussia Monchengladbach",
+      "event_id": "d4d56a31d8ccd432e3a6183180e093f3",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "18h30",
+      "championnat": "Bundesliga 2 - Germany",
+      "sport_key": "soccer_germany_bundesliga2",
+      "home_team": "SV Darmstadt 98",
+      "away_team": "FC St. Pauli",
+      "event_id": "ed6da0ed9e5d0c24d1c6f689d9f4b440",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "18h30",
+      "championnat": "Bundesliga 2 - Germany",
+      "sport_key": "soccer_germany_bundesliga2",
+      "home_team": "VfL Bochum",
+      "away_team": "VfL Wolfsburg",
+      "event_id": "618df9a8c3b34ce0ec2c309deccb92c8",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "20h45",
+      "championnat": "Serie A - Italy",
+      "sport_key": "soccer_italy_serie_a",
+      "home_team": "Torino",
+      "away_team": "Monza",
+      "event_id": "124c70f8f3248a845bdb983a54e74720",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "21h00",
+      "championnat": "La Liga - Spain",
+      "sport_key": "soccer_spain_la_liga",
+      "home_team": "Alavés",
+      "away_team": "Málaga",
+      "event_id": "903eb4941471ffe20d525b02dd3b77aa",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "20h30",
+      "championnat": "La Liga 2 - Spain",
+      "sport_key": "soccer_spain_segunda_division",
+      "home_team": "Granada CF",
+      "away_team": "Real Valladolid CF",
+      "event_id": "6de4fc21bdcbf78109439aa1d52c3982",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "20h00",
+      "championnat": "Dutch Eredivisie",
+      "sport_key": "soccer_netherlands_eredivisie",
+      "home_team": "Go Ahead Eagles",
+      "away_team": "SC Telstar",
+      "event_id": "2aaa3f2dadf2de70597d93754542635e",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "20h45",
+      "championnat": "Belgium First Div",
+      "sport_key": "soccer_belgium_first_div",
+      "home_team": "KV Kortrijk",
+      "away_team": "KV Mechelen",
+      "event_id": "fb7fa74f609137bf1a233b57cd6d0c9f",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "21h45",
+      "championnat": "Primeira Liga - Portugal",
+      "sport_key": "soccer_portugal_primeira_liga",
+      "home_team": "Vitória SC",
+      "away_team": "CS Maritimo",
+      "event_id": "629ee06c459b20ed4d8beb8ad3bf23b9",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "19h00",
+      "championnat": "Turkey Super League",
+      "sport_key": "soccer_turkey_super_league",
+      "home_team": "Alanyaspor",
+      "away_team": "Kocaelispor",
+      "event_id": "81bfedfcca305af30f0f7cb7a739c878",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    }
+  ],
+  "grosses_cotes": {
+    "combine": null,
+    "simples": []
+  },
+  "yesterday": {
+    "date": "2026-10-22",
+    "resolved": [],
+    "grosses_cotes": {
+      "combine": null,
+      "simples": []
+    },
+    "wins": 0,
+    "losses": 0,
+    "total": 0,
+    "win_rate": null
+  }
+}
