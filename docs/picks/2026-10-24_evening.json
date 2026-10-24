@@ -1,0 +1,143 @@
+{
+  "date": "2026-10-24",
+  "type": "evening",
+  "generated_at": "2026-10-24T19:32:59+02:00",
+  "picks": [
+    {
+      "sport": "⚽ Football",
+      "heure": "20h45",
+      "championnat": "Ligue 1 - France",
+      "sport_key": "soccer_france_ligue_one",
+      "home_team": "RC Lens",
+      "away_team": "Paris FC",
+      "event_id": "fc6c50376190b578cfeb38c029db8487",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "20h45",
+      "championnat": "Ligue 2 - France",
+      "sport_key": "soccer_france_ligue_two",
+      "home_team": "Saint Etienne",
+      "away_team": "Nantes",
+      "event_id": "77d87476bbd8635c2eecc94228636ab4",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "20h30",
+      "championnat": "Bundesliga 2 - Germany",
+      "sport_key": "soccer_germany_bundesliga2",
+      "home_team": "1. FC Nürnberg",
+      "away_team": "1. FC Kaiserslautern",
+      "event_id": "717fb513af59181c0579820a3bc6b58a",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "20h45",
+      "championnat": "Serie A - Italy",
+      "sport_key": "soccer_italy_serie_a",
+      "home_team": "Lazio",
+      "away_team": "Parma",
+      "event_id": "b27cb3ea731fa3f18d05e6a627bdf984",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "21h00",
+      "championnat": "La Liga - Spain",
+      "sport_key": "soccer_spain_la_liga",
+      "home_team": "Atlético Madrid",
+      "away_team": "Deportivo La Coruña",
+      "event_id": "70df1835c3b5ddff1c99e0189532136b",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "21h00",
+      "championnat": "La Liga 2 - Spain",
+      "sport_key": "soccer_spain_segunda_division",
+      "home_team": "Almería",
+      "away_team": "Oviedo",
+      "event_id": "c11a0d5062867511a8dd2d5c71a9876f",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "21h00",
+      "championnat": "Dutch Eredivisie",
+      "sport_key": "soccer_netherlands_eredivisie",
+      "home_team": "ADO Den Haag",
+      "away_team": "Heerenveen",
+      "event_id": "37b2e2ce6ac958b456f8b82543199993",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "20h45",
+      "championnat": "Belgium First Div",
+      "sport_key": "soccer_belgium_first_div",
+      "home_team": "RAAL La Louvière",
+      "away_team": "SV Zulte-Waregem",
+      "event_id": "3df8b7b32387782e62875983921a9fd7",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "20h45",
+      "championnat": "Belgium First Div",
+      "sport_key": "soccer_belgium_first_div",
+      "home_team": "Westerlo",
+      "away_team": "SK Beveren",
+      "event_id": "3ed7a9307111bc1128b45bcd285b3205",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "21h30",
+      "championnat": "Primeira Liga - Portugal",
+      "sport_key": "soccer_portugal_primeira_liga",
+      "home_team": "Gil Vicente",
+      "away_team": "FC Porto",
+      "event_id": "2fdd5b6eaa94bcdf2f61444eef54b645",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    }
+  ],
+  "grosses_cotes": {
+    "combine": null,
+    "simples": []
+  },
+  "yesterday": {
+    "date": "2026-10-23",
+    "resolved": [],
+    "grosses_cotes": {
+      "combine": null,
+      "simples": []
+    },
+    "wins": 0,
+    "losses": 0,
+    "total": 0,
+    "win_rate": null
+  }
+}
