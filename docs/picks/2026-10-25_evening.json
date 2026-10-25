@@ -1,0 +1,107 @@
+{
+  "date": "2026-10-25",
+  "type": "evening",
+  "generated_at": "2026-10-25T18:48:03+01:00",
+  "picks": [
+    {
+      "sport": "⚽ Football",
+      "heure": "20h45",
+      "championnat": "Serie A - Italy",
+      "sport_key": "soccer_italy_serie_a",
+      "home_team": "Udinese",
+      "away_team": "AC Milan",
+      "event_id": "3564688383b255192409c9deb8e526ed",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "21h00",
+      "championnat": "La Liga - Spain",
+      "sport_key": "soccer_spain_la_liga",
+      "home_team": "Barcelona",
+      "away_team": "Real Madrid",
+      "event_id": "72089d103a5fe6a922c35e17efba6ffc",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "20h00",
+      "championnat": "Dutch Eredivisie",
+      "sport_key": "soccer_netherlands_eredivisie",
+      "home_team": "AZ Alkmaar",
+      "away_team": "FC Twente Enschede",
+      "event_id": "b435848f58054cad7d3fad610a96c4b5",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "19h15",
+      "championnat": "Belgium First Div",
+      "sport_key": "soccer_belgium_first_div",
+      "home_team": "Union Saint-Gilloise",
+      "away_team": "Cercle Brugge KSV",
+      "event_id": "7a6b3911132caecf83a04948fa6f7d43",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "19h00",
+      "championnat": "Primeira Liga - Portugal",
+      "sport_key": "soccer_portugal_primeira_liga",
+      "home_team": "Nacional",
+      "away_team": "Braga",
+      "event_id": "070aa87111dbdfdcb504340fe440e63f",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "19h00",
+      "championnat": "Primeira Liga - Portugal",
+      "sport_key": "soccer_portugal_primeira_liga",
+      "home_team": "Rio Ave FC",
+      "away_team": "Famalicão",
+      "event_id": "fa1bd8d92c7780ff1ebb56219fcb6ea6",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "21h30",
+      "championnat": "Primeira Liga - Portugal",
+      "sport_key": "soccer_portugal_primeira_liga",
+      "home_team": "Sporting Lisbon",
+      "away_team": "Académico de Viseu",
+      "event_id": "9b60d2e564e8761e9ec267bd7baf6998",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    }
+  ],
+  "grosses_cotes": {
+    "combine": null,
+    "simples": []
+  },
+  "yesterday": {
+    "date": "2026-10-24",
+    "resolved": [],
+    "grosses_cotes": {
+      "combine": null,
+      "simples": []
+    },
+    "wins": 0,
+    "losses": 0,
+    "total": 0,
+    "win_rate": null
+  }
+}
