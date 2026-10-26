@@ -1,0 +1,143 @@
+{
+  "date": "2026-10-26",
+  "type": "morning",
+  "generated_at": "2026-10-26T08:08:36+01:00",
+  "picks": [
+    {
+      "sport": "⚽ Football",
+      "heure": "21h00",
+      "championnat": "League 2",
+      "sport_key": "soccer_england_league2",
+      "home_team": "Walsall",
+      "away_team": "Salford City",
+      "event_id": "e4e4d2fae5b64bc4640c03ed5b4041a1",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "20h30",
+      "championnat": "Ligue 1 - France",
+      "sport_key": "soccer_france_ligue_one",
+      "home_team": "Paris Saint Germain",
+      "away_team": "Lyon",
+      "event_id": "8664b2167f22c59026d86615421463b1",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "20h45",
+      "championnat": "Ligue 2 - France",
+      "sport_key": "soccer_france_ligue_two",
+      "home_team": "Boulogne",
+      "away_team": "Stade de Reims",
+      "event_id": "0c3b63e47c44d0a7e5573743413fc2d9",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "20h45",
+      "championnat": "Ligue 2 - France",
+      "sport_key": "soccer_france_ligue_two",
+      "home_team": "Montpellier",
+      "away_team": "Red Star",
+      "event_id": "60623206ddc61d2881beb6e38169fcac",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "21h00",
+      "championnat": "La Liga - Spain",
+      "sport_key": "soccer_spain_la_liga",
+      "home_team": "Sevilla",
+      "away_team": "CA Osasuna",
+      "event_id": "85e464708d03287f24590e1478aeca31",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "20h30",
+      "championnat": "La Liga 2 - Spain",
+      "sport_key": "soccer_spain_segunda_division",
+      "home_team": "Andorra CF",
+      "away_team": "Burgos CF",
+      "event_id": "c11380ae8c4a17f15b0b2946719b79e0",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "19h45",
+      "championnat": "Primeira Liga - Portugal",
+      "sport_key": "soccer_portugal_primeira_liga",
+      "home_team": "Santa Clara",
+      "away_team": "Benfica",
+      "event_id": "7f4d1fc269584543a305935a2d3552fd",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "17h00",
+      "championnat": "Turkey Super League",
+      "sport_key": "soccer_turkey_super_league",
+      "home_team": "Besiktas JK",
+      "away_team": "Basaksehir",
+      "event_id": "54ecd2cf77168d62e84f2fd5ccc54a82",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "17h00",
+      "championnat": "Turkey Super League",
+      "sport_key": "soccer_turkey_super_league",
+      "home_team": "Çaykur Rizespor",
+      "away_team": "Trabzonspor",
+      "event_id": "e1c9aa56abe5e911eb57403d78376270",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "19h30",
+      "championnat": "Turkey Super League",
+      "sport_key": "soccer_turkey_super_league",
+      "home_team": "Galatasaray",
+      "away_team": "Fenerbahce",
+      "event_id": "a05d15a5f230d25da72b18dc92084f8f",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    }
+  ],
+  "grosses_cotes": {
+    "combine": null,
+    "simples": []
+  },
+  "yesterday": {
+    "date": "2026-10-25",
+    "resolved": [],
+    "grosses_cotes": {
+      "combine": null,
+      "simples": []
+    },
+    "wins": 0,
+    "losses": 0,
+    "total": 0,
+    "win_rate": null
+  }
+}
