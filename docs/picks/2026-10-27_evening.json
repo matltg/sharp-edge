@@ -1,0 +1,119 @@
+{
+  "date": "2026-10-27",
+  "type": "evening",
+  "generated_at": "2026-10-27T20:35:41+01:00",
+  "picks": [
+    {
+      "sport": "⚽ Football",
+      "heure": "20h45",
+      "championnat": "League 1",
+      "sport_key": "soccer_england_league1",
+      "home_team": "Milton Keynes Dons",
+      "away_team": "Bromley FC",
+      "event_id": "30d8903f431818cfb50bdfc28abc54eb",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "20h45",
+      "championnat": "League 1",
+      "sport_key": "soccer_england_league1",
+      "home_team": "Sheffield Wednesday",
+      "away_team": "Cambridge United",
+      "event_id": "e82ade3b75624a69f794df84509d6668",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "20h45",
+      "championnat": "League 1",
+      "sport_key": "soccer_england_league1",
+      "home_team": "Luton",
+      "away_team": "Doncaster Rovers",
+      "event_id": "01620020a22c2b46d4745a0b4c72ac86",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "20h45",
+      "championnat": "League 1",
+      "sport_key": "soccer_england_league1",
+      "home_team": "Leicester City",
+      "away_team": "Wigan Athletic",
+      "event_id": "23d617f9a84db80f7827f266b06e0871",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "20h45",
+      "championnat": "League 1",
+      "sport_key": "soccer_england_league1",
+      "home_team": "Oxford United",
+      "away_team": "Stockport County FC",
+      "event_id": "9e3c8bd5c13372deff55d8552f305141",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "20h45",
+      "championnat": "League 2",
+      "sport_key": "soccer_england_league2",
+      "home_team": "Barnet",
+      "away_team": "York City",
+      "event_id": "2b038a038ac55754685352e14e41a11c",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "20h45",
+      "championnat": "Serie A - Italy",
+      "sport_key": "soccer_italy_serie_a",
+      "home_team": "AS Roma",
+      "away_team": "Cagliari",
+      "event_id": "7eecf109ae6a5f87441a79b0e4111982",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "20h45",
+      "championnat": "Serie A - Italy",
+      "sport_key": "soccer_italy_serie_a",
+      "home_team": "Torino",
+      "away_team": "Como",
+      "event_id": "7d989a0a7bae47eb957731e97c5bd9c1",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    }
+  ],
+  "grosses_cotes": {
+    "combine": null,
+    "simples": []
+  },
+  "yesterday": {
+    "date": "2026-10-26",
+    "resolved": [],
+    "grosses_cotes": {
+      "combine": null,
+      "simples": []
+    },
+    "wins": 0,
+    "losses": 0,
+    "total": 0,
+    "win_rate": null
+  }
+}
