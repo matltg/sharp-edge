@@ -1,0 +1,47 @@
+{
+  "date": "2026-10-29",
+  "type": "morning",
+  "generated_at": "2026-10-29T09:53:35+01:00",
+  "picks": [
+    {
+      "sport": "⚽ Football",
+      "heure": "18h30",
+      "championnat": "Serie A - Italy",
+      "sport_key": "soccer_italy_serie_a",
+      "home_team": "Frosinone",
+      "away_team": "Lecce",
+      "event_id": "667cf69986b200753742c90cb9c5126c",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "20h45",
+      "championnat": "Serie A - Italy",
+      "sport_key": "soccer_italy_serie_a",
+      "home_team": "Fiorentina",
+      "away_team": "Atalanta BC",
+      "event_id": "da159a6b84dbb548b4d7b94c722caac5",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    }
+  ],
+  "grosses_cotes": {
+    "combine": null,
+    "simples": []
+  },
+  "yesterday": {
+    "date": "2026-10-28",
+    "resolved": [],
+    "grosses_cotes": {
+      "combine": null,
+      "simples": []
+    },
+    "wins": 0,
+    "losses": 0,
+    "total": 0,
+    "win_rate": null
+  }
+}
