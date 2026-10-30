@@ -1,0 +1,227 @@
+{
+  "date": "2026-10-30",
+  "type": "morning",
+  "generated_at": "2026-10-30T09:57:43+01:00",
+  "picks": [
+    {
+      "sport": "⚽ Football",
+      "heure": "21h00",
+      "championnat": "Championship",
+      "sport_key": "soccer_efl_champ",
+      "home_team": "Sheffield United",
+      "away_team": "Wrexham AFC",
+      "event_id": "db9a80e16dd6db2b7b21b1a082f2095f",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "20h45",
+      "championnat": "League 2",
+      "sport_key": "soccer_england_league2",
+      "home_team": "Newport County",
+      "away_team": "Chesterfield FC",
+      "event_id": "815730bc93811bc56d4c264465fcd2ed",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "19h00",
+      "championnat": "Ligue 1 - France",
+      "sport_key": "soccer_france_ligue_one",
+      "home_team": "Le Havre",
+      "away_team": "Paris Saint Germain",
+      "event_id": "9a9f6c78276f74f15f42b013b033aa5d",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "19h00",
+      "championnat": "Ligue 1 - France",
+      "sport_key": "soccer_france_ligue_one",
+      "home_team": "Nice",
+      "away_team": "Rennes",
+      "event_id": "a547720e6b4661d6319c4f11dbdf8e1f",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "21h05",
+      "championnat": "Ligue 1 - France",
+      "sport_key": "soccer_france_ligue_one",
+      "home_team": "Lille",
+      "away_team": "RC Lens",
+      "event_id": "7932d9a82dcdb164a3e4ef5e03694ee3",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "20h00",
+      "championnat": "Ligue 2 - France",
+      "sport_key": "soccer_france_ligue_two",
+      "home_team": "Stade Lavallois",
+      "away_team": "Boulogne",
+      "event_id": "7a168c54eaa3028bae38f55f506f057d",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "20h00",
+      "championnat": "Ligue 2 - France",
+      "sport_key": "soccer_france_ligue_two",
+      "home_team": "Nantes",
+      "away_team": "Clermont",
+      "event_id": "bfd053c48c0794c8f76984487fc59d00",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "20h00",
+      "championnat": "Ligue 2 - France",
+      "sport_key": "soccer_france_ligue_two",
+      "home_team": "Grenoble",
+      "away_team": "Dijon",
+      "event_id": "a13ca7dc0924c4b0d8456aeb7ec24f44",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "20h00",
+      "championnat": "Ligue 2 - France",
+      "sport_key": "soccer_france_ligue_two",
+      "home_team": "Metz",
+      "away_team": "Pau FC",
+      "event_id": "8bed50cc2a485a98f2f2d3831136107d",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "20h00",
+      "championnat": "Ligue 2 - France",
+      "sport_key": "soccer_france_ligue_two",
+      "home_team": "Rodez AF",
+      "away_team": "USL Dunkerque",
+      "event_id": "e136cba02f5655265d5b3837271341ea",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "20h30",
+      "championnat": "Bundesliga - Germany",
+      "sport_key": "soccer_germany_bundesliga",
+      "home_team": "Elversberg",
+      "away_team": "FSV Mainz 05",
+      "event_id": "b275fe870ec88a9f0054c9220beb2673",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "18h30",
+      "championnat": "Bundesliga 2 - Germany",
+      "sport_key": "soccer_germany_bundesliga2",
+      "home_team": "Arminia Bielefeld",
+      "away_team": "Eintracht Braunschweig",
+      "event_id": "317d363207bc2f45566787c1009fe41d",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "18h30",
+      "championnat": "Bundesliga 2 - Germany",
+      "sport_key": "soccer_germany_bundesliga2",
+      "home_team": "FC Energie Cottbus",
+      "away_team": "VfL Bochum",
+      "event_id": "b19bd164126ff5704efbad2a57562ec7",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "21h00",
+      "championnat": "La Liga - Spain",
+      "sport_key": "soccer_spain_la_liga",
+      "home_team": "Villarreal",
+      "away_team": "Espanyol",
+      "event_id": "00b03cb40c27ed23e2ecb18f062a5122",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "20h45",
+      "championnat": "Belgium First Div",
+      "sport_key": "soccer_belgium_first_div",
+      "home_team": "SV Zulte-Waregem",
+      "away_team": "Club Brugge",
+      "event_id": "2dd4ff7c9aef0d27f3f30acf413dfa8b",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "21h15",
+      "championnat": "Primeira Liga - Portugal",
+      "sport_key": "soccer_portugal_primeira_liga",
+      "home_team": "Casa Pia",
+      "away_team": "Sporting Lisbon",
+      "event_id": "75daf3f21fd7945dcc4215b1fe8a5da3",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "18h00",
+      "championnat": "Turkey Super League",
+      "sport_key": "soccer_turkey_super_league",
+      "home_team": "Torku Konyaspor",
+      "away_team": "Galatasaray",
+      "event_id": "feb03ec355aa5c94e0d7ae612a59b813",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    }
+  ],
+  "grosses_cotes": {
+    "combine": null,
+    "simples": []
+  },
+  "yesterday": {
+    "date": "2026-10-29",
+    "resolved": [],
+    "grosses_cotes": {
+      "combine": null,
+      "simples": []
+    },
+    "wins": 0,
+    "losses": 0,
+    "total": 0,
+    "win_rate": null
+  }
+}
