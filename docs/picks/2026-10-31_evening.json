@@ -1,0 +1,167 @@
+{
+  "date": "2026-10-31",
+  "type": "evening",
+  "generated_at": "2026-10-31T19:42:40+01:00",
+  "picks": [
+    {
+      "sport": "⚽ Football",
+      "heure": "21h00",
+      "championnat": "EPL",
+      "sport_key": "soccer_epl",
+      "home_team": "Aston Villa",
+      "away_team": "Fulham",
+      "event_id": "640c52a86289f35698261b41987dd71e",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "20h45",
+      "championnat": "Ligue 1 - France",
+      "sport_key": "soccer_france_ligue_one",
+      "home_team": "Troyes",
+      "away_team": "Le Mans FC",
+      "event_id": "75cf0c0e471877a0bfa95d689d0f0325",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "20h00",
+      "championnat": "Ligue 2 - France",
+      "sport_key": "soccer_france_ligue_two",
+      "home_team": "Guingamp",
+      "away_team": "Saint Etienne",
+      "event_id": "d0a2d8c2bd1ed36bc7fd3ea7403a4c52",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "20h30",
+      "championnat": "Bundesliga 2 - Germany",
+      "sport_key": "soccer_germany_bundesliga2",
+      "home_team": "Karlsruher SC",
+      "away_team": "1. FC Heidenheim",
+      "event_id": "cb9bba33b73da7b7cd23275d083d0572",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "20h45",
+      "championnat": "Serie A - Italy",
+      "sport_key": "soccer_italy_serie_a",
+      "home_team": "AC Milan",
+      "away_team": "Inter Milan",
+      "event_id": "e82f25e981f2ebc731cfaf5716231af5",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "21h00",
+      "championnat": "La Liga - Spain",
+      "sport_key": "soccer_spain_la_liga",
+      "home_team": "Barcelona",
+      "away_team": "Alavés",
+      "event_id": "2db2b55e71574a19ff0557898d3e9933",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "21h00",
+      "championnat": "La Liga 2 - Spain",
+      "sport_key": "soccer_spain_segunda_division",
+      "home_team": "Albacete",
+      "away_team": "Sabadell FC",
+      "event_id": "03c05b54a0eaecd0ecb96eed5f3cbbbe",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "21h00",
+      "championnat": "Dutch Eredivisie",
+      "sport_key": "soccer_netherlands_eredivisie",
+      "home_team": "Ajax",
+      "away_team": "AZ Alkmaar",
+      "event_id": "43ebf45469e32887fe9caff703c94ae6",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "21h00",
+      "championnat": "Dutch Eredivisie",
+      "sport_key": "soccer_netherlands_eredivisie",
+      "home_team": "SC Cambuur",
+      "away_team": "Go Ahead Eagles",
+      "event_id": "314c3b27fe569849986fdd2d013d1aca",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "20h45",
+      "championnat": "Belgium First Div",
+      "sport_key": "soccer_belgium_first_div",
+      "home_team": "Anderlecht",
+      "away_team": "Westerlo",
+      "event_id": "d8134f341b5464b458a313342d178d43",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "20h45",
+      "championnat": "Belgium First Div",
+      "sport_key": "soccer_belgium_first_div",
+      "home_team": "SK Beveren",
+      "away_team": "Union Saint-Gilloise",
+      "event_id": "58c68450fcf69bf88e944dd7177f9104",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "21h30",
+      "championnat": "Primeira Liga - Portugal",
+      "sport_key": "soccer_portugal_primeira_liga",
+      "home_team": "FC Porto",
+      "away_team": "Estoril",
+      "event_id": "60352ce6c1b34bca7b294edae8aa388b",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    }
+  ],
+  "grosses_cotes": {
+    "combine": null,
+    "simples": []
+  },
+  "yesterday": {
+    "date": "2026-10-30",
+    "resolved": [],
+    "grosses_cotes": {
+      "combine": null,
+      "simples": []
+    },
+    "wins": 0,
+    "losses": 0,
+    "total": 0,
+    "win_rate": null
+  }
+}
