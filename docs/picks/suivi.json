@@ -9189,5 +9189,77 @@
   "proba": 44.1,
   "etoiles": 1,
   "result": "loss"
+ },
+ {
+  "date": "2026-11-09",
+  "event_id": "7bfc2afc162934f011a8425159e340da",
+  "championnat": "La Liga 2 - Spain",
+  "match": "Las Palmas – CD Eldense",
+  "side": "Over",
+  "pari": "Over 1.5 buts",
+  "cote": 1.23,
+  "proba": 79.1,
+  "etoiles": 2,
+  "result": "win"
+ },
+ {
+  "date": "2026-11-09",
+  "event_id": "7bfc2afc162934f011a8425159e340da",
+  "championnat": "La Liga 2 - Spain",
+  "match": "Las Palmas – CD Eldense",
+  "side": "Under",
+  "pari": "Under 3.5 buts",
+  "cote": 1.4,
+  "proba": 68.7,
+  "etoiles": 2,
+  "result": "win"
+ },
+ {
+  "date": "2026-11-09",
+  "event_id": "f52b83a74c511828f6155889d751d191",
+  "championnat": "La Liga 2 - Spain",
+  "match": "Sabadell FC – Real Sociedad B",
+  "side": "Over",
+  "pari": "Over 1.5 buts",
+  "cote": 1.32,
+  "proba": 73.1,
+  "etoiles": 2,
+  "result": "loss"
+ },
+ {
+  "date": "2026-11-09",
+  "event_id": "f52b83a74c511828f6155889d751d191",
+  "championnat": "La Liga 2 - Spain",
+  "match": "Sabadell FC – Real Sociedad B",
+  "side": "Under",
+  "pari": "Under 3.5 buts",
+  "cote": 1.29,
+  "proba": 74.7,
+  "etoiles": 2,
+  "result": "win"
+ },
+ {
+  "date": "2026-11-09",
+  "event_id": "f52b83a74c511828f6155889d751d191",
+  "championnat": "La Liga 2 - Spain",
+  "match": "Sabadell FC – Real Sociedad B",
+  "side": "Cote 2–3",
+  "pari": "Over 2.5 buts",
+  "cote": 2.0,
+  "proba": 47.2,
+  "etoiles": 2,
+  "result": "loss"
+ },
+ {
+  "date": "2026-11-09",
+  "event_id": "7bfc2afc162934f011a8425159e340da",
+  "championnat": "La Liga 2 - Spain",
+  "match": "Las Palmas – CD Eldense",
+  "side": "Cote 2–3",
+  "pari": "Under 2.5 buts",
+  "cote": 2.02,
+  "proba": 45.5,
+  "etoiles": 1,
+  "result": "win"
  }
 ]

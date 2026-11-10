@@ -1,0 +1,160 @@
+{
+  "date": "2026-11-10",
+  "type": "morning",
+  "generated_at": "2026-11-10T11:20:10+01:00",
+  "picks": [],
+  "grosses_cotes": {
+    "combine": null,
+    "simples": []
+  },
+  "yesterday": {
+    "date": "2026-11-09",
+    "resolved": [
+      {
+        "sport": "⚽ Football",
+        "heure": "20h30",
+        "championnat": "La Liga 2 - Spain",
+        "sport_key": "soccer_spain_segunda_division",
+        "home_team": "Las Palmas",
+        "away_team": "CD Eldense",
+        "event_id": "7bfc2afc162934f011a8425159e340da",
+        "paris": [
+          {
+            "side": "Over",
+            "line": 1.5,
+            "pari": "Over 1.5 buts",
+            "cote": 1.23,
+            "cote_source": "moyenne de 2 bookmakers",
+            "proba": 79.1,
+            "proba_source": "moyenne de 2 bookmakers",
+            "proba_modele": 77.9,
+            "historique": "79% (n=8665)",
+            "valeur": -2.7,
+            "score": -3.1,
+            "etoiles": 2,
+            "note": "Faible",
+            "result": "win"
+          },
+          {
+            "side": "Under",
+            "line": 3.5,
+            "pari": "Under 3.5 buts",
+            "cote": 1.4,
+            "cote_source": "moyenne de 2 bookmakers",
+            "proba": 68.7,
+            "proba_source": "moyenne de 2 bookmakers",
+            "proba_modele": 67.8,
+            "historique": "68% (n=6606)",
+            "valeur": -3.8,
+            "score": -4.8,
+            "etoiles": 2,
+            "note": "Faible",
+            "result": "win"
+          }
+        ],
+        "etoiles": 2,
+        "proba": 79.1,
+        "score_final": "2–0",
+        "result": "win",
+        "result_label": "Score 2–0"
+      },
+      {
+        "sport": "⚽ Football",
+        "heure": "20h30",
+        "championnat": "La Liga 2 - Spain",
+        "sport_key": "soccer_spain_segunda_division",
+        "home_team": "Sabadell FC",
+        "away_team": "Real Sociedad B",
+        "event_id": "f52b83a74c511828f6155889d751d191",
+        "paris": [
+          {
+            "side": "Over",
+            "line": 1.5,
+            "pari": "Over 1.5 buts",
+            "cote": 1.32,
+            "cote_source": "moyenne de 3 bookmakers",
+            "proba": 73.1,
+            "proba_source": "Pinnacle",
+            "proba_modele": 72.5,
+            "historique": "72% (n=10336)",
+            "valeur": -3.5,
+            "score": -4.5,
+            "etoiles": 2,
+            "note": "Faible",
+            "result": "loss"
+          },
+          {
+            "side": "Under",
+            "line": 3.5,
+            "pari": "Under 3.5 buts",
+            "cote": 1.29,
+            "cote_source": "moyenne de 2 bookmakers",
+            "proba": 74.7,
+            "proba_source": "Pinnacle",
+            "proba_modele": 74.4,
+            "historique": "75% (n=8870)",
+            "valeur": -3.6,
+            "score": -3.4,
+            "etoiles": 2,
+            "note": "Faible",
+            "result": "win"
+          }
+        ],
+        "etoiles": 2,
+        "proba": 74.7,
+        "score_final": "0–0",
+        "result": "win",
+        "result_label": "Score 0–0"
+      }
+    ],
+    "grosses_cotes": {
+      "combine": null,
+      "simples": [
+        {
+          "event_id": "f52b83a74c511828f6155889d751d191",
+          "heure": "20h30",
+          "championnat": "La Liga 2 - Spain",
+          "match": "Sabadell FC – Real Sociedad B",
+          "side": "Over",
+          "line": 2.5,
+          "pari": "Over 2.5 buts",
+          "cote": 2.0,
+          "cote_source": "moyenne de 3 bookmakers",
+          "proba": 47.2,
+          "proba_source": "Pinnacle",
+          "proba_modele": 47.2,
+          "historique": "48% (n=8063)",
+          "valeur": -5.6,
+          "score": -3.9,
+          "etoiles": 2,
+          "note": "Faible",
+          "result": "loss"
+        },
+        {
+          "event_id": "7bfc2afc162934f011a8425159e340da",
+          "heure": "20h30",
+          "championnat": "La Liga 2 - Spain",
+          "match": "Las Palmas – CD Eldense",
+          "side": "Under",
+          "line": 2.5,
+          "pari": "Under 2.5 buts",
+          "cote": 2.02,
+          "cote_source": "moyenne de 2 bookmakers",
+          "proba": 45.5,
+          "proba_source": "moyenne de 2 bookmakers",
+          "proba_modele": 45.5,
+          "historique": "45% (n=6152)",
+          "valeur": -8.1,
+          "score": -9.1,
+          "etoiles": 1,
+          "note": "À éviter",
+          "result": "win"
+        }
+      ]
+    },
+    "wins": 3,
+    "losses": 1,
+    "total": 4,
+    "win_rate": 75.0
+  }
+}
