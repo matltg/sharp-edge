@@ -1,0 +1,22 @@
+{
+  "date": "2026-11-12",
+  "type": "morning",
+  "generated_at": "2026-11-12T11:14:35+01:00",
+  "picks": [],
+  "grosses_cotes": {
+    "combine": null,
+    "simples": []
+  },
+  "yesterday": {
+    "date": "2026-11-11",
+    "resolved": [],
+    "grosses_cotes": {
+      "combine": null,
+      "simples": []
+    },
+    "wins": 0,
+    "losses": 0,
+    "total": 0,
+    "win_rate": null
+  }
+}
