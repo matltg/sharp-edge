@@ -1,0 +1,86 @@
+{
+  "date": "2026-11-13",
+  "type": "morning",
+  "generated_at": "2026-11-13T10:56:19+01:00",
+  "picks": [
+    {
+      "sport": "⚽ Football",
+      "heure": "20h30",
+      "championnat": "La Liga 2 - Spain",
+      "sport_key": "soccer_spain_segunda_division",
+      "home_team": "Leganés",
+      "away_team": "Burgos CF",
+      "event_id": "fed29050dc7e99c7dd6b3b4580f142b7",
+      "paris": [
+        {
+          "side": "Over",
+          "line": 1.5,
+          "pari": "Over 1.5 buts",
+          "cote": 1.4,
+          "cote_source": "moyenne de 4 bookmakers",
+          "proba": 69.3,
+          "proba_source": "Pinnacle",
+          "proba_modele": 67.4,
+          "historique": "68% (n=6217)",
+          "valeur": -3.0,
+          "score": -4.8,
+          "etoiles": 2,
+          "note": "Faible"
+        },
+        {
+          "side": "Under",
+          "line": 3.5,
+          "pari": "Under 3.5 buts",
+          "cote": 1.22,
+          "cote_source": "moyenne de 3 bookmakers",
+          "proba": 80.0,
+          "proba_source": "Pinnacle",
+          "proba_modele": 79.5,
+          "historique": "80% (n=6583)",
+          "valeur": -2.4,
+          "score": -3.0,
+          "etoiles": 2,
+          "note": "Faible"
+        }
+      ],
+      "etoiles": 2,
+      "proba": 80.0
+    }
+  ],
+  "grosses_cotes": {
+    "combine": null,
+    "simples": [
+      {
+        "event_id": "fed29050dc7e99c7dd6b3b4580f142b7",
+        "heure": "20h30",
+        "championnat": "La Liga 2 - Spain",
+        "match": "Leganés – Burgos CF",
+        "side": "Over",
+        "line": 2.5,
+        "pari": "Over 2.5 buts",
+        "cote": 2.24,
+        "cote_source": "moyenne de 4 bookmakers",
+        "proba": 41.0,
+        "proba_source": "Pinnacle",
+        "proba_modele": 41.0,
+        "historique": "41% (n=5460)",
+        "valeur": -8.2,
+        "score": -7.9,
+        "etoiles": 1,
+        "note": "À éviter"
+      }
+    ]
+  },
+  "yesterday": {
+    "date": "2026-11-12",
+    "resolved": [],
+    "grosses_cotes": {
+      "combine": null,
+      "simples": []
+    },
+    "wins": 0,
+    "losses": 0,
+    "total": 0,
+    "win_rate": null
+  }
+}
