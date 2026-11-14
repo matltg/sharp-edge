@@ -9261,5 +9261,29 @@
   "proba": 45.5,
   "etoiles": 1,
   "result": "win"
+ },
+ {
+  "date": "2026-11-13",
+  "event_id": "fed29050dc7e99c7dd6b3b4580f142b7",
+  "championnat": "La Liga 2 - Spain",
+  "match": "Leganés – Burgos CF",
+  "side": "Over",
+  "pari": "Over 1.5 buts",
+  "cote": 1.4,
+  "proba": 69.3,
+  "etoiles": 2,
+  "result": "win"
+ },
+ {
+  "date": "2026-11-13",
+  "event_id": "fed29050dc7e99c7dd6b3b4580f142b7",
+  "championnat": "La Liga 2 - Spain",
+  "match": "Leganés – Burgos CF",
+  "side": "Under",
+  "pari": "Under 3.5 buts",
+  "cote": 1.22,
+  "proba": 80.0,
+  "etoiles": 2,
+  "result": "loss"
  }
 ]
