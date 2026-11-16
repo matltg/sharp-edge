@@ -1,0 +1,248 @@
+{
+  "date": "2026-11-16",
+  "type": "morning",
+  "generated_at": "2026-11-16T11:08:30+01:00",
+  "picks": [
+    {
+      "sport": "⚽ Football",
+      "heure": "20h30",
+      "championnat": "La Liga 2 - Spain",
+      "sport_key": "soccer_spain_segunda_division",
+      "home_team": "Albacete",
+      "away_team": "Celta Fortuna",
+      "event_id": "c52bb6ace02b521be96df8fba8806037",
+      "paris": [
+        {
+          "side": "Under",
+          "line": 3.5,
+          "pari": "Under 3.5 buts",
+          "cote": 1.49,
+          "cote_source": "moyenne de 3 bookmakers",
+          "proba": 64.3,
+          "proba_source": "Pinnacle",
+          "proba_modele": 63.4,
+          "historique": "64% (n=4359)",
+          "valeur": -4.2,
+          "score": -5.0,
+          "etoiles": 1,
+          "note": "À éviter"
+        }
+      ],
+      "etoiles": 1,
+      "proba": 64.3
+    }
+  ],
+  "grosses_cotes": {
+    "combine": null,
+    "simples": [
+      {
+        "event_id": "c52bb6ace02b521be96df8fba8806037",
+        "heure": "20h30",
+        "championnat": "La Liga 2 - Spain",
+        "match": "Albacete – Celta Fortuna",
+        "side": "Over",
+        "line": 3.5,
+        "pari": "Over 3.5 buts",
+        "cote": 2.57,
+        "cote_source": "moyenne de 3 bookmakers",
+        "proba": 35.7,
+        "proba_source": "Pinnacle",
+        "proba_modele": 36.6,
+        "historique": "36% (n=4359)",
+        "valeur": -8.3,
+        "score": -6.8,
+        "etoiles": 1,
+        "note": "À éviter"
+      }
+    ]
+  },
+  "yesterday": {
+    "date": "2026-11-15",
+    "resolved": [
+      {
+        "sport": "⚽ Football",
+        "heure": "18h30",
+        "championnat": "La Liga 2 - Spain",
+        "sport_key": "soccer_spain_segunda_division",
+        "home_team": "SD Eibar",
+        "away_team": "Cádiz CF",
+        "event_id": "12b34c0f22c4208647c5a5472269b735",
+        "paris": [
+          {
+            "side": "Over",
+            "line": 1.5,
+            "pari": "Over 1.5 buts",
+            "cote": 1.23,
+            "cote_source": "moyenne de 4 bookmakers",
+            "proba": 79.1,
+            "proba_source": "Pinnacle",
+            "proba_modele": 78.6,
+            "historique": "79% (n=8161)",
+            "valeur": -2.7,
+            "score": -2.4,
+            "etoiles": 2,
+            "note": "Faible",
+            "result": "win"
+          },
+          {
+            "side": "Under",
+            "line": 3.5,
+            "pari": "Under 3.5 buts",
+            "cote": 1.42,
+            "cote_source": "moyenne de 3 bookmakers",
+            "proba": 68.2,
+            "proba_source": "Pinnacle",
+            "proba_modele": 66.9,
+            "historique": "67% (n=6184)",
+            "valeur": -3.2,
+            "score": -4.5,
+            "etoiles": 2,
+            "note": "Faible",
+            "result": "win"
+          }
+        ],
+        "etoiles": 2,
+        "proba": 79.1,
+        "score_final": "1–1",
+        "result": "win",
+        "result_label": "Score 1–1"
+      },
+      {
+        "sport": "⚽ Football",
+        "heure": "14h00",
+        "championnat": "La Liga 2 - Spain",
+        "sport_key": "soccer_spain_segunda_division",
+        "home_team": "Tenerife",
+        "away_team": "AD Ceuta FC",
+        "event_id": "f241b0cec31506c2eb749ff9be97667c",
+        "paris": [
+          {
+            "side": "Over",
+            "line": 1.5,
+            "pari": "Over 1.5 buts",
+            "cote": 1.29,
+            "cote_source": "moyenne de 4 bookmakers",
+            "proba": 74.7,
+            "proba_source": "Pinnacle",
+            "proba_modele": 74.0,
+            "historique": "74% (n=10062)",
+            "valeur": -3.6,
+            "score": -4.3,
+            "etoiles": 2,
+            "note": "Faible",
+            "result": "win"
+          },
+          {
+            "side": "Under",
+            "line": 3.5,
+            "pari": "Under 3.5 buts",
+            "cote": 1.3,
+            "cote_source": "moyenne de 3 bookmakers",
+            "proba": 73.6,
+            "proba_source": "Pinnacle",
+            "proba_modele": 72.8,
+            "historique": "74% (n=8869)",
+            "valeur": -4.3,
+            "score": -4.4,
+            "etoiles": 2,
+            "note": "Faible",
+            "result": "win"
+          }
+        ],
+        "etoiles": 2,
+        "proba": 74.7,
+        "score_final": "2–0",
+        "result": "win",
+        "result_label": "Score 2–0"
+      },
+      {
+        "sport": "⚽ Football",
+        "heure": "16h15",
+        "championnat": "La Liga 2 - Spain",
+        "sport_key": "soccer_spain_segunda_division",
+        "home_team": "Granada CF",
+        "away_team": "Las Palmas",
+        "event_id": "b8308c8150f5ad55e242d7671adaffbd",
+        "paris": [
+          {
+            "side": "Over",
+            "line": 1.5,
+            "pari": "Over 1.5 buts",
+            "cote": 1.28,
+            "cote_source": "moyenne de 4 bookmakers",
+            "proba": 74.8,
+            "proba_source": "Pinnacle",
+            "proba_modele": 74.0,
+            "historique": "74% (n=10062)",
+            "valeur": -4.3,
+            "score": -5.0,
+            "etoiles": 1,
+            "note": "À éviter",
+            "result": "loss"
+          },
+          {
+            "side": "Under",
+            "line": 3.5,
+            "pari": "Under 3.5 buts",
+            "cote": 1.33,
+            "cote_source": "moyenne de 3 bookmakers",
+            "proba": 72.5,
+            "proba_source": "Pinnacle",
+            "proba_modele": 72.8,
+            "historique": "74% (n=8869)",
+            "valeur": -3.6,
+            "score": -2.3,
+            "etoiles": 2,
+            "note": "Faible",
+            "result": "win"
+          }
+        ],
+        "etoiles": 2,
+        "proba": 72.5,
+        "score_final": "1–0",
+        "result": "win",
+        "result_label": "Score 1–0"
+      },
+      {
+        "sport": "⚽ Football",
+        "heure": "18h30",
+        "championnat": "La Liga 2 - Spain",
+        "sport_key": "soccer_spain_segunda_division",
+        "home_team": "CD Eldense",
+        "away_team": "Sabadell FC",
+        "event_id": "976d20d0bdfd5ebae5800d5ec4f8dedf",
+        "paris": [
+          {
+            "side": "Under",
+            "line": 2.5,
+            "pari": "Under 2.5 buts",
+            "cote": 1.48,
+            "cote_source": "moyenne de 3 bookmakers",
+            "proba": 65.6,
+            "proba_source": "Pinnacle",
+            "proba_modele": 65.6,
+            "historique": "65% (n=1355)",
+            "valeur": -2.9,
+            "score": -3.3,
+            "etoiles": 2,
+            "note": "Faible",
+            "result": "win"
+          }
+        ],
+        "etoiles": 2,
+        "proba": 65.6,
+        "score_final": "2–0",
+        "result": "win",
+        "result_label": "Score 2–0"
+      }
+    ],
+    "grosses_cotes": {
+      "combine": null,
+      "simples": []
+    },
+    "wins": 6,
+    "losses": 1,
+    "total": 7,
+    "win_rate": 85.7
+  }
+}

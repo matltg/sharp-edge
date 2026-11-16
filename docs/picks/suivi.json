@@ -9717,5 +9717,89 @@
   "proba": 81.6,
   "etoiles": 1,
   "result": "loss"
+ },
+ {
+  "date": "2026-11-15",
+  "event_id": "12b34c0f22c4208647c5a5472269b735",
+  "championnat": "La Liga 2 - Spain",
+  "match": "SD Eibar – Cádiz CF",
+  "side": "Over",
+  "pari": "Over 1.5 buts",
+  "cote": 1.23,
+  "proba": 79.1,
+  "etoiles": 2,
+  "result": "win"
+ },
+ {
+  "date": "2026-11-15",
+  "event_id": "12b34c0f22c4208647c5a5472269b735",
+  "championnat": "La Liga 2 - Spain",
+  "match": "SD Eibar – Cádiz CF",
+  "side": "Under",
+  "pari": "Under 3.5 buts",
+  "cote": 1.42,
+  "proba": 68.2,
+  "etoiles": 2,
+  "result": "win"
+ },
+ {
+  "date": "2026-11-15",
+  "event_id": "f241b0cec31506c2eb749ff9be97667c",
+  "championnat": "La Liga 2 - Spain",
+  "match": "Tenerife – AD Ceuta FC",
+  "side": "Over",
+  "pari": "Over 1.5 buts",
+  "cote": 1.29,
+  "proba": 74.7,
+  "etoiles": 2,
+  "result": "win"
+ },
+ {
+  "date": "2026-11-15",
+  "event_id": "f241b0cec31506c2eb749ff9be97667c",
+  "championnat": "La Liga 2 - Spain",
+  "match": "Tenerife – AD Ceuta FC",
+  "side": "Under",
+  "pari": "Under 3.5 buts",
+  "cote": 1.3,
+  "proba": 73.6,
+  "etoiles": 2,
+  "result": "win"
+ },
+ {
+  "date": "2026-11-15",
+  "event_id": "b8308c8150f5ad55e242d7671adaffbd",
+  "championnat": "La Liga 2 - Spain",
+  "match": "Granada CF – Las Palmas",
+  "side": "Over",
+  "pari": "Over 1.5 buts",
+  "cote": 1.28,
+  "proba": 74.8,
+  "etoiles": 1,
+  "result": "loss"
+ },
+ {
+  "date": "2026-11-15",
+  "event_id": "b8308c8150f5ad55e242d7671adaffbd",
+  "championnat": "La Liga 2 - Spain",
+  "match": "Granada CF – Las Palmas",
+  "side": "Under",
+  "pari": "Under 3.5 buts",
+  "cote": 1.33,
+  "proba": 72.5,
+  "etoiles": 2,
+  "result": "win"
+ },
+ {
+  "date": "2026-11-15",
+  "event_id": "976d20d0bdfd5ebae5800d5ec4f8dedf",
+  "championnat": "La Liga 2 - Spain",
+  "match": "CD Eldense – Sabadell FC",
+  "side": "Under",
+  "pari": "Under 2.5 buts",
+  "cote": 1.48,
+  "proba": 65.6,
+  "etoiles": 2,
+  "result": "win"
  }
 ]
