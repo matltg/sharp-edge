@@ -1,0 +1,76 @@
+{
+  "date": "2026-11-17",
+  "type": "evening",
+  "generated_at": "2026-11-17T23:36:28+01:00",
+  "picks": [],
+  "grosses_cotes": {
+    "combine": null,
+    "simples": []
+  },
+  "yesterday": {
+    "date": "2026-11-16",
+    "resolved": [
+      {
+        "sport": "⚽ Football",
+        "heure": "20h30",
+        "championnat": "La Liga 2 - Spain",
+        "sport_key": "soccer_spain_segunda_division",
+        "home_team": "Albacete",
+        "away_team": "Celta Fortuna",
+        "event_id": "c52bb6ace02b521be96df8fba8806037",
+        "paris": [
+          {
+            "side": "Under",
+            "line": 3.5,
+            "pari": "Under 3.5 buts",
+            "cote": 1.49,
+            "cote_source": "moyenne de 3 bookmakers",
+            "proba": 64.3,
+            "proba_source": "Pinnacle",
+            "proba_modele": 63.4,
+            "historique": "64% (n=4359)",
+            "valeur": -4.2,
+            "score": -5.0,
+            "etoiles": 1,
+            "note": "À éviter",
+            "result": "win"
+          }
+        ],
+        "etoiles": 1,
+        "proba": 64.3,
+        "score_final": "1–0",
+        "result": "win",
+        "result_label": "Score 1–0"
+      }
+    ],
+    "grosses_cotes": {
+      "combine": null,
+      "simples": [
+        {
+          "event_id": "c52bb6ace02b521be96df8fba8806037",
+          "heure": "20h30",
+          "championnat": "La Liga 2 - Spain",
+          "match": "Albacete – Celta Fortuna",
+          "side": "Over",
+          "line": 3.5,
+          "pari": "Over 3.5 buts",
+          "cote": 2.57,
+          "cote_source": "moyenne de 3 bookmakers",
+          "proba": 35.7,
+          "proba_source": "Pinnacle",
+          "proba_modele": 36.6,
+          "historique": "36% (n=4359)",
+          "valeur": -8.3,
+          "score": -6.8,
+          "etoiles": 1,
+          "note": "À éviter",
+          "result": "loss"
+        }
+      ]
+    },
+    "wins": 1,
+    "losses": 0,
+    "total": 1,
+    "win_rate": 100.0
+  }
+}
