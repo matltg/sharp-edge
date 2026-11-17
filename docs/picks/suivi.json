@@ -9801,5 +9801,29 @@
   "proba": 65.6,
   "etoiles": 2,
   "result": "win"
+ },
+ {
+  "date": "2026-11-16",
+  "event_id": "c52bb6ace02b521be96df8fba8806037",
+  "championnat": "La Liga 2 - Spain",
+  "match": "Albacete – Celta Fortuna",
+  "side": "Under",
+  "pari": "Under 3.5 buts",
+  "cote": 1.49,
+  "proba": 64.3,
+  "etoiles": 1,
+  "result": "win"
+ },
+ {
+  "date": "2026-11-16",
+  "event_id": "c52bb6ace02b521be96df8fba8806037",
+  "championnat": "La Liga 2 - Spain",
+  "match": "Albacete – Celta Fortuna",
+  "side": "Cote 2–3",
+  "pari": "Over 3.5 buts",
+  "cote": 2.57,
+  "proba": 35.7,
+  "etoiles": 1,
+  "result": "loss"
  }
 ]
