@@ -1,0 +1,71 @@
+{
+  "date": "2026-11-23",
+  "type": "morning",
+  "generated_at": "2026-11-23T12:13:17+01:00",
+  "picks": [
+    {
+      "sport": "⚽ Football",
+      "heure": "21h00",
+      "championnat": "EPL",
+      "sport_key": "soccer_epl",
+      "home_team": "Brentford",
+      "away_team": "Everton",
+      "event_id": "aa77e2a08a1a003b0bbb62a5f8e8ae42",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "20h45",
+      "championnat": "Ligue 2 - France",
+      "sport_key": "soccer_france_ligue_two",
+      "home_team": "Nantes",
+      "away_team": "Grenoble",
+      "event_id": "db2eae8f2ae5bbcd5a5f39470b9e209a",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "20h45",
+      "championnat": "Ligue 2 - France",
+      "sport_key": "soccer_france_ligue_two",
+      "home_team": "Sochaux",
+      "away_team": "USL Dunkerque",
+      "event_id": "87ff23cf75b8a3552d4331f64c818f9c",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "20h45",
+      "championnat": "Serie A - Italy",
+      "sport_key": "soccer_italy_serie_a",
+      "home_team": "Monza",
+      "away_team": "Fiorentina",
+      "event_id": "99776445d5a5f4ed008f9a6d6a1495b7",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    }
+  ],
+  "grosses_cotes": {
+    "combine": null,
+    "simples": []
+  },
+  "yesterday": {
+    "date": "2026-11-22",
+    "resolved": [],
+    "grosses_cotes": {
+      "combine": null,
+      "simples": []
+    },
+    "wins": 0,
+    "losses": 0,
+    "total": 0,
+    "win_rate": null
+  }
+}
