@@ -1,0 +1,179 @@
+{
+  "date": "2026-11-25",
+  "type": "morning",
+  "generated_at": "2026-11-25T12:40:54+01:00",
+  "picks": [
+    {
+      "sport": "⚽ Football",
+      "heure": "20h45",
+      "championnat": "Championship",
+      "sport_key": "soccer_efl_champ",
+      "home_team": "Burnley",
+      "away_team": "Birmingham City",
+      "event_id": "61d1126751ba67227ac2819624e98342",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "20h45",
+      "championnat": "Championship",
+      "sport_key": "soccer_efl_champ",
+      "home_team": "Watford",
+      "away_team": "Blackburn Rovers",
+      "event_id": "0eb7f35d744c1cebeb53be32f50e1e2d",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "20h45",
+      "championnat": "Championship",
+      "sport_key": "soccer_efl_champ",
+      "home_team": "Bolton Wanderers",
+      "away_team": "West Bromwich Albion",
+      "event_id": "9dfe9df3ad88c453e3572872bf500488",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "21h00",
+      "championnat": "Championship",
+      "sport_key": "soccer_efl_champ",
+      "home_team": "Stoke City",
+      "away_team": "Millwall",
+      "event_id": "77dfddf6dea97d5ecb5e2463b29fe67e",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "18h45",
+      "championnat": "UEFA Champions League",
+      "sport_key": "soccer_uefa_champs_league",
+      "home_team": "Sabah FK",
+      "away_team": "Barcelona",
+      "event_id": "e6fa007f93e0cef004be920f96ee95ba",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "18h45",
+      "championnat": "UEFA Champions League",
+      "sport_key": "soccer_uefa_champs_league",
+      "home_team": "Slavia Praha",
+      "away_team": "Villarreal",
+      "event_id": "a7c87fac9e9cbcfc02ad0e0b29ca89e2",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "21h00",
+      "championnat": "UEFA Champions League",
+      "sport_key": "soccer_uefa_champs_league",
+      "home_team": "Paris Saint Germain",
+      "away_team": "AS Roma",
+      "event_id": "14007bc0605bce3bd164b132254ba24c",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "21h00",
+      "championnat": "UEFA Champions League",
+      "sport_key": "soccer_uefa_champs_league",
+      "home_team": "Atlético Madrid",
+      "away_team": "Viking FK",
+      "event_id": "b1af6789fe6db7aab18a2945ce56f035",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "21h00",
+      "championnat": "UEFA Champions League",
+      "sport_key": "soccer_uefa_champs_league",
+      "home_team": "Lille",
+      "away_team": "Bayern Munich",
+      "event_id": "0ee2cfddf20153779cd2cc3e1f1f879f",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "21h00",
+      "championnat": "UEFA Champions League",
+      "sport_key": "soccer_uefa_champs_league",
+      "home_team": "Club Brugge",
+      "away_team": "Liverpool",
+      "event_id": "99459b90f3e732106e09585bf94b36b4",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "21h00",
+      "championnat": "UEFA Champions League",
+      "sport_key": "soccer_uefa_champs_league",
+      "home_team": "Shakhtar Donetsk",
+      "away_team": "Fenerbahce",
+      "event_id": "49c66d76bc4085e63a181179cc47ef4d",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "21h00",
+      "championnat": "UEFA Champions League",
+      "sport_key": "soccer_uefa_champs_league",
+      "home_team": "Inter Milan",
+      "away_team": "VfB Stuttgart",
+      "event_id": "e7e64568f6af00d395a3fdfc27de8ae3",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "21h00",
+      "championnat": "UEFA Champions League",
+      "sport_key": "soccer_uefa_champs_league",
+      "home_team": "Sporting Lisbon",
+      "away_team": "Manchester United",
+      "event_id": "01a61442fe04f8751b62eb251f234079",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    }
+  ],
+  "grosses_cotes": {
+    "combine": null,
+    "simples": []
+  },
+  "yesterday": {
+    "date": "2026-11-24",
+    "resolved": [],
+    "grosses_cotes": {
+      "combine": null,
+      "simples": []
+    },
+    "wins": 0,
+    "losses": 0,
+    "total": 0,
+    "win_rate": null
+  }
+}
