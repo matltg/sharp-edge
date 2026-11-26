@@ -1,0 +1,35 @@
+{
+  "date": "2026-11-26",
+  "type": "morning",
+  "generated_at": "2026-11-26T12:27:23+01:00",
+  "picks": [
+    {
+      "sport": "⚽ Football",
+      "heure": "21h00",
+      "championnat": "League 1",
+      "sport_key": "soccer_england_league1",
+      "home_team": "Doncaster Rovers",
+      "away_team": "Huddersfield Town",
+      "event_id": "4da46315b5b1d5305eea1a58a8167213",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    }
+  ],
+  "grosses_cotes": {
+    "combine": null,
+    "simples": []
+  },
+  "yesterday": {
+    "date": "2026-11-25",
+    "resolved": [],
+    "grosses_cotes": {
+      "combine": null,
+      "simples": []
+    },
+    "wins": 0,
+    "losses": 0,
+    "total": 0,
+    "win_rate": null
+  }
+}
