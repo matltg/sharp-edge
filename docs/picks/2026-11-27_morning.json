@@ -1,0 +1,191 @@
+{
+  "date": "2026-11-27",
+  "type": "morning",
+  "generated_at": "2026-11-27T12:22:54+01:00",
+  "picks": [
+    {
+      "sport": "⚽ Football",
+      "heure": "21h00",
+      "championnat": "EPL",
+      "sport_key": "soccer_epl",
+      "home_team": "Nottingham Forest",
+      "away_team": "Chelsea",
+      "event_id": "40d95e660c301c2d8a5a7a6317017b65",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "21h00",
+      "championnat": "Championship",
+      "sport_key": "soccer_efl_champ",
+      "home_team": "Southampton",
+      "away_team": "Middlesbrough",
+      "event_id": "32b8e3ea76d9d8b2b36577063d40862e",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "20h45",
+      "championnat": "Ligue 1 - France",
+      "sport_key": "soccer_france_ligue_one",
+      "home_team": "Brest",
+      "away_team": "Paris FC",
+      "event_id": "02ff879cf54f6d1fec2664efee0431db",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "20h30",
+      "championnat": "Bundesliga - Germany",
+      "sport_key": "soccer_germany_bundesliga",
+      "home_team": "Werder Bremen",
+      "away_team": "Borussia Monchengladbach",
+      "event_id": "698f4a7967ead89e10205a68ceb4bda4",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "18h30",
+      "championnat": "Bundesliga 2 - Germany",
+      "sport_key": "soccer_germany_bundesliga2",
+      "home_team": "1. FC Heidenheim",
+      "away_team": "1. FC Nürnberg",
+      "event_id": "5fe10ce7b664c9c5fc68912989745d8d",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "18h30",
+      "championnat": "Bundesliga 2 - Germany",
+      "sport_key": "soccer_germany_bundesliga2",
+      "home_team": "VfL Bochum",
+      "away_team": "SV Darmstadt 98",
+      "event_id": "0800ec70d1a06b551a14ef9737580294",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "20h45",
+      "championnat": "Serie A - Italy",
+      "sport_key": "soccer_italy_serie_a",
+      "home_team": "Venezia",
+      "away_team": "Bologna",
+      "event_id": "e9a663f13e7503c0ac20a54804338b60",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "21h00",
+      "championnat": "La Liga - Spain",
+      "sport_key": "soccer_spain_la_liga",
+      "home_team": "Levante",
+      "away_team": "Real Racing Club de Santander",
+      "event_id": "80c92a163a81b69fef76530221e2edd0",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "20h30",
+      "championnat": "La Liga 2 - Spain",
+      "sport_key": "soccer_spain_segunda_division",
+      "home_team": "Leganés",
+      "away_team": "Sabadell FC",
+      "event_id": "a5546f507831eba65f9b5da518f228e8",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "20h00",
+      "championnat": "Dutch Eredivisie",
+      "sport_key": "soccer_netherlands_eredivisie",
+      "home_team": "Groningen",
+      "away_team": "Willem II",
+      "event_id": "7aa2e13c09deb4fbd70e62312e82a514",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "20h45",
+      "championnat": "Belgium First Div",
+      "sport_key": "soccer_belgium_first_div",
+      "home_team": "Leuven",
+      "away_team": "KV Kortrijk",
+      "event_id": "dcff8b9a58479664e15d7e175fbeb6ba",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "21h15",
+      "championnat": "Primeira Liga - Portugal",
+      "sport_key": "soccer_portugal_primeira_liga",
+      "home_team": "CS Maritimo",
+      "away_team": "Nacional",
+      "event_id": "abfc6851b152aecbb4bf84a348967f69",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "18h00",
+      "championnat": "Turkey Super League",
+      "sport_key": "soccer_turkey_super_league",
+      "home_team": "Alanyaspor",
+      "away_team": "Torku Konyaspor",
+      "event_id": "ffcd87d9e41dbce42bd91952669b2e47",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    },
+    {
+      "sport": "⚽ Football",
+      "heure": "18h00",
+      "championnat": "Turkey Super League",
+      "sport_key": "soccer_turkey_super_league",
+      "home_team": "Çaykur Rizespor",
+      "away_team": "Kasimpasa SK",
+      "event_id": "b50ce64bf9ca7a1a03eb6b9d534e93ce",
+      "paris": [],
+      "etoiles": null,
+      "proba": null
+    }
+  ],
+  "grosses_cotes": {
+    "combine": null,
+    "simples": []
+  },
+  "yesterday": {
+    "date": "2026-11-26",
+    "resolved": [],
+    "grosses_cotes": {
+      "combine": null,
+      "simples": []
+    },
+    "wins": 0,
+    "losses": 0,
+    "total": 0,
+    "win_rate": null
+  }
+}
